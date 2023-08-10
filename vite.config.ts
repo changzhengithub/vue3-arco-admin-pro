@@ -1,3 +1,4 @@
+import path from 'path'
 import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig } from 'vite'
@@ -13,6 +14,17 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
+    }
+  },
+  css: {
+    preprocessorOptions: {
+      // 配置less全局使用
+      less: {
+        modifyVars: {
+          hack: `true; @import (reference) "${path.resolve('src/assets/less/main.less')}";`,
+        },
+        javascriptEnabled: true
+      }
     }
   }
 })

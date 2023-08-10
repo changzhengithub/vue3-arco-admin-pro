@@ -1,0 +1,42 @@
+/* 公共样式表 */
+
+/* 单行文本隐藏 */
+.ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* 定位居中 */
+.position_center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 9;
+  transform: translate(-50%, 50%);
+}
+
+/* 定位垂直居中 */
+.position_vertical_center {
+  position: absolute;
+  top: 50%;
+  z-index: 9;
+  transform: translateY(-50%);
+}
+
+/* 定位水平居中 */
+.position_horizontal_center {
+  position: absolute;
+  left: 50%;
+  z-index: 9;
+  transform: translateX(-50%);
+}
+
+/* 清除浮动 */
+.clearfix:after {
+  content: "";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}

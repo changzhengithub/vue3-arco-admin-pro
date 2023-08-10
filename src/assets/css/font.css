@@ -1,0 +1,8 @@
+/* 字体样式 */
+
+@font-face {
+  /* 重命名字体名 */
+  font-family: 'DINPro-Bold';
+  /* 引入字体 */
+  src: url('../fonts/DINPro-Bold.otf');
+}
