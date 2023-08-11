@@ -1,12 +1,24 @@
-import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
+import type { AppState } from './types'
 
-export const useAppStore = defineStore('app', () => {
-  const count = ref(0)
-  const doubleCount = computed(() => count.value * 2)
-  function increment() {
-    count.value++
+export const useAppStore = defineStore('app', {
+
+  state: (): AppState => ({
+    theme: '',
+    appName: '',
+    hideMenu: false,
+    userList: []
+  }),
+
+  getters: {
+    userLength(state): number {
+      return state.userList.length
+    }
+  },
+
+  actions: {
+    switchTheme(color: string) {
+      this.theme = color
+    }
   }
-
-  return { count, doubleCount, increment }
 })

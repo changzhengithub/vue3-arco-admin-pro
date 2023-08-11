@@ -7,6 +7,19 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // base: '/',
+  // 本地服务启动配置、跨域配置
+  // server: {
+  //   host: '',
+  //   port: 8080,
+  //   proxy: {
+  //     '/api': {
+  //       target: 'http://192.168.100.4:3321',
+  //       ws: false,
+  //       changeOrigin: true
+  //     }
+  //   }
+  // },
   plugins: [
     vue(),
     vueJsx(),
