@@ -1,24 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-
-const HomeComponent = () => import(/* webpackChunkName: 'home' */ '../views/home/index.vue')
-const MineComponent = () => import(/* webpackChunkName: 'mine' */ '../views/mine/index.vue')
+// import { constantRouterMap } from '@/router/router.config'
+import { constantRouterMap, asyncRouterMap } from '@/router/router.config'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/',
-      name: 'Home',
-      component: HomeComponent,
-      meta: { title: '主页', icon: 'favorites', keepAlive: false, isAuth: true, permission: 'home' }
-    },
-    {
-      path: '/mine',
-      name: 'Mine',
-      component: MineComponent
-    }
-  ]
+  // routes: constantRouterMap
+  routes: constantRouterMap.concat(asyncRouterMap)
 })
 
 export default router
