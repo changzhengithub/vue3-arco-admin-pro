@@ -23,15 +23,16 @@
  * @desc 登录
  * @author changz
  * */
-
 import { ref, reactive, getCurrentInstance } from 'vue'
 import { useRouter } from 'vue-router'
 import { useEmpowerStore } from '@/stores/modules/empower'
 import type { FormInstance } from '@arco-design/web-vue/es/form'
+import storage from 'store'
+import { ACCESS_TOKEN } from '@/constants/app'
 
 import { loginApi, infoApi, logoutApi } from '@/api/empower'
 
-const instance = getCurrentInstance()?.appContext.config.globalProperties
+const instance = getCurrentInstance()
 const router = useRouter()
 const store = useEmpowerStore()
 
@@ -59,18 +60,19 @@ const submitForm = () => {
         .then((res) => {
           submitLoad.value = false
           if (res.code !== 200) {
-            instance?.$notification.error({
+            instance?.proxy?.$notification.error({
               title: '错误',
               content: res.message
             })
             return
           }
-          const data = res.data
-          console.log(data)
+          const { token, userInfo } = res.data
+          storage.set(ACCESS_TOKEN, token)
+          store.setUserInfo(userInfo)
           router.push({ path: '/' })
           // 延迟 1 秒显示欢迎信息
           setTimeout(() => {
-            instance?.$notification.success({
+            instance?.proxy?.$notification.success({
               title: '欢迎',
               content: '欢迎回来'
             })
@@ -78,13 +80,13 @@ const submitForm = () => {
         })
         .catch(err => {
           submitLoad.value = false
-          instance?.$notification.error({
+          instance?.proxy?.$notification.error({
             title: '错误',
             content: err.message
           })
         })
     } else {
-      instance?.$message.warning('表单填写不完整！')
+      instance?.proxy?.$message.warning('表单填写不完整！')
     }
   })
 }

@@ -17,6 +17,9 @@ export const useEmpowerStore = defineStore('empower', {
   getters: {},
 
   actions: {
+    setUserInfo(userInfo: UserInfo) {
+      this.userInfo = userInfo
+    },
     // 登录
     Login(params: LoginRequestData) {
       return new Promise((resolve, reject) => {
