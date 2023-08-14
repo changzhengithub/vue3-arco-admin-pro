@@ -1,8 +1,9 @@
 import storage from 'store'
 import { defineStore } from 'pinia'
-import type { EmpowerState, UserInfo } from './types'
-import { ACCESS_TOKEN } from '../../../constants/app-types'
+import type { EmpowerState } from './types'
+import { ACCESS_TOKEN } from '../../../constants/app'
 import { loginApi, infoApi, logoutApi } from '../../../api/empower'
+import type { LoginRequestData } from '@/api/empower/types'
 
 export const useEmpowerStore = defineStore('empower', {
 
@@ -17,7 +18,7 @@ export const useEmpowerStore = defineStore('empower', {
 
   actions: {
     // 登录
-    Login(params) {
+    Login(params: LoginRequestData) {
       return new Promise((resolve, reject) => {
         loginApi(params).then(res => {
           const { token, userInfo } = res.data

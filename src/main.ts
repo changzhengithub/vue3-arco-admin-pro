@@ -10,6 +10,7 @@ import ArcoVue from '@arco-design/web-vue'
 import './assets/css/main.css'
 import '@arco-design/web-vue/dist/arco.css'
 
+import './mock'
 
 const app = createApp(App)
 

@@ -22,6 +22,7 @@
     "@arco-design/web-vue": "^2.49.3",
     "@rushstack/eslint-patch": "^1.2.0",
     "@tsconfig/node18": "^2.0.1",
+    "@types/mockjs": "^1.0.7",
     "@types/node": "^18.16.17",
     "@types/store": "^2.0.2",
     "@vitejs/plugin-vue": "^4.2.3",

@@ -38,7 +38,7 @@ const content = '段落示意：蚂蚁金服设计平台 ant.design，用最小�
 const description = '在中台产品的研发过程中，会出现不同的设计规范和实现方式，但其中往往存在很多类似的页面和组件，这些类似的组件会被抽离成一套标准规范。'
 const href = 'https://ant.design'
 
-const article = (options) => {
+const article = (options: any) => {
   const queryParameters = getQueryParameters(options)
   console.log('queryParameters', queryParameters)
   if (queryParameters && !queryParameters.count) {
@@ -47,7 +47,7 @@ const article = (options) => {
   const data = []
   for (let i = 0; i < queryParameters.count; i++) {
     const tmpKey = i + 1
-    const num = parseInt(Math.random() * (4 + 1), 10)
+    const num = parseInt((Math.random() * (4 + 1)).toString(), 10)
     data.push({
       id: tmpKey,
       avatar: avatar[num],
@@ -80,10 +80,10 @@ const article = (options) => {
       ],
       activeUser: Math.ceil(Math.random() * 100000) + 100000,
       newUser: Math.ceil(Math.random() * 1000) + 1000,
-      cover: parseInt(i / 4, 10) % 2 === 0 ? covers[i % 4] : covers[3 - (i % 4)]
+      cover: parseInt((i / 4).toString(), 10) % 2 === 0 ? covers[i % 4] : covers[3 - (i % 4)]
     })
   }
-  return builder(data)
+  return builder(data, '', 200)
 }
 
 Mock.mock(/\/list\/article/, 'get', article)

@@ -3,7 +3,7 @@ import { builder, getQueryParameters } from '../util'
 
 const totalCount = 5701
 
-const serverList = (options) => {
+const serverList = (options: any) => {
   const parameters = getQueryParameters(options)
 
   const result = []
@@ -33,7 +33,7 @@ const serverList = (options) => {
     totalCount: totalCount,
     totalPage: totalPage,
     data: result
-  })
+  }, '', 200)
 }
 
 const projects = () => {
@@ -91,7 +91,7 @@ const projects = () => {
     'pageNo': 0,
     'totalPage': 6,
     'totalCount': 57
-  })
+  }, '', 200)
 }
 
 const activity = () => {
@@ -173,7 +173,7 @@ const activity = () => {
     },
     time: '2018-08-23 14:47:00'
   }
-  ])
+  ], '', 200)
 }
 
 const teams = () => {
@@ -202,7 +202,7 @@ const teams = () => {
     name: '骗你学计算机',
     avatar: 'https://gw.alipayobjects.com/zos/rmsportal/WhxKECPNujWoWEFNdnJE.png'
   }
-  ])
+  ], '', 200)
 }
 
 const radar = () => {
@@ -242,7 +242,7 @@ const radar = () => {
     '团队': 50,
     '部门': 40
   }
-  ])
+  ], '', 200)
 }
 
 Mock.mock(/\/service/, 'get', serverList)

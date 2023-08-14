@@ -1,11 +1,11 @@
-const responseBody = {
+const responseBody: ApiResponseData<any> = {
   message: '',
   timestamp: 0,
   data: null,
   code: 0
 }
 
-export const builder = (data, message, code = 0, headers = {}) => {
+export const builder = (data: any, message: string | null | undefined, code = 0, headers = {}) => {
   responseBody.data = data
   if (message !== undefined && message !== null) {
     responseBody.message = message
@@ -21,7 +21,7 @@ export const builder = (data, message, code = 0, headers = {}) => {
   return responseBody
 }
 
-export const getQueryParameters = (options) => {
+export const getQueryParameters = (options: { url: any }) => {
   const url = options.url
   const search = url.split('?')[1]
   if (!search) {
@@ -33,6 +33,6 @@ export const getQueryParameters = (options) => {
     .replace(/=/g, '":"') + '"}')
 }
 
-export const getBody = (options) => {
+export const getBody = (options: { body: string }) => {
   return options.body && JSON.parse(options.body)
 }

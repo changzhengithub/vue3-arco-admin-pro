@@ -44,9 +44,9 @@ a:hover {
   text-decoration: none;
 }
 
-*::before,
+/* *::before,
 *::after {
   display: block;
   content: "";
   font-weight: normal;
-}
+} */

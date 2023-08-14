@@ -27,12 +27,15 @@
 import { ref, reactive, getCurrentInstance } from 'vue'
 import { useRouter } from 'vue-router'
 import { useEmpowerStore } from '@/stores/modules/empower'
+import type { FormInstance } from '@arco-design/web-vue/es/form'
+
+import { loginApi, infoApi, logoutApi } from '@/api/empower'
 
 const instance = getCurrentInstance()?.appContext.config.globalProperties
 const router = useRouter()
 const store = useEmpowerStore()
 
-const empower = ref<HTMLInputElement | null>(null)
+const empower = ref<FormInstance>()
 const submitLoad = ref(false)
 const formData = reactive({
   username: 'admin',
@@ -43,21 +46,20 @@ const formRule = reactive({
   password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
 })
 
-
 const submitForm = () => {
-  empower.value?.validate(valid => {
-    if (valid) {
+  empower.value?.validate(errors => {
+    if (!errors) {
       const { username, password } = formData
       const params = {
         username,
         password
       }
       submitLoad.value = true
-      store.Login(params)
-        .then(res => {
+      loginApi(params)
+        .then((res) => {
           submitLoad.value = false
           if (res.code !== 200) {
-            instance?.Notification.error({
+            instance?.$notification.error({
               title: '错误',
               content: res.message
             })
@@ -68,18 +70,17 @@ const submitForm = () => {
           router.push({ path: '/' })
           // 延迟 1 秒显示欢迎信息
           setTimeout(() => {
-            instance?.Notification.success({
+            instance?.$notification.success({
               title: '欢迎',
               content: '欢迎回来'
             })
           }, 1000)
         })
         .catch(err => {
-          console.log(err)
           submitLoad.value = false
-          instance?.Notification.error({
+          instance?.$notification.error({
             title: '错误',
-            content: '这是一条错误的提示消息'
+            content: err.message
           })
         })
     } else {
