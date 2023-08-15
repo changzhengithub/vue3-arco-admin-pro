@@ -5,6 +5,7 @@ import App from './App.vue'
 import router from './router'
 import store from './stores'
 import ArcoVue from '@arco-design/web-vue'
+import ArcoVueIcon from '@arco-design/web-vue/es/icon'
 
 // CSS引入
 import './assets/css/main.css'
@@ -28,6 +29,7 @@ const app = createApp(App)
 app.use(store)
 app.use(router)
 app.use(ArcoVue)
+app.use(ArcoVueIcon)
 // 挂载到全局属性上
 app.config.globalProperties.$Bus = emitter
 
