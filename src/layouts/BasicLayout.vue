@@ -1,73 +1,86 @@
 <template>
-  <a-layout class="basic">
-    <!-- 侧边导航栏 start -->
-    <a-layout-sider class="basic-sider" width="256" v-model="collapsed" :trigger="null" collapsible>
-      <div class="sider-logo">
-        <svg viewBox="0 0 128 128" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" fill="currentColor" width="128" height="128"><title>Vue</title><desc>Created with Sketch.</desc><defs><linearGradient x1="69.644116%" y1="0%" x2="69.644116%" y2="100%" id="linearGradient-1"><stop stop-color="#29CDFF" offset="0%"></stop><stop stop-color="#148EFF" offset="37.8600687%"></stop><stop stop-color="#0A60FF" offset="100%"></stop></linearGradient><linearGradient x1="-19.8191553%" y1="-36.7931464%" x2="138.57919%" y2="157.637507%" id="linearGradient-2"><stop stop-color="#29CDFF" offset="0%"></stop><stop stop-color="#0F78FF" offset="100%"></stop></linearGradient><linearGradient x1="68.1279872%" y1="-35.6905737%" x2="30.4400914%" y2="114.942679%" id="linearGradient-3"><stop stop-color="#FA8E7D" offset="0%"></stop><stop stop-color="#F74A5C" offset="51.2635191%"></stop><stop stop-color="#F51D2C" offset="100%"></stop></linearGradient></defs><g id="Vue" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="Group" transform="translate(19.000000, 9.000000)"><path d="M89.96,90.48 C78.58,93.48 68.33,83.36 67.62,82.48 L46.6604487,62.2292258 C45.5023849,61.1103236 44.8426845,59.5728835 44.8296987,57.9626396 L44.5035564,17.5209948 C44.4948861,16.4458744 44.0537714,15.4195095 43.2796864,14.6733517 L29.6459999,1.53153737 C28.055475,-0.00160504005 25.5232423,0.0449126588 23.9900999,1.63543756 C23.2715121,2.38092066 22.87,3.37600834 22.87,4.41143746 L22.87,64.3864751 C22.87,67.0807891 23.9572233,69.6611067 25.885409,71.5429748 L63.6004615,108.352061 C65.9466323,110.641873 69.6963584,110.624605 72.0213403,108.313281" id="Path-Copy" fill="url(#linearGradient-1)" fill-rule="nonzero" transform="translate(56.415000, 54.831157) scale(-1, 1) translate(-56.415000, -54.831157) "></path><path d="M68,90.1163122 C56.62,93.1163122 45.46,83.36 44.75,82.48 L23.7904487,62.2292258 C22.6323849,61.1103236 21.9726845,59.5728835 21.9596987,57.9626396 L21.6335564,17.5209948 C21.6248861,16.4458744 21.1837714,15.4195095 20.4096864,14.6733517 L6.7759999,1.53153737 C5.185475,-0.00160504005 2.65324232,0.0449126588 1.12009991,1.63543756 C0.401512125,2.38092066 3.90211878e-13,3.37600834 3.90798505e-13,4.41143746 L3.94351218e-13,64.3864751 C3.94681177e-13,67.0807891 1.08722326,69.6611067 3.01540903,71.5429748 L40.7807092,108.401101 C43.1069304,110.671444 46.8180151,110.676525 49.1504445,108.412561" id="Path" fill="url(#linearGradient-2)" fill-rule="nonzero"></path><path d="M43.2983488,19.0991931 L27.5566079,3.88246244 C26.7624281,3.11476967 26.7409561,1.84862177 27.5086488,1.05444194 C27.8854826,0.664606611 28.4044438,0.444472651 28.9466386,0.444472651 L60.3925021,0.444472651 C61.4970716,0.444472651 62.3925021,1.33990315 62.3925021,2.44447265 C62.3925021,2.9858375 62.1730396,3.50407742 61.7842512,3.88079942 L46.0801285,19.0975301 C45.3051579,19.8484488 44.0742167,19.8491847 43.2983488,19.0991931 Z" id="Path" fill="url(#linearGradient-3)"></path></g></g></svg>
-        <h1>综合管理系统</h1>
-      </div>
-      <a-menu
-        mode="inline"
-        theme="dark"
-        :selectedKeys="selectedKeys"
-        :openKeys="openKeys"
-        :inline-collapsed="collapsed"
-        @select="onClickMenuItem"
-        @openChange="openParentKey"
-      >
-        <template v-for="item in menuList" >
-          <a-menu-item :key="item.path" v-if="!item.children">
-            <!-- <arcoIcon :icon="item.meta.icon"></arcoIcon> -->
-            <a-icon :type="item.meta.icon" />
-            <span>{{ item.meta.title }}</span>
-          </a-menu-item>
-          <a-sub-menu v-if="item.children" :key="item.path">
-            <span slot="title"><a-icon :type="item.meta.icon" /><span>{{item.meta.title}}</span></span>
-            <a-menu-item v-for="subItem in item.children" :key="subItem.path">
-              <a-icon :type="subItem.meta.icon" />
-              <span>{{ subItem.meta.title }}</span>
+  <a-spin dot :loading="pageLoad" :style="{ width: '100%' }" tip="加载中...">
+    <a-layout class="basic">
+      <!-- 侧边导航栏 start -->
+      <a-layout-sider hide-trigger :width="220" collapsible :collapsed="collapsed">
+        <div class="logo" @click="backHome">
+          <img src="@/assets/images/logo.png" alt="" />
+          <div class="logo-title">三实综合管理平台</div>
+        </div>
+        <a-menu :selected-keys="selectedKeys" :open-keys="openKeys" :auto-scroll-into-view="true" :auto-open="true" :accordion="true" @sub-menu-click="subMenuClick" @menuItemClick="onClickMenuItem">
+          <template v-for="(item, index) in menuList" :key="index">
+            <a-menu-item :key="item.path" v-if="!item.children">
+              <arcoIcon :icon="item.meta.icon"></arcoIcon>
+              <span>{{ item.meta.title }}</span>
             </a-menu-item>
-          </a-sub-menu>
-        </template>
-      </a-menu>
-    </a-layout-sider>
-    <!-- 侧边导航栏 end -->
+            <a-sub-menu v-if="item.children && item.children.length" :key="item.path">
+              <template #title>
+                <span><arcoIcon :icon="item.meta.icon"></arcoIcon>
+                  <a-badge dot v-if="item.path == '/invoice' && need_open" :count="9">
+                    {{ item.meta.title }}
+                  </a-badge>
+                  <span v-else>{{ item.meta.title }}</span>
+                </span>
+              </template>
+              <a-menu-item v-for="subItem in item.children" :key="subItem.path">
+                <arcoIcon :icon="subItem.meta.icon"></arcoIcon>
+                <a-badge dot v-if="subItem.path == '/invoice/project-invoice' && need_open" :count="9">
+                  {{ subItem.meta.title }}
+                </a-badge>
+                <span v-else>{{ subItem.meta.title }}</span>
+              </a-menu-item>
+            </a-sub-menu>
+          </template>
+        </a-menu>
+      </a-layout-sider>
+      <!-- 侧边导航栏 end -->
+      <a-layout>
+        <!-- 头部 start -->
+        <a-layout-header>
+          <GlobalHeader @COLLAPSE_EVENT="onCollapse"></GlobalHeader>
+        </a-layout-header>
+        <!-- 头部 end -->
 
-    <a-layout>
-      <!-- 头部 start -->
-      <a-layout-header style="width: 100%; padding: 0;">
-        <GlobalHeader @COLLAPSE_EVENT="onCollapse"></GlobalHeader>
-      </a-layout-header>
-      <!-- 头部 end -->
-
-      <!-- 多标签页 -->
-      <MultiTab></MultiTab>
-
-      <!-- 主体 start -->
-      <a-layout-content>
-        <!-- 是否缓存父组件层级 -->
-        <keep-alive>
-          <router-view :key="$route.fullPath" v-if="$route.meta.keepAlive"></router-view>
-        </keep-alive>
-        <router-view :key="$route.fullPath" v-if="!$route.meta.keepAlive"></router-view>
-      </a-layout-content>
-      <!-- 主体 end -->
-      <!-- <a-layout-footer>Footer</a-layout-footer> -->
+        <a-layout class="basic-layout">
+          <MultiTab></MultiTab>
+          <div class="layout-content">
+            <!-- 路由缓存，只针对当前子路由进行缓存 -->
+            <router-view v-slot="{ Component, route }">
+              <component :is="Component" v-if="!route.meta.keepAlive" :key="route.fullPath" />
+              <!-- 缓存第一层 -->
+              <keep-alive v-else>
+                <component :is="Component" :key="route.fullPath" />
+              </keep-alive>
+            </router-view>
+            <!-- <keep-alive :include="cacheList">
+              <router-view :key="$route.fullPath" v-if="$route.meta.keepAlive"></router-view>
+            </keep-alive>
+            <router-view :key="$route.fullPath " v-if="!$route.meta.keepAlive"></router-view> -->
+          </div>
+          <!-- <a-layout-footer>Footer</a-layout-footer> -->
+        </a-layout>
+      </a-layout>
     </a-layout>
-  </a-layout>
+  </a-spin>
+
 </template>
 
 <script>
-/**
- * @description 侧栏菜单布局
- * */
-// import { asyncRouterMap } from '@/router/router.config'
+import { defineComponent } from 'vue'
 import { mapState } from 'vuex'
+
+import { arcoIcon } from '@/utils/render'
 import GlobalHeader from '@/components/GlobalHeader'
+
+import { regulationListApi } from '@/api/regime'
+import { judgeNeedOpenInvoiceApi } from '@/api/public'
+
 import MultiTab from '@/components/MultiTab'
 
-export default {
+export default defineComponent({
+  name: 'BasicLayout',
   components: {
+    arcoIcon,
     GlobalHeader,
     MultiTab
   },
@@ -78,12 +91,24 @@ export default {
       menuList: [],
       currentRoute: '',
       selectedKeys: [],
-      openKeys: []
+      openKeys: [],
+      need_open: false,
+
+      readRegimeDialog: {
+        visible: false
+      },
+      regimeList: [],
+      regimeIndex: 0,
+      regimeDetail: {},
+      relateNumData: {},
+      pageListLoading: false,
+      readTimer: null
     }
   },
   computed: {
+    ...mapState(['routerList']),
     ...mapState({
-      routerList: state => state.empower.routerList
+      pageLoad: state => state.publicVuex.pageLoad
     })
   },
 
@@ -96,9 +121,11 @@ export default {
   created() {
     const menuList = this.getMeunList(this.routerList)
     this.menuList = menuList[0].children
-    // this.menuList = asyncRouterMap[0].children
     this.getOpenKeys(this.$route.path)
     this.selectedKeys = [this.$route.path]
+    this.getRegimeList()
+
+    this.getJudgeNeedOpenInvoice()
   },
   methods: {
     // 获取路由列表
@@ -115,6 +142,52 @@ export default {
       return menuList
     },
 
+    // 折叠展开导航栏
+    onCollapse() {
+      this.collapsed = !this.collapsed
+    },
+
+    // 展开子菜单
+    subMenuClick(key, openKeys) {
+      this.openKeys = openKeys
+    },
+
+    // 点击logo返回主页
+    backHome() {
+      let path  = ''
+      const menuFirstItem = this.menuList[0]
+      if (menuFirstItem.children && menuFirstItem.children.length) {
+        path = menuFirstItem.children[0].path
+        this.openKeys = menuFirstItem.path
+      } else {
+        path = menuFirstItem.path
+      }
+      this.$router.push({
+        path: path
+      })
+    },
+
+    // 路由跳转
+    onClickMenuItem(key) {
+      this.selectedKeys = [key]
+      this.$router.push({
+        path: key
+      })
+    },
+
+    // 修改缓存状态
+    changeTargetCache(menuList, key) {
+      menuList.forEach(item => {
+        if (item.path === key) {
+          item.meta.keepAlive = false
+        } else {
+          if (item.children && item.children.length) {
+            this.changeTargetCache(item.children, key)
+          }
+        }
+      })
+    },
+
     // 路由跳转获取展开key
     getOpenKeys(path) {
       this.menuList.forEach(item => {
@@ -125,65 +198,154 @@ export default {
       })
     },
 
-    // 折叠展开导航栏
-    onCollapse() {
-      this.collapsed = !this.collapsed
+    // 获取规章制度列表
+    getRegimeList() {
+      const params = {
+        no_page: 1,
+        get_my_unread: 1
+      }
+      this.pageListLoading = true
+      regulationListApi(params)
+        .then(res => {
+          this.pageListLoading = false
+          if (res.code != 200) {
+            global.$notification.error({
+              title: '错误',
+              content: res.msg
+            })
+            return false
+          }
+          const data = res.data
+          this.regimeList = data
+          this.forceReadRegimes()
+        })
+        .catch(err => {
+          this.pageListLoading = false
+          global.$notification.error({
+            title: '错误',
+            content: err.message
+          })
+        })
     },
 
-    // 展开subMenu
-    openParentKey(openKeys) {
-      this.openKeys = openKeys
+    // 获取规章制度列表
+    getJudgeNeedOpenInvoice() {
+      this.pageListLoading = true
+      judgeNeedOpenInvoiceApi()
+        .then(res => {
+          this.pageListLoading = false
+          if (res.code != 200) {
+            global.$notification.error({
+              title: '错误',
+              content: res.msg
+            })
+            return false
+          }
+          this.need_open = res.data.need_open
+
+          // const data = res.data
+          // this.regimeList = data
+          // this.forceReadRegimes()
+        })
+        .catch(err => {
+          this.pageListLoading = false
+          global.$notification.error({
+            title: '错误',
+            content: err.message
+          })
+        })
     },
 
-    // 路由跳转
-    onClickMenuItem({ key }) {
-      this.selectedKeys = [key]
-      this.$router.push({
-        path: key
-      })
+    // 强制阅读规章制度
+    forceReadRegimes() {
+      clearTimeout(this.readTimer)
+      if (this.regimeList.length && this.regimeIndex < this.regimeList.length) {
+        this.regimeDetail = this.regimeList[this.regimeIndex]
+        this.relateNumData = {
+          readed: this.regimeIndex + 1,
+          allNum: this.regimeList.length
+        }
+        this.readRegimeDialog.visible = true
+      }
+      if (this.regimeList.length && this.regimeIndex === this.regimeList.length) {
+        location.reload()
+      }
+    },
+
+    // 关闭规章制度
+    closeReadRegimeDialog(flag) {
+      this.readRegimeDialog.visible = false
+      this.regimeDetail = {}
+      if (flag) {
+        this.readTimer = setTimeout(() => {
+          this.regimeIndex = this.regimeIndex + 1
+          this.forceReadRegimes()
+        }, 200)
+      }
     }
+  },
+  beforeUnmount() {
+    clearTimeout(this.readTimer)
   }
-}
+})
 </script>
+
 <style lang="less" scoped>
 .basic {
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   background-color: #fff;
-  .basic-sider {
-    position: relative;
-    z-index: 10;
-    min-height: 100vh;
-    box-shadow: 2px 0 6px rgb(0 21 41 / 35%);
-
-    .sider-logo {
-      position: relative;
+  :deep(.arco-layout-sider) {
+    height: 100%;
+    overflow-y: auto;
+    .logo {
+      display: flex;
+      align-items: center;
+      width: 100%;
       height: 64px;
-      padding-left: 24px;
-      line-height: 64px;
-      background: #001529;
+      padding: 0 10px;
       overflow: hidden;
-      transition: all .3s;
-      svg {
-        display: inline-block;
-        height: 32px;
-        width: 32px;
-        vertical-align: middle;
+      box-shadow: 1px 1px 1px #ccc;
+      transition: all 0.3s;
+      cursor: pointer;
+      img {
+        width: 30px;
+        height: 30px;
       }
-      h1 {
-        display: inline-block;
-        margin: 0 0 0 12px;
-        font-family: Avenir,Helvetica Neue,Arial,Helvetica,sans-serif;
-        font-size: 20px;
+      .logo-title {
+        font-size: 16px;
         font-weight: 600;
-        color: #fff;
-        vertical-align: middle;
+        margin-left: 10px;
+        display: inline-block;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
     }
   }
 
-  .ant-layout-content {
-    padding: 20px;
+  :deep(.arco-layout-header) {
+    height: 64px;
+    line-height: 64px;
+    background: var(--color-bg-3);
   }
+
+  .basic-layout {
+    width: 100%;
+    overflow: hidden;
+    .layout-content {
+      width: 100%;
+      height: 100%;
+      padding: 20px 20px;
+      font-size: 14px;
+      background-color: #f2f2f2;
+      overflow-y: auto;
+    }
+  }
+}
+:deep(.arco-badge-dot) {
+  right: -5px;
+  // right: -10px;
+  // top: -1px;
 }
 </style>

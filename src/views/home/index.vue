@@ -3,6 +3,7 @@
     <div class="index-header">
       <h1>{{ title }}</h1>
       <h2>主题颜色：{{store.theme}}</h2>
+      <ArcoIcon></ArcoIcon>
     </div>
 
     <a-space>
@@ -22,6 +23,7 @@
 import { ref } from 'vue'
 import { useAppStore } from '@/stores/modules/app'
 import HelloWorld from './components/HelloWorld.vue'
+import ArcoIcon from '@/components/Icon'
 
 const store = useAppStore()
 

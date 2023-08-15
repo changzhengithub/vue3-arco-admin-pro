@@ -33,6 +33,7 @@
     "@vue/eslint-config-typescript": "^11.0.3",
     "@vue/tsconfig": "^0.4.0",
     "eslint": "^8.39.0",
+    "eslint-config-standard-with-typescript": "^37.0.0",
     "eslint-plugin-vue": "^9.11.0",
     "less": "^4.2.0",
     "mockjs": "^1.1.0",
