@@ -1,6 +1,6 @@
 // public store 接口
 
-import type { RouteRecordNormalized } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router'
 
 export interface UserInfo {
   id: number,
@@ -13,5 +13,5 @@ export interface EmpowerState {
   token: string,
   userInfo: UserInfo,
   permission: string[],
-  routerList: RouteRecordNormalized[]
+  routerList: RouteRecordRaw[]
 }

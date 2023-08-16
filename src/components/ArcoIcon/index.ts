@@ -1,6 +1,6 @@
 /**
- * 动态渲染arco图标
- * @desc 通过resolveDynamicComponent动态渲染组件获得arco组件，然后通过h渲染成Vnode返回，
+ * @desc 动态渲染arco图标
+ * 通过resolveDynamicComponent动态渲染组件获得arco组件，然后通过h渲染成Vnode返回，
  * 这样就组装成一个arcoIcon组件，和官方使用方法一样
  * @author changz
  * @param {String} [icon] - icon名称

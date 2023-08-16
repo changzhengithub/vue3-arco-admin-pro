@@ -1,9 +1,9 @@
 // 登录
-export interface LoginRequestData {
-  username: string
-  password: string
+export interface UpdatePwdRequestData {
+  old_pwd: string
+  new_pwd: string
 }
-export type LoginResponseData = ApiResponseData<{ userInfo: UserInfo, token: string }>
+export type UpdatePwdResponseData = ApiResponseData<any>
 
 // 用户信息
 export type UserInfoResponseData = ApiResponseData<UserInfo>

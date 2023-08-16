@@ -2,7 +2,7 @@ import storage from 'store'
 import { defineStore } from 'pinia'
 import type { EmpowerState } from './types'
 import { ACCESS_TOKEN } from '../../../constants/app'
-import { loginApi, infoApi, logoutApi } from '../../../api/empower'
+import { loginApi } from '../../../api/empower'
 import type { LoginRequestData } from '@/api/empower/types'
 
 export const useEmpowerStore = defineStore('empower', {

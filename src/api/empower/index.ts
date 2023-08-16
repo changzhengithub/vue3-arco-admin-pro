@@ -10,7 +10,8 @@ import type * as Login from './types'
 const api = {
   login: '/auth/login', // 登录
   logout: '/auth/logout', // 退出登录
-  info: '/user/info' // 获取用户信息
+  info: '/user/info', // 获取用户信息
+  updatePwd: '/api/user/updatePwd' // 修改密码
 }
 
 // 登录
@@ -31,10 +32,20 @@ export function infoApi() {
   })
 }
 
+
 // 退出登录
 export function logoutApi() {
   return request<Login.LoginOutResponseData>({
     url: api.logout,
     method: 'post'
+  })
+}
+
+// 修改密码
+export function updatePwdApi(data: Login.UpdatePwdRequestData) {
+  return request<Login.UpdatePwdResponseData>({
+    url: api.updatePwd,
+    method: 'post',
+    data
   })
 }

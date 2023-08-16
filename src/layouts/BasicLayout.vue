@@ -1,5 +1,5 @@
 <template>
-  <a-spin dot :loading="pageLoad" :style="{ width: '100%' }" tip="加载中...">
+  <a-spin dot :loading="appStore.pageLoad" :style="{ width: '100%' }" tip="加载中...">
     <a-layout class="basic">
       <!-- 侧边导航栏 start -->
       <a-layout-sider hide-trigger :width="220" collapsible :collapsed="collapsed">
@@ -10,24 +10,23 @@
         <a-menu :selected-keys="selectedKeys" :open-keys="openKeys" :auto-scroll-into-view="true" :auto-open="true" :accordion="true" @sub-menu-click="subMenuClick" @menuItemClick="onClickMenuItem">
           <template v-for="(item, index) in menuList" :key="index">
             <a-menu-item :key="item.path" v-if="!item.children">
-              <arcoIcon :icon="item.meta.icon"></arcoIcon>
-              <span>{{ item.meta.title }}</span>
+              <template #icon>
+                <ArcoIcon :icon="(item?.meta?.icon as string)"></ArcoIcon>
+              </template>
+              <span>{{ item?.meta?.title }}</span>
             </a-menu-item>
             <a-sub-menu v-if="item.children && item.children.length" :key="item.path">
+              <template #icon>
+                <ArcoIcon :icon="(item?.meta?.icon as string)"></ArcoIcon>
+              </template>
               <template #title>
-                <span><arcoIcon :icon="item.meta.icon"></arcoIcon>
-                  <a-badge dot v-if="item.path == '/invoice' && need_open" :count="9">
-                    {{ item.meta.title }}
-                  </a-badge>
-                  <span v-else>{{ item.meta.title }}</span>
-                </span>
+                <span>{{ item?.meta?.title }}</span>
               </template>
               <a-menu-item v-for="subItem in item.children" :key="subItem.path">
-                <arcoIcon :icon="subItem.meta.icon"></arcoIcon>
-                <a-badge dot v-if="subItem.path == '/invoice/project-invoice' && need_open" :count="9">
-                  {{ subItem.meta.title }}
-                </a-badge>
-                <span v-else>{{ subItem.meta.title }}</span>
+                <template #icon>
+                  <ArcoIcon :icon="(subItem?.meta?.icon as string)"></ArcoIcon>
+                </template>
+                <span>{{ subItem?.meta?.title }}</span>
               </a-menu-item>
             </a-sub-menu>
           </template>
@@ -42,7 +41,7 @@
         <!-- 头部 end -->
 
         <a-layout class="basic-layout">
-          <MultiTab></MultiTab>
+          <!-- <MultiTab></MultiTab> -->
           <div class="layout-content">
             <!-- 路由缓存，只针对当前子路由进行缓存 -->
             <router-view v-slot="{ Component, route }">
@@ -62,232 +61,117 @@
       </a-layout>
     </a-layout>
   </a-spin>
-
 </template>
 
-<script>
-import { defineComponent } from 'vue'
-import { mapState } from 'vuex'
+<script setup lang="ts">
+/**
+ * @description 侧栏菜单布局
+ * */
 
-import { arcoIcon } from '@/utils/render'
-import GlobalHeader from '@/components/GlobalHeader'
+import { ref } from 'vue'
+import { useRouter, useRoute, onBeforeRouteUpdate, type RouteRecordRaw } from 'vue-router'
+import { useAppStore } from '@/stores/modules/app'
+// import { useEmpowerStore } from '@/stores/modules/empower'
 
-import { regulationListApi } from '@/api/regime'
-import { judgeNeedOpenInvoiceApi } from '@/api/public'
+import { asyncRouterMap } from '@/router/router.config'
 
-import MultiTab from '@/components/MultiTab'
+import GlobalHeader from '@/components/GlobalHeader.vue'
+// import MultiTab from '@/components/MultiTab'
+import ArcoIcon from '@/components/ArcoIcon'
 
-export default defineComponent({
-  name: 'BasicLayout',
-  components: {
-    arcoIcon,
-    GlobalHeader,
-    MultiTab
-  },
+const appStore = useAppStore()
+// const empowerStore = useEmpowerStore()
+const router = useRouter()
+const route = useRoute()
 
-  data() {
-    return {
-      collapsed: false, // 折叠导航栏
-      menuList: [],
-      currentRoute: '',
-      selectedKeys: [],
-      openKeys: [],
-      need_open: false,
+const collapsed = ref(false) // 折叠导航栏
 
-      readRegimeDialog: {
-        visible: false
-      },
-      regimeList: [],
-      regimeIndex: 0,
-      regimeDetail: {},
-      relateNumData: {},
-      pageListLoading: false,
-      readTimer: null
+// interface State {
+//   openKeys: string[],
+//   menuList: RouteRecordRaw[],
+//   selectedKeys: string[]
+// }
+// const state = reactive<State>({
+//   openKeys: [],
+//   menuList: [],
+//   selectedKeys: []
+// })
+
+const openKeys = ref<string[]>([])
+const menuList = ref<RouteRecordRaw[]>([])
+const selectedKeys = ref<string[]>([])
+
+// 获取路由列表
+const getMeunList = (routerList: RouteRecordRaw[]) => {
+  const menuList = routerList.filter(item => {
+    if (!item?.meta?.hidden) {
+      if (item.children && item.children.length) {
+        item.children = getMeunList(item.children)
+      }
+      return true
     }
-  },
-  computed: {
-    ...mapState(['routerList']),
-    ...mapState({
-      pageLoad: state => state.publicVuex.pageLoad
-    })
-  },
+    return false
+  })
+  return menuList
+}
 
-  beforeRouteUpdate(to, from, next) {
-    this.getOpenKeys(to.path)
-    this.selectedKeys = [to.path]
-    next()
-  },
-
-  created() {
-    const menuList = this.getMeunList(this.routerList)
-    this.menuList = menuList[0].children
-    this.getOpenKeys(this.$route.path)
-    this.selectedKeys = [this.$route.path]
-    this.getRegimeList()
-
-    this.getJudgeNeedOpenInvoice()
-  },
-  methods: {
-    // 获取路由列表
-    getMeunList(routerList) {
-      const menuList = routerList.filter(item => {
-        if (!item.hidden) {
-          if (item.children && item.children.length) {
-            item.children = this.getMeunList(item.children)
-          }
-          return true
-        }
-        return false
-      })
-      return menuList
-    },
-
-    // 折叠展开导航栏
-    onCollapse() {
-      this.collapsed = !this.collapsed
-    },
-
-    // 展开子菜单
-    subMenuClick(key, openKeys) {
-      this.openKeys = openKeys
-    },
-
-    // 点击logo返回主页
-    backHome() {
-      let path  = ''
-      const menuFirstItem = this.menuList[0]
-      if (menuFirstItem.children && menuFirstItem.children.length) {
-        path = menuFirstItem.children[0].path
-        this.openKeys = menuFirstItem.path
-      } else {
-        path = menuFirstItem.path
-      }
-      this.$router.push({
-        path: path
-      })
-    },
-
-    // 路由跳转
-    onClickMenuItem(key) {
-      this.selectedKeys = [key]
-      this.$router.push({
-        path: key
-      })
-    },
-
-    // 修改缓存状态
-    changeTargetCache(menuList, key) {
-      menuList.forEach(item => {
-        if (item.path === key) {
-          item.meta.keepAlive = false
-        } else {
-          if (item.children && item.children.length) {
-            this.changeTargetCache(item.children, key)
-          }
-        }
-      })
-    },
-
-    // 路由跳转获取展开key
-    getOpenKeys(path) {
-      this.menuList.forEach(item => {
-        if (item.children && item.children.length) {
-          const bool = item.children.map(sub => sub.path).includes(path)
-          if (bool) this.openKeys = [item.path]
-        }
-      })
-    },
-
-    // 获取规章制度列表
-    getRegimeList() {
-      const params = {
-        no_page: 1,
-        get_my_unread: 1
-      }
-      this.pageListLoading = true
-      regulationListApi(params)
-        .then(res => {
-          this.pageListLoading = false
-          if (res.code != 200) {
-            global.$notification.error({
-              title: '错误',
-              content: res.msg
-            })
-            return false
-          }
-          const data = res.data
-          this.regimeList = data
-          this.forceReadRegimes()
-        })
-        .catch(err => {
-          this.pageListLoading = false
-          global.$notification.error({
-            title: '错误',
-            content: err.message
-          })
-        })
-    },
-
-    // 获取规章制度列表
-    getJudgeNeedOpenInvoice() {
-      this.pageListLoading = true
-      judgeNeedOpenInvoiceApi()
-        .then(res => {
-          this.pageListLoading = false
-          if (res.code != 200) {
-            global.$notification.error({
-              title: '错误',
-              content: res.msg
-            })
-            return false
-          }
-          this.need_open = res.data.need_open
-
-          // const data = res.data
-          // this.regimeList = data
-          // this.forceReadRegimes()
-        })
-        .catch(err => {
-          this.pageListLoading = false
-          global.$notification.error({
-            title: '错误',
-            content: err.message
-          })
-        })
-    },
-
-    // 强制阅读规章制度
-    forceReadRegimes() {
-      clearTimeout(this.readTimer)
-      if (this.regimeList.length && this.regimeIndex < this.regimeList.length) {
-        this.regimeDetail = this.regimeList[this.regimeIndex]
-        this.relateNumData = {
-          readed: this.regimeIndex + 1,
-          allNum: this.regimeList.length
-        }
-        this.readRegimeDialog.visible = true
-      }
-      if (this.regimeList.length && this.regimeIndex === this.regimeList.length) {
-        location.reload()
-      }
-    },
-
-    // 关闭规章制度
-    closeReadRegimeDialog(flag) {
-      this.readRegimeDialog.visible = false
-      this.regimeDetail = {}
-      if (flag) {
-        this.readTimer = setTimeout(() => {
-          this.regimeIndex = this.regimeIndex + 1
-          this.forceReadRegimes()
-        }, 200)
-      }
+// 路由跳转获取展开key
+const getOpenKeys = (path: string) => {
+  menuList.value.forEach(item => {
+    if (item.children && item.children.length) {
+      const bool = item.children.map(sub => sub.path).includes(path)
+      if (bool) openKeys.value = [item.path]
     }
-  },
-  beforeUnmount() {
-    clearTimeout(this.readTimer)
-  }
+  })
+}
+
+const menuShowList = getMeunList(asyncRouterMap)
+menuList.value = menuShowList[0].children
+selectedKeys.value = [route.path]
+
+getOpenKeys(route.path)
+
+// 监听当前路由更改
+onBeforeRouteUpdate((to, from, next) => {
+  getOpenKeys(to.path)
+  selectedKeys.value = [to.path]
+  next()
 })
+
+
+// 折叠展开导航栏
+const onCollapse = () => {
+  collapsed.value = !collapsed.value
+}
+
+// 展开子菜单
+const subMenuClick = (key: string, openKeys: string[]) => {
+  openKeys.value = openKeys
+}
+
+
+// 路由跳转
+const onClickMenuItem = (key: string) => {
+  selectedKeys.value = [key]
+  router.push({
+    path: key
+  })
+}
+
+// 点击logo返回主页
+const backHome = () => {
+  let path  = ''
+  const menuFirstItem = menuList.value[0]
+  if (menuFirstItem.children && menuFirstItem.children.length) {
+    path = menuFirstItem.children[0].path
+    openKeys.value = menuFirstItem.path
+  } else {
+    path = menuFirstItem.path
+  }
+  router.push({
+    path: path
+  })
+}
 </script>
 
 <style lang="less" scoped>
