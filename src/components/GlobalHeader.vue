@@ -7,31 +7,25 @@
       </a-button>
     </div>
     <div class="header-right">
-      <a-dropdown trigger="hover" position="bottom">
+      <a-space size="large">
+        <icon-settings size="20" :style="{ color: '#393d44', cursor: 'pointer' }" @click="gotoPage('SystemSetting')" />
         <a-badge :count="noticeList.length" style="width:26px;margin-right:12px">
-          <icon-notification class="right-notice"/>
+          <icon-notification size="20" :style="{ color: '#393d44', cursor: 'pointer' }" @click="gotoPage('MessageCenter')" />
         </a-badge>
-        <template #content>
-          <a-doption style="width: 180px">
-            <div style="width:100%px;height:100%;color:#114BA3">
-              <!-- <span style="margin-right:10px" @click="checkNoticeHistory">通知历史</span> -->
-              <!-- <span style="margin-right:10px" v-if="noticeList.length" @click="readMsg(0)">全部已读</span> -->
-            </div>
-          </a-doption>
-        </template>
-      </a-dropdown>
+      </a-space>
+   
       <a-dropdown trigger="hover" position="br">
         <div class="right-info">
           <a-avatar :size="36">
-            <img :src="userInfo.avatar" alt="头像" />
+            <img v-if="userInfo.avatar" :src="userInfo.avatar" alt="头像" />
+            <icon-user v-else />
           </a-avatar>
           <div class="info-detail">
             <div class="detail-name">{{ userInfo.name }}</div>
-            <div class="detail-unit" v-if="userInfo.company_short_name">{{ userInfo.company_short_name }}</div>
           </div>
         </div>
         <template #content>
-          <a-doption v-if="userInfo.is_admin != 1" style="width: 110px" @click="openPersonalInfo">
+          <a-doption v-if="userInfo.is_admin != 1" style="width: 110px" @click="gotoPage('UserCenter')">
             <template #icon>
               <icon-user />
             </template>
@@ -66,13 +60,13 @@
       unmountOnClose
     >
       <a-form ref="formRef" :model="pwdFormData" :rules="formRules" :label-col-props="{span: 5}" :wrapper-col-props="{span: 18}">
-        <a-form-item field="old_pwd" label="旧密码">
+        <a-form-item field="old_pwd" label="旧密码" :validate-trigger="['blur']">
           <a-input-password v-model="pwdFormData.old_pwd" placeholder="请输入旧密码" allow-clear/>
         </a-form-item>
-        <a-form-item field="new_pwd" label="新密码">
+        <a-form-item field="new_pwd" label="新密码" :validate-trigger="['blur']">
           <a-input-password v-model="pwdFormData.new_pwd" placeholder="请输入新密码" allow-clear/>
         </a-form-item>
-        <a-form-item field="confirm_pwd" label="确认密码">
+        <a-form-item field="confirm_pwd" label="确认密码" :validate-trigger="['blur']">
           <a-input-password v-model="pwdFormData.confirm_pwd" placeholder="请输入确认密码" allow-clear/>
         </a-form-item>
       </a-form>
@@ -93,7 +87,7 @@ const formRef = ref<FormInstance>()
 
 import { logoutApi, updatePwdApi } from '@/api/empower'
 
-const global = getCurrentInstance()?.appContext.config.globalProperties
+const instance = getCurrentInstance()
 const empowerStore = useEmpowerStore()
 const router = useRouter()
 
@@ -116,7 +110,7 @@ let pwdFormData = reactive({
   confirm_pwd: ''
 })
 const formRules = {
-  old_pwd: [{ required: true, message: '请输入旧密码' }],
+  old_pwd: [{ required: true, message: '请输入旧密码'}],
   new_pwd: [{ required: true, message: '请输入新密码' }],
   confirm_pwd: [{ required: true, message: '请输入确认密码' }]
 }
@@ -128,21 +122,18 @@ const toggleCollapse = () => {
   emit('COLLAPSE_EVENT')
 }
 
-// 个人信息
-const openPersonalInfo = () => {
+const gotoPage = (name: string) => {
   router.push({
-    name: 'UserCenter'
+    name
   })
 }
 
 // 修改密码
 const modifyPwd = () => {
   modifyPwdDialog.visible = true
-  pwdFormData = {
-    old_pwd: '',
-    new_pwd: '',
-    confirm_pwd: ''
-  }
+  pwdFormData.old_pwd = ''
+  pwdFormData.new_pwd = ''
+  pwdFormData.confirm_pwd = ''
 }
 const closeModifyPwd = () => {
   modifyPwdDialog.visible = false
@@ -154,7 +145,7 @@ const confirmModifyPwd = () => {
     if (!errors) {
       const { old_pwd, new_pwd, confirm_pwd } = pwdFormData
       if (new_pwd !== confirm_pwd) {
-        global.$message.warning('两次密码必须一样!')
+        instance?.proxy?.$message.warning('两次密码必须一样!')
         return
       }
       const params = {
@@ -166,13 +157,13 @@ const confirmModifyPwd = () => {
         .then(res => {
           if (res.code !== 200) {
             modifyPwdDialog.confirmLoad = false
-            global.$notification.error({
+            instance?.proxy?.$notification.error({
               title: '错误',
               content: res.msg
             })
             return
           }
-          global.$message.success('操作成功，请重新登录！')
+          instance?.proxy?.$message.success('操作成功，请重新登录！')
           storage.clearAll()
           setTimeout(() => {
             window.location.href = '/'
@@ -180,7 +171,7 @@ const confirmModifyPwd = () => {
         })
         .catch(err => {
           modifyPwdDialog.confirmLoad = false
-          global.$notification.error({
+          instance?.proxy?.$notification.error({
             title: '错误',
             content: err.message
           })
@@ -188,7 +179,7 @@ const confirmModifyPwd = () => {
     } else {
       const errInfo = Object.values(errors)
       errInfo.forEach((item, index) => {
-        if (index == 0) global.$message.warning(item.message)
+        if (index == 0) instance?.proxy?.$message.warning(item.message)
       })
     }
   })
@@ -196,7 +187,7 @@ const confirmModifyPwd = () => {
 
 // 退出登录
 const logoutSubmit = () => {
-  global.$modal.warning({
+  instance?.proxy?.$modal.warning({
     title: '提示',
     content: '确定要退出登录？',
     closable: true,
@@ -204,7 +195,7 @@ const logoutSubmit = () => {
       logoutApi()
         .then(res => {
           if (res.code != 200) {
-            global.$notification.error({
+            instance?.proxy?.$notification.error({
               title: '错误',
               content: res.msg
             })
@@ -214,7 +205,7 @@ const logoutSubmit = () => {
           window.location.reload()
         })
         .catch(err => {
-          global.$notification.error({
+          instance?.proxy?.$notification.error({
             title: '错误',
             content: err.message
           })
@@ -235,23 +226,7 @@ const logoutSubmit = () => {
     display: flex;
     align-items: center;
     height: 100%;
-    .right-app {
-      width: 80px;
-      height: 30px;
-      margin-right: 20px;
-      background-color: #eee;
-      color: #333;
-      line-height: 30px;
-      text-align: center;
-      .app-icon {
-        margin-right: 5px;
-      }
-    }
-    .right-notice {
-      margin-right: 20px;
-      font-size: 20px;
-      cursor: pointer;
-    }
+
     .right-info {
       height: 100%;
       .flex_vertical_center();
@@ -279,8 +254,4 @@ const logoutSubmit = () => {
     }
   }
 }
-// :deep(.arco-dropdown-option-content) {
-//   display: inline-block;
-//   width: 100%;
-// }
 </style>

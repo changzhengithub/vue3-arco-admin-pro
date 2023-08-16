@@ -16,7 +16,7 @@ const login = (options: any) => {
     id: Mock.mock('@guid'),
     name: Mock.mock('@name'),
     role: 1,
-    username: 'admin',
+    username: '超级管理员',
     password: '',
     avatar: 'https://gw.alipayobjects.com/zos/rmsportal/jZUIxmJycoymBprLOUbT.png',
     status: 1,
