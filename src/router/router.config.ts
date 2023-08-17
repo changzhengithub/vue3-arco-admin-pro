@@ -1,17 +1,16 @@
 import { type RouteRecordRaw } from 'vue-router'
 import BasicLayout from '../layouts/BasicLayout.vue'
+
 /**
- * @desc 权限路由
- * @desc 走导航的路由都在根路由/里，走BasicLayout基础布局
- * @desc 不走导航的和根路由/放在同级或者放在根路由里加上hidden:true
- * @desc 不需登录的放在基础路由constantRouterMap里，并放在权限控制的白名单里才不会走权限验证
- * @desc keepAlive是否缓存该组件，缓存必须在每一层router-view加keep-alive才会生效
- * 
- * 路由分为 1、需要登录的 2、不需要登录的 需要登录的放在权限路由里，不需要登录的为白名单放在基础路由里
+ * @desc 权限路由表
+ * 路由分为需要登录的不需要登录的
+ * 不需要登录的为白名单放在基础路由里，如登录、注册、活动页，需要登录的放在权限路由里，
  * 需要登录的又分为需要权限控制和不需要权限控制的，通过meta字段isAuth进行判断需不需要权限判断
- * 不论需不需要权限判断都要判断是否在导航栏中显示，通过meta字段hidden判断
- * 走导航的需要二级路由来渲染，所以放在根路由里通过layouts里的基础布局来显示
- * 不走导航栏的放在根路由外面和走导航栏的进行区分，不走导航的可以直接显示，也可以走其他的布局来显示
+ * 在导航栏显示的路由统一放在根路由下走基础布局
+ * 不在导航栏显示的可以放在根路由外面走其他布局，比如个人中心
+ * 或者在根路由走基础布局，通过hidden自动控制，比如详情页
+ * keepAlive是否缓存该组件，缓存必须在每一层router-view加keep-alive才会生效
+ * permission为权限id，全局必须保持唯一
  * */
 
 const Empower = () => import(/* webpackChunkName: 'empower' */ '@/views/empower/index.vue')
