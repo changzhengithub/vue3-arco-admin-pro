@@ -10,8 +10,8 @@ export interface UserInfo {
 }
 
 export interface EmpowerState {
-  token: string,
   userInfo: UserInfo,
-  permission: string[],
+  menuPermList: string[],
+  operatePermList: string[],
   routerList: RouteRecordRaw[]
 }

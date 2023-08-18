@@ -12,6 +12,7 @@ import './assets/css/main.css'
 import '@arco-design/web-vue/dist/arco.css'
 
 import './mock'
+import './permission'
 
 // 配置mitt公共组件传参
 import mitt from 'mitt'

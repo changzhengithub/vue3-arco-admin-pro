@@ -4,6 +4,7 @@
  */
 
 export default {
+  appName: 'Vite App',
   version: 'v1.0.0', // 版本号
   baseUrl: ''
 }

@@ -42,7 +42,7 @@ const logout = () => {
 
 const info = () => {
   const userInfo = {
-    id: '4291d7da9005377ec9aec4a71ea837f',
+    id: 1,
     name: '超级管理员',
     role: 1,
     username: 'admin',
@@ -56,7 +56,9 @@ const info = () => {
     createTime: 1497160610259,
     merchantCode: 'TLif2btpzg079h15bk',
     deleted: 0,
-    roleId: 'admin'
+    roleId: 'admin',
+    menu_perm: ['home', 'account', 'message_center', 'system_setting'],
+    operate_perm: []
   }
 
   return builder(userInfo, '获取用户信息', 200)

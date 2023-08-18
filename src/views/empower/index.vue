@@ -27,14 +27,10 @@ import { ref, reactive, getCurrentInstance } from 'vue'
 import { useRouter } from 'vue-router'
 import { useEmpowerStore } from '@/stores/modules/empower'
 import type { FormInstance } from '@arco-design/web-vue/es/form'
-import storage from 'store'
-import { ACCESS_TOKEN } from '@/constants/app'
-
-import { loginApi, infoApi, logoutApi } from '@/api/empower'
 
 const instance = getCurrentInstance()
 const router = useRouter()
-const store = useEmpowerStore()
+const empowerStore = useEmpowerStore()
 
 const empower = ref<FormInstance>()
 const submitLoad = ref(false)
@@ -56,7 +52,7 @@ const submitForm = () => {
         password
       }
       submitLoad.value = true
-      loginApi(params)
+      empowerStore.userLogin(params)
         .then((res) => {
           submitLoad.value = false
           if (res.code !== 200) {
@@ -66,9 +62,6 @@ const submitForm = () => {
             })
             return
           }
-          const { token, userInfo } = res.data
-          storage.set(ACCESS_TOKEN, token)
-          store.setUserInfo(userInfo)
           router.push({ path: '/' })
           // 延迟 1 秒显示欢迎信息
           setTimeout(() => {

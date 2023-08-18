@@ -1,5 +1,6 @@
+import { shallowRef } from 'vue'
+import BasicLayout from '@/layouts/BasicLayout.vue'
 import { type RouteRecordRaw } from 'vue-router'
-import BasicLayout from '../layouts/BasicLayout.vue'
 
 /**
  * @desc 权限路由表
@@ -14,6 +15,7 @@ import BasicLayout from '../layouts/BasicLayout.vue'
  * */
 
 const Empower = () => import(/* webpackChunkName: 'empower' */ '@/views/empower/index.vue')
+const Promotion = () => import(/* webpackChunkName: 'promotion' */ '@/views/promotion/index.vue')
 const Exception = () => import(/* webpackChunkName: 'exception' */ '@/views/exception/index.vue')
 
 const HomeComponent = () => import(/* webpackChunkName: 'home' */ '@/views/home/index.vue')
@@ -27,21 +29,14 @@ const MessageCenter = () => import(/* webpackChunkName: 'message-center' */ '@/v
 export const asyncRouterMap: RouteRecordRaw[] = [
   {
     path: '/',
-    name: 'index',
-    component: BasicLayout,
-    meta: { permission: 'index' },
+    name: 'Index',
+    component: shallowRef(BasicLayout),
     children: [
       {
         path: '/home',
         name: 'Home',
         component: HomeComponent,
         meta: { title: '主页', icon: 'icon-list', hidden: false, keepAlive: false, isAuth: true, permission: 'home' }
-      },
-      {
-        path: '/mine',
-        name: 'Mine',
-        component: MineComponent,
-        meta: { title: '我的', icon: 'icon-heart-fill', hidden: false, keepAlive: false, isAuth: true, permission: 'mine' }
       },
       {
         path: '/user-center',
@@ -59,14 +54,26 @@ export const asyncRouterMap: RouteRecordRaw[] = [
         path: '/system-setting',
         name: 'SystemSetting',
         component: SystemSetting,
-        meta: { title: '系统设置', icon: '', hidden: true, keepAlive: false, isAuth: false, permission: 'message_center' }
+        meta: { title: '系统设置', icon: '', hidden: true, keepAlive: false, isAuth: false, permission: 'system_setting' }
       }
     ]
+  },
+  {
+    path: '/mine',
+    name: 'Mine',
+    component: MineComponent,
+    meta: { title: '我的', icon: 'icon-heart-fill', hidden: true, keepAlive: false, isAuth: false, permission: '' }
   }
 ]
 
 // 基础路由
 export const constantRouterMap = [
+  {
+    path: '/promotion',
+    name: 'Promotion',
+    component: Promotion,
+    meta: { title: '推广页', isWhite: true }
+  },
   {
     path: '/empower',
     name: 'Empower',
