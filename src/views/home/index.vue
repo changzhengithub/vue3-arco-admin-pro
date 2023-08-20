@@ -5,6 +5,7 @@
       <h2>主题颜色：{{store.theme}}</h2>
       <ArcoIcon icon="icon-tag" size="30" :style="{color: 'blue'}"></ArcoIcon>
     </div>
+    <a-input v-model="text" placeholder="please enter your username..." />
 
     <a-space>
       <a-button type="primary" @click="switchDarkTheme">深色主题</a-button>
@@ -14,7 +15,7 @@
   <HelloWorld :msg="msg"></HelloWorld>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="Home">
 /**
  * @desc 首页
  * @author changz
@@ -28,6 +29,7 @@ import ArcoIcon from '@/components/ArcoIcon'
 const store = useAppStore()
 
 const title = ref<string>('首页')
+const text = ref<string>('')
 const msg = ref<string>('hello world!')
 
 console.log(import.meta.env.VITE_ENV)

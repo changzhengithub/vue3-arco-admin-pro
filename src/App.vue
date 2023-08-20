@@ -5,7 +5,6 @@
 </template>
 
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
 import zhCN from '@arco-design/web-vue/es/locale/lang/zh-CN'
 </script>
 

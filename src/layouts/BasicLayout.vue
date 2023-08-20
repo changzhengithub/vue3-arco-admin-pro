@@ -7,8 +7,8 @@
           <img src="@/assets/images/logo.png" alt="" />
           <div class="logo-title">三实综合管理平台</div>
         </div>
-        <a-menu :selected-keys="selectedKeys" :open-keys="openKeys" :auto-scroll-into-view="true" :auto-open="true" :accordion="true" @sub-menu-click="subMenuClick" @menuItemClick="onClickMenuItem">
-          <template v-for="(item, index) in menuList" :key="index">
+        <a-menu :selected-keys="state.selectedKeys" :open-keys="state.openKeys" :auto-scroll-into-view="true" :auto-open="true" :accordion="true" @sub-menu-click="subMenuClick" @menuItemClick="onClickMenuItem">
+          <template v-for="(item, index) in state.menuList" :key="index">
             <a-menu-item :key="item.path" v-if="!item.children">
               <template #icon>
                 <ArcoIcon :icon="(item?.meta?.icon as string)"></ArcoIcon>
@@ -41,20 +41,14 @@
         <!-- 头部 end -->
 
         <a-layout class="basic-layout">
-          <!-- <MultiTab></MultiTab> -->
+          <MultiTab></MultiTab>
           <div class="layout-content">
             <!-- 路由缓存，只针对当前子路由进行缓存 -->
-            <router-view v-slot="{ Component, route }">
-              <component :is="Component" v-if="!route.meta.keepAlive" :key="route.fullPath" />
-              <!-- 缓存第一层 -->
-              <keep-alive v-else>
-                <component :is="Component" :key="route.fullPath" />
-              </keep-alive>
-            </router-view>
-            <!-- <keep-alive :include="cacheList">
-              <router-view :key="$route.fullPath" v-if="$route.meta.keepAlive"></router-view>
-            </keep-alive>
-            <router-view :key="$route.fullPath " v-if="!$route.meta.keepAlive"></router-view> -->
+            <RouterView v-slot="{ Component }">
+              <KeepAlive :include="appStore.cacheList">
+                <component :is="Component" />
+              </KeepAlive>
+            </RouterView>
           </div>
           <!-- <a-layout-footer>Footer</a-layout-footer> -->
         </a-layout>
@@ -68,41 +62,35 @@
  * @description 侧栏菜单布局
  * */
 
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import { useRouter, useRoute, onBeforeRouteUpdate, type RouteRecordRaw } from 'vue-router'
 import { useAppStore } from '@/stores/modules/app'
-// import { useEmpowerStore } from '@/stores/modules/empower'
-
-import { asyncRouterMap } from '@/router/router.config'
+import { useEmpowerStore } from '@/stores/modules/empower'
 
 import GlobalHeader from '@/components/GlobalHeader.vue'
-// import MultiTab from '@/components/MultiTab'
+import MultiTab from '@/components/MultiTab.vue'
 import ArcoIcon from '@/components/ArcoIcon'
 
 const appStore = useAppStore()
-// const empowerStore = useEmpowerStore()
+const empowerStore = useEmpowerStore()
 const router = useRouter()
 const route = useRoute()
 
 const collapsed = ref(false) // 折叠导航栏
 
-// interface State {
-//   openKeys: string[],
-//   menuList: RouteRecordRaw[],
-//   selectedKeys: string[]
-// }
-// const state = reactive<State>({
-//   openKeys: [],
-//   menuList: [],
-//   selectedKeys: []
-// })
-
-const openKeys = ref<string[]>([])
-const menuList = ref<RouteRecordRaw[]>([])
-const selectedKeys = ref<string[]>([])
+interface State {
+  openKeys: string[],
+  menuList: RouteRecordRaw[],
+  selectedKeys: string[]
+}
+const state = reactive<State>({
+  openKeys: [],
+  menuList: [],
+  selectedKeys: []
+})
 
 // 获取路由列表
-const getMeunList = (routerList: RouteRecordRaw[]) => {
+const getMeunList = (routerList: RouteRecordRaw[] = []) => {
   const menuList = routerList.filter(item => {
     if (!item?.meta?.hidden) {
       if (item.children && item.children.length) {
@@ -115,26 +103,26 @@ const getMeunList = (routerList: RouteRecordRaw[]) => {
   return menuList
 }
 
+const routerList = getMeunList(empowerStore.routerList[0].children)
+state.menuList = routerList
+state.selectedKeys = [route.path]
+
 // 路由跳转获取展开key
 const getOpenKeys = (path: string) => {
-  menuList.value.forEach(item => {
+  state.menuList.forEach(item => {
     if (item.children && item.children.length) {
       const bool = item.children.map(sub => sub.path).includes(path)
-      if (bool) openKeys.value = [item.path]
+      if (bool) state.openKeys = [item.path]
     }
   })
 }
-
-const menuShowList = getMeunList(asyncRouterMap)
-menuList.value = menuShowList[0].children
-selectedKeys.value = [route.path]
 
 getOpenKeys(route.path)
 
 // 监听当前路由更改
 onBeforeRouteUpdate((to, from, next) => {
   getOpenKeys(to.path)
-  selectedKeys.value = [to.path]
+  state.selectedKeys = [to.path]
   next()
 })
 
@@ -146,13 +134,12 @@ const onCollapse = () => {
 
 // 展开子菜单
 const subMenuClick = (key: string, openKeys: string[]) => {
-  openKeys.value = openKeys
+  state.openKeys = openKeys
 }
-
 
 // 路由跳转
 const onClickMenuItem = (key: string) => {
-  selectedKeys.value = [key]
+  state.selectedKeys = [key]
   router.push({
     path: key
   })
@@ -160,16 +147,8 @@ const onClickMenuItem = (key: string) => {
 
 // 点击logo返回主页
 const backHome = () => {
-  let path  = ''
-  const menuFirstItem = menuList.value[0]
-  if (menuFirstItem.children && menuFirstItem.children.length) {
-    path = menuFirstItem.children[0].path
-    openKeys.value = menuFirstItem.path
-  } else {
-    path = menuFirstItem.path
-  }
   router.push({
-    path: path
+    path: '/'
   })
 }
 </script>

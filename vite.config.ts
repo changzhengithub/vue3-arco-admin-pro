@@ -5,6 +5,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import eslintPlugin from 'vite-plugin-eslint'
+import VueSetupExtend from 'vite-plugin-vue-setup-extend'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -27,7 +28,9 @@ export default defineConfig({
     // 配置vite在运行的时候自动检测eslint规范
     eslintPlugin({
       include: ['src/**/*.ts', 'src/**/*.js', 'src/**/*.vue', 'src/*.ts', 'src/*.js', 'src/*.vue']
-    })
+    }),
+    // 自定义组件名称
+    VueSetupExtend()
   ],
   resolve: {
     alias: {

@@ -91,14 +91,11 @@ export const useEmpowerStore = defineStore('empower', {
           if (!isAuth || menu_perm.includes(permission as string)) {
             if (route.children && route.children.length) {
               route.children = this.filterAsyncRouter(route.children, menu_perm)
-              console.log(route.children)
               // 如果有子路由重定向到第一个
               if (route.children.length) route.redirect = route.children[0].path
             }
             return true
           }
-        } else {
-          return true
         }
         return false
       })

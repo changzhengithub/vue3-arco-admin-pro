@@ -74,7 +74,7 @@ const permissionList: PermissionList[] = [
     title: '用户组织',
     permList: [
       { title: '用户组织', perm: 'org_manage' },
-      { title: '组织人员管理', perm: 'organizer_manage' }
+      { title: '角色组织', perm: 'role_org' }
     ],
     isCheck: false,
     indeterminate: false,
@@ -85,7 +85,7 @@ const permissionList: PermissionList[] = [
     title: '角色权限',
     permList: [
       { title: '角色权限', perm: 'role_manage' },
-      { title: '组织人员管理', perm: 'organizer_manage' }
+      { title: '角色组织', perm: 'role_org' }
     ],
     isCheck: false,
     indeterminate: false,

@@ -1,115 +1,86 @@
 <template>
   <div class="tab">
-    <a-tabs v-model:active-key="activeKey" type="card-gutter" :editable="true" auto-switch @tab-click="gotoPage" @delete="deleteRoute" >
-      <a-tab-pane v-for="page in pages" :key="page.path" :title="page.meta.title" :closable="pages.length > 1" ></a-tab-pane>
+    <a-tabs v-model:active-key="activeKey" type="card-gutter" :editable="true" @tab-click="selectRoute" @delete="deleteRoute" >
+      <a-tab-pane v-for="page in state.pageList" :key="page.path" :title="(page?.meta?.title as string)" :closable="state.pageList.length > 1"></a-tab-pane>
     </a-tabs>
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 /**
  * 简易多标签页
  * @desc 头部多标签页展示
- * @author jcc
+ * 默认在路由中开启keepAlive属性就会缓存组件，为了不让页面一直被缓存，重新打开后还是被缓存，
+ * 通过cacheList配合include属性控制让其再关闭标签页后就不在缓存，重新打开可以刷新
+ * @author changz
  * @example 调用示例
  * <MultiTab></MultiTab>
  * */
 
-import { defineComponent } from 'vue'
-import { mapState } from 'vuex'
+import { ref, reactive, onMounted } from 'vue'
+import { useRouter, useRoute, onBeforeRouteUpdate, type RouteLocationNormalizedLoaded } from 'vue-router'
+import { useAppStore } from '@/stores/modules/app'
 
-export default defineComponent({
-  name: 'MultiTab',
-  data() {
-    return {
-      fullPathList: [],
-      menuList: [],
-      pages: [],
-      activeKey: '', // 被选中tab
-      learnQuery: '', // 学习视频的参数
+const appStore = useAppStore()
+const router = useRouter()
+const route = useRoute()
 
-      cacheList: [] // 缓存数据
-    }
-  },
-  computed: {
-    ...mapState(['routerList'])
-  },
-  watch: {
-    '$route'(route) {
-      this.activeKey = route.path
-      if (this.fullPathList.indexOf(route.path) < 0) {
-        if (route.path !== '/train/learning-vedio') {
-          this.fullPathList.push(route.path)
-          this.pages.push(route)
-          this.setTabsCache(this.pages)
-        }
-      }
-    },
-  },
-  created() {
-    const menuList = this.getMeunList(this.routerList)
-    this.menuList = menuList[0].children
-    this.getRoute()
-  },
-  methods: {
-    // ...mapMutations(['setRouterList']),
-    // 获取路由列表
-    getMeunList(routerList) {
-      const menuList = routerList.filter(item => {
-        if (!item.hidden) {
-          if (item.children && item.children.length) {
-            item.children = this.getMeunList(item.children)
-          }
-          return true
-        }
-        return false
-      })
-      return menuList
-    },
+const activeKey = ref('') // 被选中tab
 
-    getRoute() {
-      const route = this.$route
-      this.activeKey = route.path
-      if (this.fullPathList.indexOf(route.path) < 0) {
-        if (route.path !== '/train/learning-vedio') {
-          this.fullPathList.push(route.path)
-          this.pages.push(route)
-          this.setTabsCache(this.pages)
-        }
-      }
-    },
-
-    gotoPage() {
-      this.$router.push({ path: this.activeKey })
-      this.setTabsCache(this.pages)
-    },
-  
-    // 删除
-    deleteRoute(key) {
-      this.pages = this.pages.filter(page => page.path !== key)
-      this.fullPathList = this.fullPathList.filter(path => path !== key)
-      this.setTabsCache(this.pages)
-      if (!this.fullPathList.includes(this.activeKey)) {
-        this.selectedLastPath()
-      }
-    },
-    selectedLastPath () {
-      this.activeKey = this.fullPathList[this.fullPathList.length - 1]
-      this.$router.push({ path: this.activeKey })
-    },
-
-    // tabs中存在的页面设置缓存
-    setTabsCache(pages) {
-      this.cacheList = pages.map(item => item.name)
-      this.$store.commit('setCacheList', this.cacheList)
-    }
-  }
+interface State {
+  pageList: RouteLocationNormalizedLoaded[]
+}
+const state = reactive<State>({
+  pageList: []
 })
+
+onMounted(() => {
+  const deepRoute = Object.assign({}, route)
+  getCurrentTabByRoute(deepRoute)
+})
+
+// 监听当前路由更改
+onBeforeRouteUpdate((to, from, next) => {
+  getCurrentTabByRoute(to)
+  next()
+})
+
+// 获取当前Tab
+const getCurrentTabByRoute = (route: RouteLocationNormalizedLoaded) => {
+  activeKey.value = route.path
+  const pathList = state.pageList.map(item => item.path)
+  if (!pathList.includes(route.path)) {
+    state.pageList.push(route)
+    // setTabsCache()
+  }
+}
+
+// 删除Tab
+const deleteRoute = (key: string | number) => {
+  state.pageList = state.pageList.filter(page => page.path !== key)
+  // setTabsCache()
+  // 删除当前页时自动跳转到最后一个
+  if (activeKey.value === key) {
+    const pathList = state.pageList.map(item => item.path)
+    activeKey.value = pathList[pathList.length - 1]
+    selectRoute()
+  }
+}
+
+// 设置缓存
+const setTabsCache = () => {
+  const cacheList = state.pageList.filter(item => item.meta.keepAlive).map(item => item.name)
+  appStore.cacheList = cacheList as string[]
+}
+
+const selectRoute = () => {
+  router.push({ path: activeKey.value })
+}
 </script>
 <style lang="less" scoped>
 .tab {
   width: 100%;
-  padding: 8px 20px;
+  padding: 8px 16px;
   background-color: #ffffff;
   border-top: 1px solid #f2f2f2;
   border-bottom: 1px solid #f1f1f1;

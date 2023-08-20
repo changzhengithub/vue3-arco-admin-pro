@@ -1,5 +1,6 @@
 import { shallowRef } from 'vue'
 import BasicLayout from '@/layouts/BasicLayout.vue'
+import RouteView from '@/layouts/RouteView.vue'
 import { type RouteRecordRaw } from 'vue-router'
 
 /**
@@ -20,6 +21,8 @@ const Exception = () => import(/* webpackChunkName: 'exception' */ '@/views/exce
 
 const HomeComponent = () => import(/* webpackChunkName: 'home' */ '@/views/home/index.vue')
 const MineComponent = () => import(/* webpackChunkName: 'mine' */ '@/views/mine/index.vue')
+const RoleManage = () => import(/* webpackChunkName: 'role-manage' */ '@/views/role-manage/index.vue')
+const OrgManage = () => import(/* webpackChunkName: 'org-manage' */ '@/views/org-manage/index.vue')
 
 const UserCenter = () => import(/* webpackChunkName: 'user-center' */ '@/views/user-center/index.vue')
 const SystemSetting = () => import(/* webpackChunkName: 'system-setting' */ '@/views/system-setting/index.vue')
@@ -31,18 +34,39 @@ export const asyncRouterMap: RouteRecordRaw[] = [
     path: '/',
     name: 'Index',
     component: shallowRef(BasicLayout),
+    meta: { hidden: false, keepAlive: false, isAuth: false },
     children: [
       {
         path: '/home',
         name: 'Home',
         component: HomeComponent,
-        meta: { title: '主页', icon: 'icon-list', hidden: false, keepAlive: false, isAuth: true, permission: 'home' }
+        meta: { title: '主页', icon: 'icon-apps', hidden: false, keepAlive: true, isAuth: true, permission: 'home' }
+      },
+      {
+        path: '/role-org',
+        name: 'RoleOrg',
+        component: shallowRef(RouteView),
+        meta: { title: '角色组织', icon: 'icon-list', hidden: false, keepAlive: true, isAuth: true, permission: 'role_org' },
+        children: [
+          {
+            path: '/role-manage',
+            name: 'RoleManage',
+            component: RoleManage,
+            meta: { title: '角色权限', icon: 'icon-user-add', hidden: false, keepAlive: true, isAuth: true, permission: 'role_manage' }
+          },
+          {
+            path: '/org-manage',
+            name: 'OrgManage',
+            component: OrgManage,
+            meta: { title: '组织部门', icon: 'icon-user-add', hidden: false, keepAlive: true, isAuth: true, permission: 'org_manage' }
+          }
+        ]
       },
       {
         path: '/user-center',
         name: 'UserCenter',
         component: UserCenter,
-        meta: { title: '个人中心', icon: '', hidden: true, keepAlive: false, isAuth: false, permission: 'account' }
+        meta: { title: '个人中心', icon: '', hidden: true, keepAlive: true, isAuth: false, permission: 'account' }
       },
       {
         path: '/message-center',

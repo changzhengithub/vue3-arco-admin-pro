@@ -13,14 +13,10 @@ export const useAppStore = defineStore('app', {
     theme: '',
     appName: '',
     hideMenu: false,
-    userList: []
+    cacheList: ['Home', 'UserCenter', 'RoleOrg', 'RoleManage', 'OrgManage']
   }),
 
-  getters: {
-    userLength(state): number {
-      return state.userList.length
-    }
-  },
+  getters: {},
 
   actions: {
     switchTheme(color: string) {
