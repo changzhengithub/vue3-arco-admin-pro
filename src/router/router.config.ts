@@ -91,7 +91,7 @@ export const asyncRouterMap: RouteRecordRaw[] = [
 ]
 
 // 基础路由
-export const constantRouterMap = [
+export const constantRouterMap: RouteRecordRaw[] = [
   {
     path: '/promotion',
     name: 'Promotion',

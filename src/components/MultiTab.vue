@@ -51,14 +51,14 @@ const getCurrentTabByRoute = (route: RouteLocationNormalizedLoaded) => {
   const pathList = state.pageList.map(item => item.path)
   if (!pathList.includes(route.path)) {
     state.pageList.push(route)
-    // setTabsCache()
+    setTabsCache()
   }
 }
 
 // 删除Tab
 const deleteRoute = (key: string | number) => {
   state.pageList = state.pageList.filter(page => page.path !== key)
-  // setTabsCache()
+  setTabsCache()
   // 删除当前页时自动跳转到最后一个
   if (activeKey.value === key) {
     const pathList = state.pageList.map(item => item.path)

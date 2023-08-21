@@ -13,7 +13,7 @@ export const useAppStore = defineStore('app', {
     theme: '',
     appName: '',
     hideMenu: false,
-    cacheList: ['Home', 'UserCenter', 'RoleOrg', 'RoleManage', 'OrgManage']
+    cacheList: []
   }),
 
   getters: {},
