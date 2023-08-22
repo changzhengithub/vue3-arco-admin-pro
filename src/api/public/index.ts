@@ -8,15 +8,26 @@ import type * as Public from './types'
 
 // 接口地址
 const api = {
-  uploadFile: '/api/uploadFile' // 上传
+  uploadFile: '/api/approval-flow/uploadFile', // 上传文件
+  download: '/api/task/download' // 下载文件
 }
 
-// 上传
-export function uploadFileApi(data: Public.UpdatePwdRequestData, { onUploadProgress }) {
-  return request<Public.UpdatePwdResponseData>({
+// 上传文件
+export function uploadFileApi(data: Public.UploadFormData, config: Public.ConfigData) {
+  return request<Public.UpdatePwdRes>({
     url: api.uploadFile,
     method: 'post',
     data,
-    onUploadProgress
+    onUploadProgress: config.onUploadProgress
+  })
+}
+
+// 下载文件
+export function downloadApi(params: Public.DownloadReq) {
+  return request<Public.DownloadRes>({
+    url: api.download,
+    method: 'get',
+    params,
+    responseType: 'blob'
   })
 }

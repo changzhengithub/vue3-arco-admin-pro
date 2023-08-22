@@ -1,19 +1,26 @@
+// 默认返回数据格式
+export type DefaultRes = ApiResponseData<any>
+
 // 登录
-export interface LoginRequestData {
-  username: string
+export interface LoginReq {
+  name: string
   password: string
+  code: string
+  key: string
 }
-export type LoginResponseData = ApiResponseData<{ userInfo: UserInfo, token: string }>
+export type LoginRes = ApiResponseData<{ userInfo: UserInfo, token: string }>
 
 // 用户信息
-export type UserInfoResponseData = ApiResponseData<UserInfo>
+export type UserInfoRes = ApiResponseData<UserInfo>
 
 // 退出
-export type LoginOutResponseData = ApiResponseData<any>
+export type LoginOutRes = ApiResponseData<any>
 
 // 修改密码
-export interface UpdatePwdRequestData {
+export interface UpdatePwdReq {
   old_pwd: string
   new_pwd: string
 }
-export type UpdatePwdResponseData = ApiResponseData<any>
+export type UpdatePwdRes = ApiResponseData<any>
+
+// 

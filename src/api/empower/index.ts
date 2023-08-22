@@ -8,15 +8,20 @@ import type * as Login from './types'
 
 // 接口地址
 const api = {
-  login: '/auth/login', // 登录
+  login: '/api/login', // 登录
   logout: '/auth/logout', // 退出登录
-  info: '/user/info', // 获取用户信息
+  info: '/api/owner/info', // 获取用户信息
+  captcha: '/api/captcha', // 获取验证码
   updatePwd: '/api/user/updatePwd' // 修改密码
+
+  // login: '/auth/login', // 登录
+  // logout: '/auth/logout', // 退出登录
+  // info: '/user/info', // 获取用户信息
 }
 
 // 登录
-export function loginApi(data: Login.LoginRequestData) {
-  return request<Login.LoginResponseData>({
+export function loginApi(data: Login.LoginReq) {
+  return request<Login.LoginRes>({
     url: api.login,
     method: 'post',
     data
@@ -25,25 +30,33 @@ export function loginApi(data: Login.LoginRequestData) {
 
 // 获取用户信息
 export function infoApi() {
-  return request<Login.LoginOutResponseData>({
+  return request<Login.LoginOutRes>({
     url: api.info,
     method: 'get'
     // params
   })
 }
 
+// 获取用户信息
+export function captchaApi() {
+  return request<Login.DefaultRes>({
+    url: api.captcha,
+    method: 'get'
+    // params
+  })
+}
 
 // 退出登录
 export function logoutApi() {
-  return request<Login.LoginOutResponseData>({
+  return request<Login.LoginOutRes>({
     url: api.logout,
     method: 'post'
   })
 }
 
 // 修改密码
-export function updatePwdApi(data: Login.UpdatePwdRequestData) {
-  return request<Login.UpdatePwdResponseData>({
+export function updatePwdApi(data: Login.UpdatePwdReq) {
+  return request<Login.UpdatePwdRes>({
     url: api.updatePwd,
     method: 'post',
     data

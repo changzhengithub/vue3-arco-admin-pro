@@ -4,7 +4,7 @@
 
 interface UserInfo {
   id: number,
-  name: string,
-  role: string,
+  // name: string,
+  // role: string,
   [key: string]: any
 }

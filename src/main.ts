@@ -11,7 +11,7 @@ import ArcoVueIcon from '@arco-design/web-vue/es/icon'
 import './assets/css/main.css'
 import '@arco-design/web-vue/dist/arco.css'
 
-import './mock'
+// import './mock'
 import './permission'
 
 // 配置mitt公共组件传参

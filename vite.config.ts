@@ -12,11 +12,11 @@ export default defineConfig({
   // base: '/',
   // 本地服务启动配置、跨域配置
   // server: {
-  //   host: '',
+  //   host: 'localhost',
   //   port: 8080,
   //   proxy: {
   //     '/api': {
-  //       target: 'http://192.168.100.4:3321',
+  //       target: 'http://192.168.100.14:3351',
   //       ws: false,
   //       changeOrigin: true
   //     }

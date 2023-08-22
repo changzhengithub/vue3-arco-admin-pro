@@ -1,12 +1,23 @@
-// 登录
-export interface UpdatePwdRequestData {
-  old_pwd: string
-  new_pwd: string
+import FormData from 'form-data'
+
+// 上传文件
+// 定义FormData格式上传类型
+export interface UploadFormData extends FormData {
+  append<T extends string | Blob>(
+    name: string,
+    value: T
+  ): void
 }
-export type UpdatePwdResponseData = ApiResponseData<any>
+// 接口配置，类似于进度条headers等
+export interface ConfigData {
+  onUploadProgress?: ((progressEvent: any) => void)
+  // ...其他配置
+}
+// export type UploadProgress = ((progressEvent: any) => void)
+export type UpdatePwdRes = ApiResponseData<any>
 
-// 用户信息
-export type UserInfoResponseData = ApiResponseData<UserInfo>
-
-// 退出
-export type LoginOutResponseData = ApiResponseData<any>
+// 下载文件
+export interface DownloadReq {
+  id: number
+}
+export type DownloadRes = ApiResponseData<any>

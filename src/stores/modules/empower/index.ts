@@ -7,7 +7,7 @@ import permissionList from '@/json/permission.json'
 
 import type { RouteRecordRaw } from 'vue-router'
 import type { EmpowerState } from './types'
-import type { LoginRequestData, LoginResponseData } from '@/api/empower/types'
+import type { LoginReq, LoginRes } from '@/api/empower/types'
 
 export const useEmpowerStore = defineStore('empower', {
 
@@ -22,12 +22,13 @@ export const useEmpowerStore = defineStore('empower', {
 
   actions: {
     // 登录
-    userLogin(params: LoginRequestData) {
-      return new Promise<LoginResponseData>((resolve, reject) => {
+    userLogin(params: LoginReq) {
+      return new Promise<LoginRes>((resolve, reject) => {
         loginApi(params).then(res => {
-          const { token, userInfo } = res.data
+          console.log(res)
+          const { token, data } = res
           storage.set(ACCESS_TOKEN, token)
-          this.userInfo = userInfo
+          this.userInfo = data
           resolve(res)
         }).catch(error => {
           reject(error)
