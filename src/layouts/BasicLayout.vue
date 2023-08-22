@@ -41,11 +41,12 @@
         <!-- 头部 end -->
 
         <a-layout class="basic-layout">
-          <!-- <MultiTab></MultiTab> -->
+          <MultiTab></MultiTab>
           <div class="layout-content">
             <!-- 路由缓存，只针对当前子路由进行缓存 -->
+            <!-- RouteView 子路由模板名称，防止刷新子路由 -->
             <RouterView v-slot="{ Component }">
-              <KeepAlive :include="appStore.cacheList">
+              <KeepAlive :include="['RouteView', ...appStore.cacheList]">
                 <component :is="Component"/>
               </KeepAlive>
             </RouterView>
@@ -57,7 +58,7 @@
   </a-spin>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="BasicLayout">
 /**
  * @description 侧栏菜单布局
  * */
@@ -68,7 +69,7 @@ import { useAppStore } from '@/stores/modules/app'
 import { useEmpowerStore } from '@/stores/modules/empower'
 
 import GlobalHeader from '@/components/GlobalHeader.vue'
-// import MultiTab from '@/components/MultiTab.vue'
+import MultiTab from '@/components/MultiTab.vue'
 import ArcoIcon from '@/components/ArcoIcon'
 
 const appStore = useAppStore()

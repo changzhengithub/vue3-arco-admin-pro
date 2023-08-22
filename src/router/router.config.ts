@@ -58,7 +58,7 @@ export const asyncRouterMap: RouteRecordRaw[] = [
             path: '/org-manage',
             name: 'OrgManage',
             component: OrgManage,
-            meta: { title: '组织部门', icon: 'icon-user-add', hidden: false, keepAlive: true, isAuth: true, permission: 'org_manage' }
+            meta: { title: '组织部门', icon: 'icon-user-add', hidden: false, keepAlive: false, isAuth: true, permission: 'org_manage' }
           }
         ]
       },
