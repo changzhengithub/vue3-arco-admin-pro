@@ -3,8 +3,12 @@ import { builder } from '../util'
 
 const upload = () => {
   return builder({
-    'path': './test/test',
-  }, '', 200)
+    message: '',
+    code: 200,
+    data: {
+      path: ''
+    }
+  })
 }
 
 Mock.mock(/\/file\/upload/, 'post', upload)

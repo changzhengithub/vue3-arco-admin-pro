@@ -14,7 +14,7 @@ import './assets/css/main.css'
 import '@arco-design/web-vue/dist/arco.css'
 // import '@arco-themes/vue-arco-admin-pro/css/arco.css'
 
-// import './mock'
+import './mock'
 import './permission'
 
 

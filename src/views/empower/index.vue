@@ -13,7 +13,7 @@
               <template #prefix><icon-lock /></template>
             </a-input-password>
           </a-form-item>
-          <a-form-item field="code" label="验证码" :validate-trigger="['blur']">
+          <!-- <a-form-item field="code" label="验证码" :validate-trigger="['blur']">
             <a-input v-model="formData.code" size="large" placeholder="请输入验证码" allow-clear @press-enter="submitForm">
               <template #prefix><icon-safe /></template>
             </a-input>
@@ -21,7 +21,7 @@
               <img v-if="!codeLoad" :src="formData.verifyImg" alt="">
               <icon-loading v-else />
             </div>
-          </a-form-item>
+          </a-form-item> -->
           <a-form-item :wrapper-col-props="{offset: 4}">
             <a-button type="primary" :loading="submitLoad" @click="submitForm">提交</a-button>
           </a-form-item>
@@ -52,7 +52,7 @@ const submitLoad = ref(false)
 const codeLoad = ref(false)
 const formData = reactive({
   name: 'admin',
-  password: 'Xiao987321',
+  password: 'admin',
   code: '',
   verifyImg: '',
   key: ''
@@ -64,7 +64,7 @@ const formRule = reactive({
 })
 
 onMounted(() => {
-  getVerifyCode()
+  // getVerifyCode()
 })
 
 // 获取验证码
@@ -95,12 +95,13 @@ const getVerifyCode = () => {
 const submitForm = () => {
   empower.value?.validate(errors => {
     if (!errors) {
-      const { name, password, code, key } = formData
+      // const { name, password, code, key } = formData
+      const { name, password } = formData
       const params = {
         name,
-        password,
-        code,
-        key
+        password
+        // code,
+        // key
       }
       submitLoad.value = true
       empowerStore.userLogin(params)

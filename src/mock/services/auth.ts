@@ -1,53 +1,30 @@
 import Mock from 'mockjs'
 import { builder, getBody } from '../util'
 
-const username = ['admin', 'super']
+const name = ['admin', 'super']
 // 强硬要求 ant.design 相同密码
 // '21232f297a57a5a743894a0e4a801fc3',
 const password = ['123456', 'admin'] // admin, ant.design
 
 const login = (options: any) => {
   const body = getBody(options)
-  if (!username.includes(body.username) || !password.includes(body.password)) {
-    return builder({ isLogin: true }, '账户或密码错误', 401)
+  if (!name.includes(body.name) || !password.includes(body.password)) {
+    return builder({
+      message: '账户或密码错误',
+      code: 401,
+      data: {
+        isLogin: true
+      }
+    })
   }
 
-  const userInfo = {
-    id: Mock.mock('@guid'),
-    name: Mock.mock('@name'),
-    role: 1,
-    username: '超级管理员',
-    password: '',
-    avatar: 'https://gw.alipayobjects.com/zos/rmsportal/jZUIxmJycoymBprLOUbT.png',
-    status: 1,
-    telephone: '',
-    lastLoginIp: '27.154.74.117',
-    lastLoginTime: 1534837621348,
-    creatorId: 'admin',
-    createTime: 1497160610259,
-    deleted: 0,
-    roleId: 'admin',
-    lang: 'zh-CN'
-  }
-
-  return builder({
-    userInfo,
-    token: '4291d7da9005377ec9aec4a71ea837f'
-  }, '', 200, { 'Custom-Header': Mock.mock('@guid') })
-}
-
-const logout = () => {
-  return builder({}, '[测试接口] 注销成功', 200)
-}
-
-const info = () => {
   const userInfo = {
     id: 1,
     name: '超级管理员',
     role: 1,
     username: 'admin',
     password: '',
-    avatar: '/avatar2.jpg',
+    avatar: 'https://gw.alipayobjects.com/zos/rmsportal/jZUIxmJycoymBprLOUbT.png',
     status: 1,
     telephone: '',
     lastLoginIp: '27.154.74.117',
@@ -61,10 +38,51 @@ const info = () => {
     operate_perm: []
   }
 
-  return builder(userInfo, '获取用户信息', 200)
+  return builder({
+    message: '登陆成功',
+    code: 200,
+    data: userInfo,
+    token: '4291d7da9005377ec9aec4a71ea837f'
+  })
+}
+
+const logout = () => {
+  return builder({
+    message: '[测试接口] 注销成功',
+    code: 200,
+    data: null
+  })
+}
+
+const info = () => {
+  const userInfo = {
+    id: 1,
+    name: '超级管理员',
+    role: 1,
+    username: 'admin',
+    password: '',
+    avatar: 'https://gw.alipayobjects.com/zos/rmsportal/jZUIxmJycoymBprLOUbT.png',
+    status: 1,
+    telephone: '',
+    lastLoginIp: '27.154.74.117',
+    lastLoginTime: 1534837621348,
+    creatorId: 'admin',
+    createTime: 1497160610259,
+    merchantCode: 'TLif2btpzg079h15bk',
+    deleted: 0,
+    roleId: 'admin',
+    menu_perm: ['home', 'account', 'message_center', 'system_setting'],
+    operate_perm: []
+  }
+
+  return builder({
+    message: '获取用户信息',
+    code: 200,
+    data: userInfo
+  })
 }
 
 
-Mock.mock(/\/auth\/login/, 'post', login)
+Mock.mock(/\/api\/login/, 'post', login)
 Mock.mock(/\/auth\/logout/, 'post', logout)
-Mock.mock(/\/user\/info/, 'get', info)
+Mock.mock(/\/api\/owner\/info/, 'get', info)

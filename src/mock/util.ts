@@ -1,23 +1,11 @@
-const responseBody: ApiResponseData<any> = {
-  message: '',
-  timestamp: 0,
-  data: null,
-  code: 0
-}
+// const responseBody: ApiResponseData<any> = {
+//   message: '',
+//   timestamp: 0,
+//   data: null,
+//   code: 0
+// }
 
-export const builder = (data: any, message: string | null | undefined, code = 0, headers = {}) => {
-  responseBody.data = data
-  if (message !== undefined && message !== null) {
-    responseBody.message = message
-  }
-  if (code !== undefined && code !== 0) {
-    responseBody.code = code
-    responseBody._status = code
-  }
-  if (headers !== null && typeof headers === 'object' && Object.keys(headers).length > 0) {
-    responseBody._headers = headers
-  }
-  responseBody.timestamp = new Date().getTime()
+export const builder = (responseBody: ApiResponseData<any>): ApiResponseData<any> => {
   return responseBody
 }
 

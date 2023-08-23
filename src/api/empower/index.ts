@@ -30,7 +30,7 @@ export function loginApi(data: Login.LoginReq) {
 
 // 获取用户信息
 export function infoApi() {
-  return request<Login.LoginOutRes>({
+  return request<Login.UserInfoRes>({
     url: api.info,
     method: 'get'
     // params
@@ -39,7 +39,7 @@ export function infoApi() {
 
 // 获取用户信息
 export function captchaApi() {
-  return request<Login.DefaultRes>({
+  return request<Login.CaptchaRes>({
     url: api.captcha,
     method: 'get'
     // params
@@ -48,7 +48,7 @@ export function captchaApi() {
 
 // 退出登录
 export function logoutApi() {
-  return request<Login.LoginOutRes>({
+  return request({
     url: api.logout,
     method: 'post'
   })
@@ -56,7 +56,7 @@ export function logoutApi() {
 
 // 修改密码
 export function updatePwdApi(data: Login.UpdatePwdReq) {
-  return request<Login.UpdatePwdRes>({
+  return request({
     url: api.updatePwd,
     method: 'post',
     data

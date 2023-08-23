@@ -8,10 +8,14 @@
     </div>
     <div class="header-right">
       <a-space size="large">
-        <icon-settings size="20" :style="{ color: '#393d44', cursor: 'pointer' }" @click="gotoPage('SystemSetting')" />
-        <a-badge :count="noticeList.length" style="width:26px;margin-right:12px">
-          <icon-notification size="20" :style="{ color: '#393d44', cursor: 'pointer' }" @click="gotoPage('MessageCenter')" />
-        </a-badge>
+        <a-tooltip content="系统设置">
+          <icon-settings size="20" :style="{ color: '#393d44', cursor: 'pointer' }" @click="gotoPage('SystemSetting')" />
+        </a-tooltip>
+        <a-tooltip content="消息通知">
+          <a-badge :count="noticeList.length" style="width:26px;margin-right:12px">
+            <icon-notification size="20" :style="{ color: '#393d44', cursor: 'pointer' }" @click="gotoPage('MessageCenter')" />
+          </a-badge>
+        </a-tooltip>
       </a-space>
    
       <a-dropdown trigger="hover" position="br">

@@ -7,7 +7,6 @@
 
       <icon-font type="icon-CEO-female" :size="30" />
     </div>
-    <a-input v-model="text" placeholder="please enter your username..." />
 
     <a-space>
       <a-button type="primary" @click="switchDarkTheme">深色主题</a-button>

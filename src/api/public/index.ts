@@ -14,7 +14,7 @@ const api = {
 
 // 上传文件
 export function uploadFileApi(data: Public.UploadFormData, config: Public.ConfigData) {
-  return request<Public.UpdatePwdRes>({
+  return request({
     url: api.uploadFile,
     method: 'post',
     data,
@@ -24,7 +24,7 @@ export function uploadFileApi(data: Public.UploadFormData, config: Public.Config
 
 // 下载文件
 export function downloadApi(params: Public.DownloadReq) {
-  return request<Public.DownloadRes>({
+  return request({
     url: api.download,
     method: 'get',
     params,

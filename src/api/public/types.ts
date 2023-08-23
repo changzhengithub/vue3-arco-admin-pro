@@ -14,7 +14,6 @@ export interface ConfigData {
   // ...其他配置
 }
 // export type UploadProgress = ((progressEvent: any) => void)
-export type UpdatePwdRes = ApiResponseData<any>
 
 // 下载文件
 export interface DownloadReq {

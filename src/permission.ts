@@ -20,7 +20,7 @@ NProgress.configure({
 
 
 
-const whiteList: RouteRecordName[] = constantRouterMap.filter(item => item.meta && item.meta.isWhite).map(el => el.name) // 白名单
+const whiteList: RouteRecordName[] = constantRouterMap.filter(item => item.meta && item.meta.isWhite).map(el => el.name as RouteRecordName) // 白名单
 const empowerList: RouteRecordName[] = ['Empower'] // 授权页面
 const loginRoutePath = '/empower'
 

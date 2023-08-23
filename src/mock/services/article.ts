@@ -83,7 +83,11 @@ const article = (options: any) => {
       cover: parseInt((i / 4).toString(), 10) % 2 === 0 ? covers[i % 4] : covers[3 - (i % 4)]
     })
   }
-  return builder(data, '', 200)
+  return builder({
+    message: '',
+    code: 200,
+    data
+  })
 }
 
 Mock.mock(/\/list\/article/, 'get', article)
