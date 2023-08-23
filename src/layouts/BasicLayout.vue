@@ -46,9 +46,11 @@
             <!-- 路由缓存，只针对当前子路由进行缓存 -->
             <!-- RouteView 子路由模板名称，防止刷新子路由 -->
             <RouterView v-slot="{ Component }">
-              <KeepAlive :include="['RouteView', ...appStore.cacheList]">
-                <component :is="Component"/>
-              </KeepAlive>
+              <!-- <Transition name="fade" mode="out-in" appear> -->
+                <KeepAlive :include="['RouteView', ...appStore.cacheList]">
+                  <component :is="Component"></component>
+                </KeepAlive>
+              <!-- </Transition> -->
             </RouterView>
           </div>
           <!-- <a-layout-footer>Footer</a-layout-footer> -->

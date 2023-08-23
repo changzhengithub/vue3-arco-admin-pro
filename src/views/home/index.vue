@@ -4,6 +4,8 @@
       <h1>{{ title }}</h1>
       <h2>主题颜色：{{store.theme}}</h2>
       <ArcoIcon icon="icon-tag" size="30" :style="{color: 'blue'}"></ArcoIcon>
+
+      <icon-font type="icon-CEO-female" :size="30" />
     </div>
     <a-input v-model="text" placeholder="please enter your username..." />
 
@@ -11,8 +13,8 @@
       <a-button type="primary" @click="switchDarkTheme">深色主题</a-button>
       <a-button type="outline" @click="switchWhiteTheme">浅色主题</a-button>
     </a-space>
+    <HelloWorld :msg="msg"></HelloWorld>
   </div>
-  <HelloWorld :msg="msg"></HelloWorld>
 </template>
 
 <script setup lang="ts" name="Home">

@@ -1,6 +1,8 @@
 <template>
-  <h1>{{ title }}</h1>
-  <a-input v-model="text" placeholder="please enter your username..." />
+  <div>
+    <h1>{{ title }}</h1>
+    <a-input v-model="text" placeholder="please enter your username..." />
+  </div>
 </template>
 
 <script setup lang="ts" name="RoleManage">

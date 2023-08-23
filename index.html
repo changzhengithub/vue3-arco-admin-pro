@@ -5,9 +5,126 @@
     <link rel="icon" href="/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vite App</title>
+    <style>
+      .first-loading-wrp {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        min-height: 420px;
+        height: 100%
+      }
+
+      .first-loading-wrp>.loading-wrp {
+        padding: 50px 98px;
+        display: flex;
+        justify-content: center;
+        align-items: center
+      }
+  
+      .first-loading-wrp>.loading-wrp>.dot {
+        animation: antRotate 1.2s infinite linear;
+        transform: rotate(45deg);
+        position: relative;
+        display: inline-block;
+        font-size: 32px;
+        width: 32px;
+        height: 32px;
+        box-sizing: border-box
+      }
+  
+      .first-loading-wrp>.loading-wrp>.dot i {
+        width: 14px;
+        height: 14px;
+        position: absolute;
+        display: block;
+        background-color: #3370ff;
+        border-radius: 100%;
+        transform: scale(.75);
+        transform-origin: 50% 50%;
+        opacity: .3;
+        animation: antSpinMove 1s infinite linear alternate
+      }
+  
+      .first-loading-wrp>.loading-wrp>.dot i:nth-child(1) {
+        top: 0;
+        left: 0
+      }
+  
+      .first-loading-wrp>.loading-wrp>.dot i:nth-child(2) {
+        top: 0;
+        right: 0;
+        -webkit-animation-delay: .4s;
+        animation-delay: .4s
+      }
+  
+      .first-loading-wrp>.loading-wrp>.dot i:nth-child(3) {
+        right: 0;
+        bottom: 0;
+        -webkit-animation-delay: .8s;
+        animation-delay: .8s
+      }
+  
+      .first-loading-wrp>.loading-wrp>.dot i:nth-child(4) {
+        bottom: 0;
+        left: 0;
+        -webkit-animation-delay: 1.2s;
+        animation-delay: 1.2s
+      }
+  
+      @keyframes antRotate {
+        to {
+          -webkit-transform: rotate(405deg);
+          transform: rotate(405deg)
+        }
+      }
+  
+      @-webkit-keyframes antRotate {
+        to {
+          -webkit-transform: rotate(405deg);
+          transform: rotate(405deg)
+        }
+      }
+  
+      @keyframes antSpinMove {
+        to {
+          opacity: 1
+        }
+      }
+  
+      @-webkit-keyframes antSpinMove {
+        to {
+          opacity: 1
+        }
+      }
+      .first-loading-wrp>.loading-text {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #fff;
+        border: 1px solid #3370ff;
+        margin: 0;
+        color: #333;
+        font-size: 14px;
+        font-variant: tabular-nums;
+        list-style: none;
+        font-feature-settings: "tnum";
+        position: relative;
+        padding: 8px 15px;
+        word-wrap: break-word;
+        border-radius: 4px;
+      }
+    </style>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <div class="first-loading-wrp">
+        <div class="loading-wrp">
+          <span class="dot"><i></i><i></i><i></i><i></i></span>
+        </div>
+        <div class="loading-text">欢迎使用《Vite App》，数据正在拼命加载中，请稍候...</div>
+      </div>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
