@@ -1,5 +1,5 @@
 import { shallowRef } from 'vue'
-import BasicLayout from '@/layouts/BasicLayout.vue'
+import BasicLayout from '@/layouts/PageLayout.vue'
 import RouteView from '@/layouts/RouteView.vue'
 import { type RouteRecordRaw } from 'vue-router'
 

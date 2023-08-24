@@ -1,52 +1,203 @@
 <template>
-  <div class="blank">
-    <div class="blank-header">
-      <GlobalHeader></GlobalHeader>
-    </div>
-    <div class="blank-container">
-      <!-- 是否缓存父组件层级 -->
-      <keep-alive>
-        <router-view :key="$route.fullPath" v-if="$route.meta.keepAlive"></router-view>
-      </keep-alive>
-      <router-view :key="$route.fullPath" v-if="!$route.meta.keepAlive"></router-view>
-    </div>
-  </div>
+  <a-spin dot :loading="appStore.pageLoad" :style="{ width: '100%' }" tip="加载中...">
+    <a-layout class="basic">
+      <!-- 头部 start -->
+      <a-layout-header class="basic-header">
+        <div class="header-logo" @click="backHome">
+          <img src="@/assets/images/logo.png" alt="" />
+          <div class="logo-title">三实综合管理平台</div>
+        </div>
+        <div class="header-menu">
+          <a-menu mode="horizontal" :selected-keys="state.selectedKeys" :open-keys="state.openKeys" :auto-scroll-into-view="true" :auto-open="true" :accordion="true" @sub-menu-click="subMenuClick" @menuItemClick="onClickMenuItem">
+            <template v-for="(item, index) in state.menuList" :key="index">
+              <a-menu-item :key="item.path" v-if="!item.children">
+                <template #icon>
+                  <ArcoIcon :icon="(item?.meta?.icon as string)"></ArcoIcon>
+                </template>
+                <span>{{ item?.meta?.title }}</span>
+              </a-menu-item>
+              <a-sub-menu v-if="item.children && item.children.length" :key="item.path">
+                <template #icon>
+                  <ArcoIcon :icon="(item?.meta?.icon as string)"></ArcoIcon>
+                </template>
+                <template #title>
+                  <span>{{ item?.meta?.title }}</span>
+                </template>
+                <a-menu-item v-for="subItem in item.children" :key="subItem.path">
+                  <template #icon>
+                    <ArcoIcon :icon="(subItem?.meta?.icon as string)"></ArcoIcon>
+                  </template>
+                  <span>{{ subItem?.meta?.title }}</span>
+                </a-menu-item>
+              </a-sub-menu>
+            </template>
+          </a-menu>
+        </div>
+        <HeaderRight></HeaderRight>
+      </a-layout-header>
+      <!-- 头部 end -->
+      <a-layout class="basic-layout">
+        <div class="layout-content">
+          <!-- 路由缓存，只针对当前子路由进行缓存 -->
+          <!-- RouteView 子路由模板名称，防止刷新子路由 -->
+          <RouterView v-slot="{ Component }">
+            <!-- <Transition name="fade" mode="out-in" appear> -->
+              <KeepAlive :include="['RouteView', ...appStore.cacheList]">
+                <component :is="Component"></component>
+              </KeepAlive>
+            <!-- </Transition> -->
+          </RouterView>
+        </div>
+        <!-- <a-layout-footer>Footer</a-layout-footer> -->
+      </a-layout>
+    </a-layout>
+  </a-spin>
 </template>
 
-<script>
+<script setup lang="ts" name="BasicLayout">
 /**
  * @description 顶部菜单布局
  * */
 
-import GlobalHeader from '@/components/GlobalHeader'
+import { reactive } from 'vue'
+import { useRouter, useRoute, onBeforeRouteUpdate, type RouteRecordRaw } from 'vue-router'
+import { useAppStore } from '@/stores/modules/app'
+import { useEmpowerStore } from '@/stores/modules/empower'
 
-export default {
-  components: {
-    GlobalHeader
-  },
+import HeaderRight from '@/components/HeaderRight.vue'
+import ArcoIcon from '@/components/ArcoIcon'
 
-  data() {
-    return {}
-  },
+const appStore = useAppStore()
+const empowerStore = useEmpowerStore()
+const router = useRouter()
+const route = useRoute()
 
-  created() {},
-  methods: {}
+interface State {
+  openKeys: string[],
+  menuList: RouteRecordRaw[],
+  selectedKeys: string[]
+}
+const state = reactive<State>({
+  openKeys: [],
+  menuList: [],
+  selectedKeys: []
+})
+
+// 获取路由列表
+const getMeunList = (routerList: RouteRecordRaw[] = []) => {
+  const menuList = routerList.filter(item => {
+    if (!item?.meta?.hidden) {
+      if (item.children && item.children.length) {
+        item.children = getMeunList(item.children)
+      }
+      return true
+    }
+    return false
+  })
+  return menuList
+}
+
+const routerList = getMeunList(empowerStore.routerList[0].children)
+state.menuList = routerList
+state.selectedKeys = [route.path]
+
+// 路由跳转获取展开key
+const getOpenKeys = (path: string) => {
+  state.menuList.forEach(item => {
+    if (item.children && item.children.length) {
+      const bool = item.children.map(sub => sub.path).includes(path)
+      if (bool) state.openKeys = [item.path]
+    }
+  })
+}
+
+getOpenKeys(route.path)
+
+// 监听当前路由更改
+onBeforeRouteUpdate((to, from, next) => {
+  getOpenKeys(to.path)
+  state.selectedKeys = [to.path]
+  next()
+})
+
+
+// 展开子菜单
+const subMenuClick = (key: string, openKeys: string[]) => {
+  state.openKeys = openKeys
+}
+
+// 路由跳转
+const onClickMenuItem = (key: string) => {
+  state.selectedKeys = [key]
+  router.push({
+    path: key
+  })
+}
+
+// 点击logo返回主页
+const backHome = () => {
+  router.push({
+    path: '/'
+  })
 }
 </script>
+
 <style lang="less" scoped>
-.blank {
+.basic {
   width: 100%;
   height: 100vh;
-  overflow: hidden;
-  .blank-header {
-    width: 100%;
-    height: 48px;
-  }
-  .blank-container {
+  background-color: #fff;
+  
+  .basic-header {
     display: flex;
+    align-items: center;
     width: 100%;
-    height: calc(100vh - 48px);
+    height: 64px;
+    padding: 0 24px;
+    line-height: 64px;
+    background: var(--color-bg-3);
+    .header-logo {
+      display: flex;
+      align-items: center;
+      height: 64px;
+      box-shadow: 1px 1px 1px #ccc;
+      cursor: pointer;
+      img {
+        width: 30px;
+        height: 30px;
+      }
+      .logo-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin-left: 10px;
+        display: inline-block;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+    }
+    .header-menu {
+      flex: 1;
+      :deep(.arco-menu-horizontal) {
+        height: 64px;
+        .arco-menu-selected-label {
+          bottom: -17px;
+        }
+      }
+    }
+  }
+
+  .basic-layout {
+    width: 100%;
     overflow: hidden;
+    .layout-content {
+      width: 100%;
+      height: 100%;
+      padding: 20px 20px;
+      font-size: 14px;
+      background-color: #f2f2f2;
+      overflow-y: auto;
+    }
   }
 }
 </style>
