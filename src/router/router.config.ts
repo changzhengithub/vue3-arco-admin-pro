@@ -21,6 +21,7 @@ const Exception = () => import(/* webpackChunkName: 'exception' */ '@/views/exce
 
 const HomeComponent = () => import(/* webpackChunkName: 'home' */ '@/views/home/index.vue')
 const MineComponent = () => import(/* webpackChunkName: 'mine' */ '@/views/mine/index.vue')
+const DashboardComponent = () => import(/* webpackChunkName: 'dashboard' */ '@/views/dashboard/index.vue')
 const RoleManage = () => import(/* webpackChunkName: 'role-manage' */ '@/views/role-manage/index.vue')
 const OrgManage = () => import(/* webpackChunkName: 'org-manage' */ '@/views/org-manage/index.vue')
 
@@ -41,6 +42,12 @@ export const asyncRouterMap: RouteRecordRaw[] = [
         name: 'Home',
         component: HomeComponent,
         meta: { title: '主页', icon: 'icon-apps', hidden: false, keepAlive: true, isAuth: true, permission: 'home' }
+      },
+      {
+        path: '/dashboard',
+        name: 'Dashboard',
+        component: DashboardComponent,
+        meta: { title: '仪表盘', icon: 'icon-dashboard', hidden: false, keepAlive: false, isAuth: true, permission: 'dashboard' }
       },
       {
         path: '/role-org',

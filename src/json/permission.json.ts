@@ -39,6 +39,16 @@ const permissionList: PermissionList[] = [
     operateList: []
   },
   {
+    title: '仪表盘',
+    permList: [
+      { title: '仪表盘', perm: 'dashboard' }
+    ],
+    isCheck: false,
+    indeterminate: false,
+    isDisable: false,
+    operateList: []
+  },
+  {
     title: '事件管理',
     permList: [
       { title: '事件管理', perm: 'event_manage' }
