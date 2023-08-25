@@ -9,7 +9,17 @@
  * 如果不想这么麻烦可以直接引入iconfot样式进行使用。
  * */
 
+import type { App } from 'vue'
 import { Icon } from '@arco-design/web-vue'
 const IconFont = Icon.addFromIconFontCn({ src: 'https://at.alicdn.com/t/c/font_4222321_6tg5jydxsia.js' })
 
-export default IconFont
+// 导出插件
+export default {
+  install(Vue: App) {
+    Vue.component('IconFont', IconFont);
+  }
+}
+
+// 或者导出全局注册
+// export default IconFont
+// app.component('IconFont', IconFont)

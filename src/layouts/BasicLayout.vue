@@ -4,8 +4,8 @@
       <!-- 侧边导航栏 start -->
       <a-layout-sider hide-trigger :width="220" collapsible :collapsed="collapsed">
         <div class="logo" @click="backHome">
-          <img src="@/assets/images/logo.svg" alt="" />
-          <div class="logo-title">三实综合管理平台</div>
+          <img src="@/assets/images/logo.png" alt="logo" />
+          <div class="logo-title">{{appStore.appName}}</div>
         </div>
         <a-menu :selected-keys="state.selectedKeys" :open-keys="state.openKeys" :auto-scroll-into-view="true" :auto-open="true" :accordion="true" @sub-menu-click="subMenuClick" @menuItemClick="onClickMenuItem">
           <template v-for="(item, index) in state.menuList" :key="index">
@@ -67,6 +67,7 @@
 
 import { ref, reactive } from 'vue'
 import { useRouter, useRoute, onBeforeRouteUpdate, type RouteRecordRaw } from 'vue-router'
+import { useAppStore } from '@/stores/modules/app'
 import { usePublicStore } from '@/stores/modules/public'
 import { useEmpowerStore } from '@/stores/modules/empower'
 
@@ -74,6 +75,7 @@ import GlobalHeader from '@/components/GlobalHeader.vue'
 import MultiTab from '@/components/MultiTab.vue'
 import ArcoIcon from '@/components/ArcoIcon'
 
+const appStore = useAppStore()
 const publicStore = usePublicStore()
 const empowerStore = useEmpowerStore()
 const router = useRouter()

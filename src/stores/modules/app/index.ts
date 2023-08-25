@@ -7,7 +7,6 @@ import { defineStore } from 'pinia'
 import type { AppState } from './types'
 
 import settings from '@/config/settings'
-console.log(settings)
 
 export const useAppStore = defineStore('app', {
 

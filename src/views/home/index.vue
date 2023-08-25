@@ -16,6 +16,7 @@
   </div>
 </template>
 
+<!-- If you want the include property of keep-alive to take effect, you must name the component -->
 <script setup lang="ts" name="Home">
 /**
  * @desc 首页

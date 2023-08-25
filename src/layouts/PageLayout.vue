@@ -4,8 +4,8 @@
       <!-- 头部 start -->
       <a-layout-header class="basic-header">
         <div class="header-logo" @click="backHome">
-          <img src="@/assets/images/logo.png" alt="" />
-          <div class="logo-title">三实综合管理平台</div>
+          <img src="@/assets/images/logo.png" alt="logo" />
+          <div class="logo-title">{{appStore.appName}}</div>
         </div>
         <div class="header-menu">
           <a-menu mode="horizontal" :selected-keys="state.selectedKeys" :open-keys="state.openKeys" :auto-scroll-into-view="true" :auto-open="true" :accordion="true" @sub-menu-click="subMenuClick" @menuItemClick="onClickMenuItem">
@@ -61,12 +61,14 @@
 
 import { reactive } from 'vue'
 import { useRouter, useRoute, onBeforeRouteUpdate, type RouteRecordRaw } from 'vue-router'
+import { useAppStore } from '@/stores/modules/app'
 import { usePublicStore } from '@/stores/modules/public'
 import { useEmpowerStore } from '@/stores/modules/empower'
 
 import HeaderRight from '@/components/HeaderRight.vue'
 import ArcoIcon from '@/components/ArcoIcon'
 
+const appStore = useAppStore()
 const publicStore = usePublicStore()
 const empowerStore = useEmpowerStore()
 const router = useRouter()

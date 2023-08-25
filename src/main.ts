@@ -31,13 +31,11 @@ declare module 'vue' {
 
 const app = createApp(App)
 
-// 全局注册iconfot组件
-app.component('IconFont', IconFont)
-
 app.use(store)
 app.use(router)
 app.use(ArcoVue)
 app.use(ArcoVueIcon)
+app.use(IconFont)
 // 挂载到全局属性上
 app.config.globalProperties.$Bus = emitter
 
