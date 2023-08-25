@@ -2,7 +2,7 @@
   <div class="index">
     <div class="index-header">
       <h1>{{ title }}</h1>
-      <h2>主题颜色：{{store.theme}}</h2>
+      <h2>主题颜色：{{store.appName}}</h2>
       <ArcoIcon icon="icon-tag" size="30" :style="{color: 'blue'}"></ArcoIcon>
 
       <icon-font type="icon-CEO-female" :size="30" />
@@ -30,7 +30,6 @@ import ArcoIcon from '@/components/ArcoIcon'
 const store = useAppStore()
 
 const title = ref<string>('首页')
-const text = ref<string>('')
 const msg = ref<string>('hello world!')
 
 console.log(import.meta.env.VITE_ENV)

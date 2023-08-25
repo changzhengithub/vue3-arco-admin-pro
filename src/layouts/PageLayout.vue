@@ -1,5 +1,5 @@
 <template>
-  <a-spin dot :loading="appStore.pageLoad" :style="{ width: '100%' }" tip="加载中...">
+  <a-spin dot :loading="publicStore.pageLoad" :style="{ width: '100%' }" tip="加载中...">
     <a-layout class="basic">
       <!-- 头部 start -->
       <a-layout-header class="basic-header">
@@ -42,7 +42,7 @@
           <!-- RouteView 子路由模板名称，防止刷新子路由 -->
           <RouterView v-slot="{ Component }">
             <!-- <Transition name="fade" mode="out-in" appear> -->
-              <KeepAlive :include="['RouteView', ...appStore.cacheList]">
+              <KeepAlive :include="['RouteView', ...publicStore.cacheList]">
                 <component :is="Component"></component>
               </KeepAlive>
             <!-- </Transition> -->
@@ -61,13 +61,13 @@
 
 import { reactive } from 'vue'
 import { useRouter, useRoute, onBeforeRouteUpdate, type RouteRecordRaw } from 'vue-router'
-import { useAppStore } from '@/stores/modules/app'
+import { usePublicStore } from '@/stores/modules/public'
 import { useEmpowerStore } from '@/stores/modules/empower'
 
 import HeaderRight from '@/components/HeaderRight.vue'
 import ArcoIcon from '@/components/ArcoIcon'
 
-const appStore = useAppStore()
+const publicStore = usePublicStore()
 const empowerStore = useEmpowerStore()
 const router = useRouter()
 const route = useRoute()

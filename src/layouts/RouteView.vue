@@ -1,7 +1,7 @@
 <template>
   <!-- 每个路由只缓存当前的子路由 -->
   <RouterView v-slot="{ Component }">
-    <KeepAlive :include="appStore.cacheList">
+    <KeepAlive :include="publicStore.cacheList">
       <component :is="Component"/>
     </KeepAlive>
   </RouterView>
@@ -14,6 +14,6 @@
  * 设置name用来防止在父级路由添加缓存时刷新缓存页
  * 一般多层级菜单缓存失效都是因为RouterView模板是动态的，切换时直接刷新了无法缓存
  * */ 
-import { useAppStore } from '@/stores/modules/app'
-const appStore = useAppStore()
+import { usePublicStore } from '@/stores/modules/public'
+const publicStore = usePublicStore()
 </script>

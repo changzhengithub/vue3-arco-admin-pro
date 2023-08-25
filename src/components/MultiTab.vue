@@ -19,9 +19,9 @@
 
 import { ref, reactive, onMounted } from 'vue'
 import { useRouter, useRoute, onBeforeRouteUpdate, type RouteLocationNormalizedLoaded } from 'vue-router'
-import { useAppStore } from '@/stores/modules/app'
+import { usePublicStore } from '@/stores/modules/public'
 
-const appStore = useAppStore()
+const publicStore = usePublicStore()
 const router = useRouter()
 const route = useRoute()
 
@@ -70,7 +70,7 @@ const deleteRoute = (key: string | number) => {
 // 设置缓存
 const setTabsCache = () => {
   const cacheList = state.pageList.filter(item => item.meta.keepAlive).map(item => item.name)
-  appStore.cacheList = cacheList as string[]
+  publicStore.cacheList = cacheList as string[]
 }
 
 const selectRoute = () => {

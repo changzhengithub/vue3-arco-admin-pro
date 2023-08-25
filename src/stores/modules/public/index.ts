@@ -1,9 +1,11 @@
 import { defineStore } from 'pinia'
 import type { PublicState, UserInfo } from './types'
 
-export const useAppStore = defineStore('app', {
+export const usePublicStore = defineStore('public', {
 
   state: (): PublicState => ({
+    pageLoad: false,
+    cacheList: [],
     userInfo: {} as UserInfo,
     token: '',
     routerList: []

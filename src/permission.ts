@@ -8,7 +8,7 @@ import router from '@/router'
 import { useEmpowerStore } from '@/stores/modules/empower'
 import { constantRouterMap } from '@/router/router.config'
 import { ACCESS_TOKEN } from '@/constants/app'
-import defaultSetting from '@/config/defaultSetting'
+import defaultSetting from '@/config/settings'
 
 import Notification from '@arco-design/web-vue/es/notification'
 import NProgress from 'nprogress' // progress bar

@@ -1,9 +1,8 @@
 // app store 接口
 
 export interface AppState {
-  pageLoad: boolean
-  theme: string
+  version: string
   appName: string
   hideMenu: boolean
-  cacheList: string[]
+  [key: string]: unknown
 }

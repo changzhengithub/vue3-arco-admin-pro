@@ -10,7 +10,9 @@ export interface UserInfo {
 }
 
 export interface PublicState {
-  userInfo: UserInfo,
-  token: string,
+  pageLoad: boolean
+  cacheList: string[]
+  userInfo: UserInfo
+  token: string
   routerList: RouteRecordNormalized[]
 }

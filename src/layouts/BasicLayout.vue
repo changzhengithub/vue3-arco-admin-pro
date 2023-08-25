@@ -1,10 +1,10 @@
 <template>
-  <a-spin dot :loading="appStore.pageLoad" :style="{ width: '100%' }" tip="加载中...">
+  <a-spin dot :loading="publicStore.pageLoad" :style="{ width: '100%' }" tip="加载中...">
     <a-layout class="basic">
       <!-- 侧边导航栏 start -->
       <a-layout-sider hide-trigger :width="220" collapsible :collapsed="collapsed">
         <div class="logo" @click="backHome">
-          <img src="@/assets/images/logo.png" alt="" />
+          <img src="@/assets/images/logo.svg" alt="" />
           <div class="logo-title">三实综合管理平台</div>
         </div>
         <a-menu :selected-keys="state.selectedKeys" :open-keys="state.openKeys" :auto-scroll-into-view="true" :auto-open="true" :accordion="true" @sub-menu-click="subMenuClick" @menuItemClick="onClickMenuItem">
@@ -47,7 +47,7 @@
             <!-- RouteView 子路由模板名称，防止刷新子路由 -->
             <RouterView v-slot="{ Component }">
               <!-- <Transition name="fade" mode="out-in" appear> -->
-                <KeepAlive :include="['RouteView', ...appStore.cacheList]">
+                <KeepAlive :include="['RouteView', ...publicStore.cacheList]">
                   <component :is="Component"></component>
                 </KeepAlive>
               <!-- </Transition> -->
@@ -67,14 +67,14 @@
 
 import { ref, reactive } from 'vue'
 import { useRouter, useRoute, onBeforeRouteUpdate, type RouteRecordRaw } from 'vue-router'
-import { useAppStore } from '@/stores/modules/app'
+import { usePublicStore } from '@/stores/modules/public'
 import { useEmpowerStore } from '@/stores/modules/empower'
 
 import GlobalHeader from '@/components/GlobalHeader.vue'
 import MultiTab from '@/components/MultiTab.vue'
 import ArcoIcon from '@/components/ArcoIcon'
 
-const appStore = useAppStore()
+const publicStore = usePublicStore()
 const empowerStore = useEmpowerStore()
 const router = useRouter()
 const route = useRoute()
@@ -214,4 +214,4 @@ const backHome = () => {
   // right: -10px;
   // top: -1px;
 }
-</style>
+</style>@/config/settings
