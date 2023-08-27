@@ -39,8 +39,20 @@ const permissionList: PermissionList[] = [
     operateList: []
   },
   {
-    title: '仪表盘',
+    title: '工作台',
     permList: [
+      { title: '工作台', perm: 'workbench' },
+      { title: '仪表盘', perm: 'dashboard' }
+    ],
+    isCheck: false,
+    indeterminate: false,
+    isDisable: false,
+    operateList: []
+  },
+  {
+    title: '实时监控',
+    permList: [
+      { title: '实时监控', perm: 'map_charts' },
       { title: '仪表盘', perm: 'dashboard' }
     ],
     isCheck: false,

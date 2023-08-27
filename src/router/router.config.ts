@@ -21,7 +21,8 @@ const Exception = () => import(/* webpackChunkName: 'exception' */ '@/views/exce
 
 const HomeComponent = () => import(/* webpackChunkName: 'home' */ '@/views/home/index.vue')
 const MineComponent = () => import(/* webpackChunkName: 'mine' */ '@/views/mine/index.vue')
-const DashboardComponent = () => import(/* webpackChunkName: 'dashboard' */ '@/views/dashboard/index.vue')
+const Workbench = () => import(/* webpackChunkName: 'workbench' */ '@/views/workbench/index.vue')
+const MapCharts = () => import(/* webpackChunkName: 'map-charts' */ '@/views/map-charts/index.vue')
 const RoleManage = () => import(/* webpackChunkName: 'role-manage' */ '@/views/role-manage/index.vue')
 const OrgManage = () => import(/* webpackChunkName: 'org-manage' */ '@/views/org-manage/index.vue')
 
@@ -46,8 +47,22 @@ export const asyncRouterMap: RouteRecordRaw[] = [
       {
         path: '/dashboard',
         name: 'Dashboard',
-        component: DashboardComponent,
-        meta: { title: '仪表盘', icon: 'icon-dashboard', hidden: false, keepAlive: false, isAuth: true, permission: 'dashboard' }
+        component: shallowRef(RouteView),
+        meta: { title: '仪表盘', icon: 'icon-dashboard', hidden: false, keepAlive: true, isAuth: true, permission: 'dashboard' },
+        children: [
+          {
+            path: '/workbench',
+            name: 'Workbench',
+            component: Workbench,
+            meta: { title: '工作台', icon: 'icon-common', hidden: false, keepAlive: false, isAuth: true, permission: 'workbench' }
+          },
+          {
+            path: '/map-charts',
+            name: 'MapCharts',
+            component: MapCharts,
+            meta: { title: '实时监控', icon: 'icon-computer', hidden: false, keepAlive: true, isAuth: true, permission: 'map_charts' }
+          }
+        ]
       },
       {
         path: '/role-org',
