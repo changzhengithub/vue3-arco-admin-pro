@@ -2,6 +2,9 @@
  * @desc echarts类型声明扩展
  * */
 
+import type { ComposeOption } from 'echarts/core'
+import type { BarSeriesOption, LineSeriesOption, EffectScatterSeriesOption, ScatterSeriesOption, LinesSeriesOption } from 'echarts/charts'
+import type { TitleComponentOption, TooltipComponentOption, GridComponentOption, DatasetComponentOption, GeoComponentOption } from 'echarts/components'
 import type { CallbackDataParams } from 'echarts/types/dist/shared'
 
 interface ToolTipFormatterParams extends CallbackDataParams {
@@ -13,6 +16,20 @@ interface ToolTipFormatterParams extends CallbackDataParams {
   axisValueLabel: string;
 }
 
+// 通过 ComposeOption 来组合出一个只有必须组件和图表的 Option 类型
+type ECOption = ComposeOption<
+  | BarSeriesOption
+  | LineSeriesOption
+  | TitleComponentOption
+  | TooltipComponentOption
+  | EffectScatterSeriesOption
+  | ScatterSeriesOption
+  | LinesSeriesOption
+  | GridComponentOption
+  | DatasetComponentOption
+>;
+
+// geo数据
 declare type GeoSVGSourceInput = string | Document | SVGElement;
 declare type GeoJSONSourceInput = string | GeoJSON | GeoJSONCompressed;
 

@@ -1,5 +1,6 @@
 // echarts 按需引入
 import 'echarts-gl' // 3D地图插件
+import 'echarts-extension-amap' // 百度地图插件
 import * as echarts from 'echarts/core'
 
 import {

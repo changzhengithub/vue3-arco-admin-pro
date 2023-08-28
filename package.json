@@ -16,6 +16,7 @@
     "@types/echarts": "^4.9.18",
     "axios": "^1.4.0",
     "echarts": "^5.4.3",
+    "echarts-extension-amap": "^1.11.0",
     "echarts-gl": "^2.0.9",
     "mitt": "^3.0.1",
     "nprogress": "^0.2.0",
