@@ -25,6 +25,7 @@ const Workbench = () => import(/* webpackChunkName: 'workbench' */ '@/views/work
 const MapCharts = () => import(/* webpackChunkName: 'map-charts' */ '@/views/map-charts/index.vue')
 const RoleManage = () => import(/* webpackChunkName: 'role-manage' */ '@/views/role-manage/index.vue')
 const OrgManage = () => import(/* webpackChunkName: 'org-manage' */ '@/views/org-manage/index.vue')
+const TableList = () => import(/* webpackChunkName: 'table-list' */ '@/views/table-list/index.vue')
 
 const UserCenter = () => import(/* webpackChunkName: 'user-center' */ '@/views/user-center/index.vue')
 const SystemSetting = () => import(/* webpackChunkName: 'system-setting' */ '@/views/system-setting/index.vue')
@@ -65,10 +66,16 @@ export const asyncRouterMap: RouteRecordRaw[] = [
         ]
       },
       {
+        path: '/table-list',
+        name: 'TableList',
+        component: TableList,
+        meta: { title: '列表页', icon: 'icon-list', hidden: false, keepAlive: true, isAuth: true, permission: 'table_list' }
+      },
+      {
         path: '/role-org',
         name: 'RoleOrg',
         component: shallowRef(RouteView),
-        meta: { title: '角色组织', icon: 'icon-list', hidden: false, keepAlive: true, isAuth: true, permission: 'role_org' },
+        meta: { title: '角色组织', icon: 'icon-branch', hidden: false, keepAlive: true, isAuth: true, permission: 'role_org' },
         children: [
           {
             path: '/role-manage',
@@ -80,9 +87,15 @@ export const asyncRouterMap: RouteRecordRaw[] = [
             path: '/org-manage',
             name: 'OrgManage',
             component: OrgManage,
-            meta: { title: '组织部门', icon: 'icon-user-add', hidden: false, keepAlive: false, isAuth: true, permission: 'org_manage' }
+            meta: { title: '组织部门', icon: 'icon-user-group', hidden: false, keepAlive: false, isAuth: true, permission: 'org_manage' }
           }
         ]
+      },
+      {
+        path: 'https://arco.design/vue/docs/pro/faq',
+        name: 'Faq',
+        redirect: '',
+        meta: { title: '常见问题', icon: 'icon-apps', hidden: false, keepAlive: false, isOpen: true, isAuth: false, permission: '' }
       },
       {
         path: '/user-center',

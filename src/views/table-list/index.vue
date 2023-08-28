@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-const title = ref<string>('消息中心')
+const title = ref<string>('列表页')
 </script>
 
 <style lang="less" scoped></style>

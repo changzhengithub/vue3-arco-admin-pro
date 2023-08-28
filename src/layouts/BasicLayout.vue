@@ -42,6 +42,7 @@
 
         <a-layout class="basic-layout">
           <MultiTab></MultiTab>
+          <Breadcrumb></Breadcrumb>
           <div class="layout-content">
             <!-- 路由缓存，只针对当前子路由进行缓存 -->
             <!-- RouteView 子路由模板名称，防止刷新子路由 -->
@@ -71,9 +72,13 @@ import { useAppStore } from '@/stores/modules/app'
 import { usePublicStore } from '@/stores/modules/public'
 import { useEmpowerStore } from '@/stores/modules/empower'
 
+import regExp from '@/utils/regExp'
+
 import GlobalHeader from '@/components/GlobalHeader.vue'
 import MultiTab from '@/components/MultiTab.vue'
+import Breadcrumb from '@/components/Breadcrumb.vue'
 import ArcoIcon from '@/components/ArcoIcon'
+
 
 const appStore = useAppStore()
 const publicStore = usePublicStore()
@@ -145,9 +150,13 @@ const subMenuClick = (key: string, openKeys: string[]) => {
 // 路由跳转
 const onClickMenuItem = (key: string) => {
   state.selectedKeys = [key]
-  router.push({
-    path: key
-  })
+  if (regExp.urlReg.test(key)) {
+    window.open(key)
+  } else {
+    router.push({
+      path: key
+    })
+  }
 }
 
 // 点击logo返回主页

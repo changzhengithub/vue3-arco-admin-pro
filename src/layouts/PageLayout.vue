@@ -65,6 +65,8 @@ import { useAppStore } from '@/stores/modules/app'
 import { usePublicStore } from '@/stores/modules/public'
 import { useEmpowerStore } from '@/stores/modules/empower'
 
+import regExp from '@/utils/regExp'
+
 import HeaderRight from '@/components/HeaderRight.vue'
 import ArcoIcon from '@/components/ArcoIcon'
 
@@ -131,9 +133,13 @@ const subMenuClick = (key: string, openKeys: string[]) => {
 // 路由跳转
 const onClickMenuItem = (key: string) => {
   state.selectedKeys = [key]
-  router.push({
-    path: key
-  })
+  if (regExp.urlReg.test(key)) {
+    window.open(key)
+  } else {
+    router.push({
+      path: key
+    })
+  }
 }
 
 // 点击logo返回主页

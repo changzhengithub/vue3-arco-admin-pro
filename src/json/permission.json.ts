@@ -61,31 +61,9 @@ const permissionList: PermissionList[] = [
     operateList: []
   },
   {
-    title: '事件管理',
+    title: '列表页',
     permList: [
-      { title: '事件管理', perm: 'event_manage' }
-    ],
-    isCheck: false,
-    indeterminate: false,
-    isDisable: false,
-    operateList: []
-  },
-  {
-    title: '资产列表',
-    permList: [
-      { title: '资产列表', perm: 'asset_manage_list' },
-      { title: '资产管理', perm: 'asset_manage' }
-    ],
-    isCheck: false,
-    indeterminate: false,
-    isDisable: false,
-    operateList: []
-  },
-  {
-    title: '模型管理',
-    permList: [
-      { title: '模型管理', perm: 'asset_manage_model' },
-      { title: '资产管理', perm: 'asset_manage' }
+      { title: '列表页', perm: 'table_list' },
     ],
     isCheck: false,
     indeterminate: false,
@@ -108,16 +86,6 @@ const permissionList: PermissionList[] = [
     permList: [
       { title: '角色权限', perm: 'role_manage' },
       { title: '角色组织', perm: 'role_org' }
-    ],
-    isCheck: false,
-    indeterminate: false,
-    isDisable: false,
-    operateList: []
-  },
-  {
-    title: 'IP白名单',
-    permList: [
-      { title: 'IP白名单', perm: 'white_ip' }
     ],
     isCheck: false,
     indeterminate: false,
