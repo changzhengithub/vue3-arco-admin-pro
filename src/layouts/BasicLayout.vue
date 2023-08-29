@@ -42,7 +42,7 @@
 
         <a-layout class="basic-layout">
           <MultiTab></MultiTab>
-          <Breadcrumb></Breadcrumb>
+          <!-- <Breadcrumb></Breadcrumb> -->
           <div class="layout-content">
             <!-- 路由缓存，只针对当前子路由进行缓存 -->
             <!-- RouteView 子路由模板名称，防止刷新子路由 -->
@@ -76,7 +76,7 @@ import regExp from '@/utils/regExp'
 
 import GlobalHeader from '@/components/GlobalHeader.vue'
 import MultiTab from '@/components/MultiTab.vue'
-import Breadcrumb from '@/components/Breadcrumb.vue'
+// import Breadcrumb from '@/components/Breadcrumb.vue'
 import ArcoIcon from '@/components/ArcoIcon'
 
 

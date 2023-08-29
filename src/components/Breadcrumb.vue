@@ -43,8 +43,8 @@ onBeforeRouteUpdate((to, from, next) => {
 
 <style scoped lang="less">
 .container-breadcrumb {
-  margin: 16px 0;
-
+  padding: 10px 20px;
+  background-color: #f2f2f2;
   :deep(.arco-breadcrumb-item) {
     color: rgb(var(--gray-6));
 
