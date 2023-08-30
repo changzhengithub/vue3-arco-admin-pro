@@ -93,36 +93,68 @@
       </a-row>
     </div>
     <div class="index-main">
-      <a-table
-        row-key="id"
-        hoverable
-        stripe
-        column-resizable
-        :bordered="{cell: true}"
-        :loading="tableLoad"
-        :columns="tableColumn"
-        :data="tableData"
-        :row-selection="rowSelection"
-        :scroll="{minWidth: 1200}"
-        v-model:selectedKeys="selectedKeys"
-        :pagination="pagination"
-      >
-        <template #index="{ record, rowIndex }">
-          {{ record.key }}-{{ rowIndex }}
-        </template>
+      <div class="main-header">
+        <a-space >
+          <a-button type="primary">
+            <template #icon>
+              <icon-plus />
+            </template>
+            <template #default>添加</template>
+          </a-button>
+          <a-button :disabled="!selectedKeys.length">
+            <template #icon>
+              <icon-delete />
+            </template>
+            <template #default>批量删除</template>
+          </a-button>
+        </a-space>
+      </div>
+      <div class="main-table">
+        <a-table
+          row-key="key"
+          hoverable
+          stripe
+          column-resizable
+          :bordered="{cell: true}"
+          :loading="tableLoad"
+          :columns="tableColumn"
+          :data="tableData"
+          :row-selection="rowSelection"
+          :scroll="{minWidth: 1200}"
+          v-model:selectedKeys="selectedKeys"
+          :pagination="pagination"
+          page-position="bottom"
+          @page-change="pageChange"
+          @page-size-change="pageSizeChange"
+        >
+          <template #index="{ record, rowIndex }">
+            {{ record.key }}-{{ rowIndex }}
+          </template>
 
-        <!-- 操作 -->
-        <template #operate="{ record }">
-          <a-button @click="$modal.info({ title:'Name', content:record.name })">查看</a-button>
-        </template>
-      </a-table>
+          <!-- 类型 -->
+          <template #type="{ record }">
+            <a-tag v-if="record.type == 1" color="blue">类型1</a-tag>
+            <a-tag v-if="record.type == 2" color="orange">类型2</a-tag>
+          </template>
+  
+          <!-- 操作 -->
+          <template #operate="{ record }">
+            <a-button @click="$modal.info({ title:'Name', content:record.name })">查看</a-button>
+          </template>
+        </a-table>
+      </div>
     </div>
+
+    <!-- 添加用户 -->
+    <AddData></AddData>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import type { TableRowSelection, TableColumnData } from '@arco-design/web-vue'
+
+import AddData from './components/AddData.vue'
 
 interface FilterData {
   name: string
@@ -138,6 +170,7 @@ interface TableInfo {
   salary: number;
   address: string;
   email: string;
+  type: number | undefined
 }
 const filterInfo = reactive<FilterData>({
   name: '',
@@ -152,7 +185,7 @@ const selectedKeys = ref<string[]>([])
 const rowSelection = reactive<TableRowSelection>({
   type: 'checkbox',
   showCheckedAll: true,
-  onlyCurrent: false
+  onlyCurrent: true
 })
 const tableLoad = ref(false)
 const tableData = ref<TableInfo[]>([])
@@ -168,6 +201,11 @@ const tableColumn: TableColumnData[] = [
   {
     title: 'Name',
     dataIndex: 'name'
+  },
+  {
+    title: 'Type',
+    dataIndex: 'type',
+    slotName: 'type'
   },
   {
     title: 'Salary',
@@ -202,17 +240,32 @@ const tableColumn: TableColumnData[] = [
     slotName: 'operate'
   }
 ]
-const pagination = {
-  pageSize: 5
-}
+const pagination = reactive({
+  current: 1,
+  pageSize: 10,
+  total: 0,
+  showPageSize: true,
+  showTotal: true,
+  showJumper: true,
+  pageSizeOptions: [10, 20, 30, 40, 50]
+})
 
 tableData.value = [
-  { key: '1', name: 'Jane Doe', salary: 23000, address: '32 Park Road, London', email: 'jane.doe@example.com' },
-  { key: '2', name: 'Alisa Ross', salary: 25000, address: '35 Park Road, London', email: 'alisa.ross@example.com' },
-  { key: '3', name: 'Kevin Sandra', salary: 22000, address: '31 Park Road, London', email: 'kevin.sandra@example.com' },
-  { key: '4', name: 'Ed Hellen', salary: 17000, address: '42 Park Road, London', email: 'ed.hellen@example.com' },
-  { key: '5', name: 'William Smith', salary: 27000, address: '62 Park Road, London', email: 'william.smith@example.com' }
+  { key: '1', name: 'Jane Doe', salary: 23000, type: 1, address: '32 Park Road, London', email: 'jane.doe@example.com' },
+  { key: '2', name: 'Alisa Ross', salary: 25000, type: 2, address: '35 Park Road, London', email: 'alisa.ross@example.com' },
+  { key: '3', name: 'Kevin Sandra', salary: 22000, type: 1, address: '31 Park Road, London', email: 'kevin.sandra@example.com' },
+  { key: '4', name: 'Ed Hellen', salary: 17000, type: 1, address: '42 Park Road, London', email: 'ed.hellen@example.com' }
 ]
+pagination.total = tableData.value.length
+
+// 页面改变
+const pageChange = (page: number) => {
+  pagination.current = page
+}
+// 页码值改变时
+const pageSizeChange = (pageSize: number) => {
+  pagination.pageSize = pageSize
+}
 </script>
 
 <style lang="less" scoped>
@@ -226,6 +279,10 @@ tableData.value = [
   }
   .index-main {
     width: 100%;
+    .main-header {
+      width: 100%;
+      margin-bottom: 10px;
+    }
   }
 }
 </style>
