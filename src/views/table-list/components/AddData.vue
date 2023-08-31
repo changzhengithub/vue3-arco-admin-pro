@@ -30,7 +30,7 @@
     </a-form>
     <template #footer>
       <a-button @click="closeDialog">取消</a-button>
-      <a-button type="primary" :loading="saveLoad" @click="savePurchase">确认</a-button>
+      <a-button type="primary" :loading="saveLoad" @click="confirmSubmit">确认</a-button>
     </template>
   </a-modal>
 </template>
@@ -39,21 +39,32 @@
  * @description 添加用户
  * @author
  * */
-
 import {  reactive, ref, getCurrentInstance } from 'vue'
+import type { FormInstance } from '@arco-design/web-vue/es/form'
+import regExp from '@/utils/regExp'
 
 const instance = getCurrentInstance()
 
-const formRef = ref(null)
-const loading = ref(false)
+const formRef = ref<FormInstance>()
 const saveLoad = ref(false) // 保存中
 
 const formRules = {
   name: [{ required: true, message: '请输入名称'}],
-  type: [{ required: true, message: '请选择类型' }]
+  type: [{ required: true, message: '请选择类型' }],
+  email: [
+    { required: true, message: '请输入邮箱' },
+    { match: regExp.emailReg, message: '邮箱格式错误' }
+  ]
 }
 
-const formData = reactive({
+interface FormData {
+  name: string
+  type: undefined | number
+  salary: number
+  email: string
+  address: string
+}
+const formData = reactive<FormData>({
   name: '',
   type: undefined,
   salary: 0,
@@ -61,7 +72,15 @@ const formData = reactive({
   address: ''
 })
 
-const emit = defineEmits(['CLOSE_EVENT'])
+// 接收参数
+// const props = defineProps<{
+//   foo: string
+//   bar?: number
+// }>()
+// 定义事件
+const emit = defineEmits<{
+  'CLOSE_EVENT': [formData?: FormData]
+}>()
 
 // 弹出层取消操作
 const closeDialog = () => {
@@ -69,23 +88,23 @@ const closeDialog = () => {
 }
 
 // 确认添加
-const savePurchase = () => {
-    formRef.value.validate(errors => {
-      if (!errors) {
-        saveLoad.value = true
-        saveLoad.value = true
-        setTimeout(() => {
-          saveLoad.value = false
-          instance?.proxy?.$message.success('操作成功')
-        })
-      } else {
-        const errInfo = Object.values(errors)
-        errInfo.forEach((item, index) => {
-          if (index == 0) instance?.proxy?.$message.warning(item.message)
-        })
-      }
-    })
-  }
+const confirmSubmit = () => {
+  formRef.value?.validate(errors => {
+    if (!errors) {
+      saveLoad.value = true
+      setTimeout(() => {
+        saveLoad.value = false
+        instance?.proxy?.$message.success('操作成功')
+        emit('CLOSE_EVENT', formData)
+      })
+    } else {
+      const errInfo = Object.values(errors)
+      errInfo.forEach((item, index) => {
+        if (index == 0) instance?.proxy?.$message.warning(item.message)
+      })
+    }
+  })
+}
 </script>
 <style lang="less" scoped>
   .applay-pay {

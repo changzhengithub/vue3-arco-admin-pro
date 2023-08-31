@@ -95,7 +95,7 @@
     <div class="index-main">
       <div class="main-header">
         <a-space >
-          <a-button type="primary">
+          <a-button type="primary" @click="openAddData">
             <template #icon>
               <icon-plus />
             </template>
@@ -146,7 +146,7 @@
     </div>
 
     <!-- 添加用户 -->
-    <AddData></AddData>
+    <AddData v-if="addDataDialog.visible" @CLOSE_EVENT="closeDialog"></AddData>
   </div>
 </template>
 
@@ -265,6 +265,22 @@ const pageChange = (page: number) => {
 // 页码值改变时
 const pageSizeChange = (pageSize: number) => {
   pagination.pageSize = pageSize
+}
+
+
+// 弹窗
+const addDataDialog = reactive({
+  visible: false
+})
+const openAddData = () => {
+  addDataDialog.visible = true
+}
+const closeDialog = (obj: any) => {
+  console.log(obj)
+  if (obj) {
+    tableData.value.push(obj)
+  }
+  addDataDialog.visible = false
 }
 </script>
 
