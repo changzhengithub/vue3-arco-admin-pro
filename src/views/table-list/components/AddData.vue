@@ -40,8 +40,9 @@
  * @author
  * */
 import {  reactive, ref, getCurrentInstance } from 'vue'
-import type { FormInstance } from '@arco-design/web-vue/es/form'
 import regExp from '@/utils/regExp'
+import type { FormInstance } from '@arco-design/web-vue/es/form'
+import type { TableInfo } from '../types'
 
 const instance = getCurrentInstance()
 
@@ -57,14 +58,8 @@ const formRules = {
   ]
 }
 
-interface FormData {
-  name: string
-  type: undefined | number
-  salary: number
-  email: string
-  address: string
-}
-const formData = reactive<FormData>({
+const formData = reactive<TableInfo>({
+  key: '',
   name: '',
   type: undefined,
   salary: 0,
@@ -73,14 +68,19 @@ const formData = reactive<FormData>({
 })
 
 // 接收参数
-// const props = defineProps<{
-//   foo: string
-//   bar?: number
-// }>()
+const props = withDefaults(defineProps<{
+  id?: string
+  tableData: TableInfo[]
+}>(), {
+  tableData: () => []
+})
+
 // 定义事件
 const emit = defineEmits<{
-  'CLOSE_EVENT': [formData?: FormData]
+  'CLOSE_EVENT': [formData?: TableInfo]
 }>()
+
+console.log(props)
 
 // 弹出层取消操作
 const closeDialog = () => {

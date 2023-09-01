@@ -139,39 +139,26 @@
   
           <!-- 操作 -->
           <template #operate="{ record }">
-            <a-button @click="$modal.info({ title:'Name', content:record.name })">查看</a-button>
+            <a-link @click="editData(record)">编辑</a-link>
+            <a-link status="danger" @click="h(record)">删除</a-link>
           </template>
         </a-table>
       </div>
     </div>
 
     <!-- 添加用户 -->
-    <AddData v-if="addDataDialog.visible" @CLOSE_EVENT="closeDialog"></AddData>
+    <AddData v-if="addDataDialog.visible"  @CLOSE_EVENT="closeDialog"></AddData>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import type { TableRowSelection, TableColumnData } from '@arco-design/web-vue'
+import type { FilterData, TableInfo } from './types'
 
 import AddData from './components/AddData.vue'
 
-interface FilterData {
-  name: string
-  age: number
-  class: string
-  type: undefined | ''
-  date: string
-  status: undefined | ''
-}
-interface TableInfo {
-  key: string;
-  name: string;
-  salary: number;
-  address: string;
-  email: string;
-  type: number | undefined
-}
+
 const filterInfo = reactive<FilterData>({
   name: '',
   age: 0,
@@ -236,7 +223,7 @@ const tableColumn: TableColumnData[] = [
   },
   {
     title: '操作',
-    width: 100,
+    width: 120,
     slotName: 'operate'
   }
 ]
@@ -268,11 +255,17 @@ const pageSizeChange = (pageSize: number) => {
 }
 
 
-// 弹窗
+// 增删改
 const addDataDialog = reactive({
   visible: false
 })
 const openAddData = () => {
+  addDataDialog.visible = true
+}
+const editData = (record: TableInfo) => {
+  addDataDialog.visible = true
+}
+const h = (record: TableInfo) => {
   addDataDialog.visible = true
 }
 const closeDialog = (obj: any) => {
