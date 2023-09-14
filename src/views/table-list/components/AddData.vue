@@ -39,7 +39,7 @@
  * @description 添加用户
  * @author
  * */
-import {  reactive, ref, getCurrentInstance } from 'vue'
+import {  reactive, ref, getCurrentInstance, onMounted } from 'vue'
 import regExp from '@/utils/regExp'
 import type { FormInstance } from '@arco-design/web-vue/es/form'
 import type { TableInfo } from '../types'
@@ -58,7 +58,7 @@ const formRules = {
   ]
 }
 
-const formData = reactive<TableInfo>({
+let formData = reactive<TableInfo>({
   key: '',
   name: '',
   type: undefined,
@@ -70,9 +70,9 @@ const formData = reactive<TableInfo>({
 // 接收参数
 const props = withDefaults(defineProps<{
   id?: string
-  tableData: TableInfo[]
+  recordData: TableInfo
 }>(), {
-  tableData: () => []
+  recordData: () => ({} as TableInfo)
 })
 
 // 定义事件
@@ -80,7 +80,11 @@ const emit = defineEmits<{
   'CLOSE_EVENT': [formData?: TableInfo]
 }>()
 
-console.log(props)
+console.log(props.recordData)
+
+onMounted(() => {
+  formData = props.recordData
+})
 
 // 弹出层取消操作
 const closeDialog = () => {
@@ -96,7 +100,7 @@ const confirmSubmit = () => {
         saveLoad.value = false
         instance?.proxy?.$message.success('操作成功')
         emit('CLOSE_EVENT', formData)
-      })
+      }, 2000)
     } else {
       const errInfo = Object.values(errors)
       errInfo.forEach((item, index) => {

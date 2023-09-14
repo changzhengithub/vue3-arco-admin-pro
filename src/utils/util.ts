@@ -67,10 +67,10 @@ export function cutStrByFullLength(str = '', maxLength: number) {
  * @param {Array} [list] - 排序数组
  * @param {String} [field] - 排序字段
  * @param {String} [order] - asc 升序 desc 降序
- * @example SortArray(arr, 'age')
+ * @example sortArray(arr, 'age')
  * @author changz
  * */
-export function SortArray(list: any[], field: string, order: string = 'desc') {
+export function sortArray(list: any[], field: string, order: string = 'desc') {
   // 比较函数
   function compare(p: string) {
     return function (item1: { [x: string]: any }, item2: { [x: string]: any }) {
@@ -93,9 +93,9 @@ export function SortArray(list: any[], field: string, order: string = 'desc') {
  * @example getOffsetPosition(dom)
  * @author changz
  * */
-export function getOffsetPosition(ele, x = 0, y = 0) {
+export function getOffsetPosition(ele: HTMLElement, x = 0, y = 0) {
   if (ele.offsetParent != null) {
-    return getOffsetPosition(ele.offsetParent, ele.offsetLeft + x, ele.offsetTop + y)
+    return getOffsetPosition(ele.offsetParent as HTMLElement, ele.offsetLeft + x, ele.offsetTop + y)
   } else {
     return {
       x,
@@ -106,6 +106,6 @@ export function getOffsetPosition(ele, x = 0, y = 0) {
 
 
 // 补零
-function fillZero(num: number) {
+export function fillZero(num: number) {
   return num < 10 ? '0' + num : num
 }

@@ -140,19 +140,22 @@
           <!-- 操作 -->
           <template #operate="{ record }">
             <a-link @click="editData(record)">编辑</a-link>
-            <a-link status="danger" @click="h(record)">删除</a-link>
+            <a-popconfirm content="确认删除该数据?" type="error" @before-ok="done => delData(done, record)">
+              <a-link status="danger">删除</a-link>
+            </a-popconfirm>
           </template>
         </a-table>
       </div>
     </div>
 
     <!-- 添加用户 -->
-    <AddData v-if="addDataDialog.visible"  @CLOSE_EVENT="closeDialog"></AddData>
+    <AddData v-if="addDataDialog.visible" :recordData="addDataDialog.record" @CLOSE_EVENT="closeDialog"></AddData>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
+import { deepClone } from '@/utils/util'
 import type { TableRowSelection, TableColumnData } from '@arco-design/web-vue'
 import type { FilterData, TableInfo } from './types'
 
@@ -257,16 +260,21 @@ const pageSizeChange = (pageSize: number) => {
 
 // 增删改
 const addDataDialog = reactive({
-  visible: false
+  visible: false,
+  record: {} as TableInfo
 })
 const openAddData = () => {
   addDataDialog.visible = true
 }
 const editData = (record: TableInfo) => {
   addDataDialog.visible = true
+  addDataDialog.record = deepClone(record) as TableInfo
 }
-const h = (record: TableInfo) => {
-  addDataDialog.visible = true
+const delData = (done: Function, record: TableInfo) => {
+  console.log(record)
+  setTimeout(() => {
+    done()
+  }, 2000)
 }
 const closeDialog = (obj: any) => {
   console.log(obj)
