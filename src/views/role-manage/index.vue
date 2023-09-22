@@ -70,7 +70,7 @@ const rowSelection = reactive<TableRowSelection>({
   onlyCurrent: true
 })
 const tableLoad = ref(false)
-const tableData = ref<TableInfo[]>(roleList)
+const tableData = ref<TableInfo[]>(roleList.value)
 const tableColumn: TableColumnData[] = [
   {
     title: 'ID',
@@ -80,17 +80,13 @@ const tableColumn: TableColumnData[] = [
     align: 'center'
   },
   {
-    title: 'Name',
+    title: '角色名称',
     dataIndex: 'name'
   },
   {
-    title: 'Role',
+    title: '角色ID',
     dataIndex: 'role_id',
     slotName: 'role_id'
-  },
-  {
-    title: 'Account',
-    dataIndex: 'username'
   },
   {
     title: '操作',
@@ -130,13 +126,9 @@ const editData = (record: TableInfo) => {
   permissionDialog.record = deepClone(record) as TableInfo
 }
 
-// const closeDialog = (obj: any) => {
-//   console.log(obj)
-//   if (obj) {
-//     tableData.value.push(obj)
-//   }
-//   permissionDialog.visible = false
-// }
+const closeDialog = () => {
+  permissionDialog.visible = false
+}
 </script>
 
 <style lang="less" scoped>

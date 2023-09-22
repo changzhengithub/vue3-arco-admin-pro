@@ -13,7 +13,6 @@ export interface FilterData {
 export interface TableInfo {
   id: number;
   name: string;
-  username: string;
-  password: string;
+  userList: UserInfo[];
   role_id: number;
 }

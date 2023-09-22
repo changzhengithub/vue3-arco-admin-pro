@@ -26,6 +26,7 @@ const MapCharts = () => import(/* webpackChunkName: 'map-charts' */ '@/views/map
 const RoleManage = () => import(/* webpackChunkName: 'role-manage' */ '@/views/role-manage/index.vue')
 const OrgManage = () => import(/* webpackChunkName: 'org-manage' */ '@/views/org-manage/index.vue')
 const TableList = () => import(/* webpackChunkName: 'table-list' */ '@/views/table-list/index.vue')
+const FormModel = () => import(/* webpackChunkName: 'from-model' */ '@/views/form-model/index.vue')
 
 const UserCenter = () => import(/* webpackChunkName: 'user-center' */ '@/views/user-center/index.vue')
 const SystemSetting = () => import(/* webpackChunkName: 'system-setting' */ '@/views/system-setting/index.vue')
@@ -70,6 +71,12 @@ export const asyncRouterMap: RouteRecordRaw[] = [
         name: 'TableList',
         component: TableList,
         meta: { title: '列表页', icon: 'icon-list', hidden: false, keepAlive: true, isAuth: true, permission: 'table_list' }
+      },
+      {
+        path: '/form-model',
+        name: 'FormModel',
+        component: FormModel,
+        meta: { title: '表单验证', icon: 'icon-subscribed', hidden: false, keepAlive: true, isAuth: true, permission: 'form_model' }
       },
       {
         path: '/role-org',

@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { ACCESS_TOKEN } from '../../../constants/app'
 import { loginApi, infoApi } from '@/api/empower'
 import { asyncRouterMap } from '@/router/router.config'
-import permissionList from '@/json/permission.json'
+import { permissionList } from '@/json/permission.json'
 
 import type { RouteRecordRaw } from 'vue-router'
 import type { EmpowerState } from './types'
@@ -107,7 +107,7 @@ export const useEmpowerStore = defineStore('empower', {
      * 获取所有权限列表
      * */
     getAllPermList() {
-      const allMenuList = permissionList.flatMap(item => item.permList).map(el => el.perm)
+      const allMenuList = permissionList.value.flatMap(item => item.permList).map(el => el.perm)
       const menu_perm = [...new Set(allMenuList)]
       return menu_perm
     },
@@ -116,7 +116,7 @@ export const useEmpowerStore = defineStore('empower', {
      * 获取所有操作权限列表
      * */
     getAllOperateList() {
-      const operateList = permissionList.flatMap(item => item.operateList)
+      const operateList = permissionList.value.flatMap(item => item.operateList)
       const operate_perm = operateList.map(item => item.perm)
       return operate_perm
     }

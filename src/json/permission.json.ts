@@ -6,19 +6,21 @@
  * 可以通过 v-page/v-permission指令或者$pagePer/$operatePer在js中判断
  * */
 
-interface OperateList {
+import { ref } from 'vue'
+
+export interface OperateList {
   title: string
   perm: string
   isCheck: boolean
   isShow: boolean
 }
 
-interface PermList {
+export interface PermList {
   title: string
   perm: string
 }
 
-interface PermissionList {
+export interface PermissionList {
   title: string
   permList: PermList[]
   isCheck: boolean
@@ -27,7 +29,7 @@ interface PermissionList {
   operateList: OperateList[]
 }
 
-const permissionList: PermissionList[] = [
+export const permissionList = ref<PermissionList[]>([
   {
     title: '主页',
     permList: [
@@ -54,6 +56,16 @@ const permissionList: PermissionList[] = [
     permList: [
       { title: '实时监控', perm: 'map_charts' },
       { title: '仪表盘', perm: 'dashboard' }
+    ],
+    isCheck: false,
+    indeterminate: false,
+    isDisable: false,
+    operateList: []
+  },
+  {
+    title: '表单验证',
+    permList: [
+      { title: '表单验证', perm: 'form_model' }
     ],
     isCheck: false,
     indeterminate: false,
@@ -90,7 +102,14 @@ const permissionList: PermissionList[] = [
     isCheck: false,
     indeterminate: false,
     isDisable: false,
-    operateList: []
+    operateList: [
+      {
+        title: '角色管理',
+        perm: 'role_per',
+        isCheck: false,
+        isShow: true
+      }
+    ]
   },
   {
     title: '系统设置',
@@ -119,5 +138,4 @@ const permissionList: PermissionList[] = [
       // }
     ]
   }
-]
-export default permissionList
+])

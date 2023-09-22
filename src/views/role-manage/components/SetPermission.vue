@@ -1,7 +1,6 @@
 <template>
-  <a-modal :visible="true" title="添加用户" :width="540" title-align="start" @cancel="closeDialog" :mask-closable="false"
-    unmountOnClose>
-    <a-spin :spinning="loading">
+  <a-modal :visible="true" title="权限设置" :width="600" title-align="start" @cancel="closeDialog" :mask-closable="false" unmountOnClose>
+    <a-spin :loading="loading" :style="{width: '100%'}">
       <div class="permission-table">
         <div class="table-header">
           <div class="header-module">
@@ -13,8 +12,7 @@
         <div class="table-body">
           <div class="body-row" v-for="(page, index) in permissionList" :key="index">
             <div class="row-module">
-              <a-checkbox v-model="page.isCheck" :disabled="page.isDisable" :indeterminate="page.indeterminate"
-                @change="() => checkPage(page)">
+              <a-checkbox v-model="page.isCheck" :disabled="page.isDisable" :indeterminate="page.indeterminate" @change="() => checkPage(page)">
                 {{ page.title }}
               </a-checkbox>
             </div>
@@ -43,17 +41,17 @@
  * @description 设置角色权限
  * @author
  * */
-import { reactive, ref, getCurrentInstance, onMounted } from 'vue'
+import { ref, getCurrentInstance, onMounted } from 'vue'
 
-import permissionList from '@/json/permission.json'
+import { permissionList, type PermissionList } from '@/json/permission.json'
 
 const instance = getCurrentInstance()
 
 const loading = ref(false) // 加载中
 const saveLoad = ref(false) // 保存中
 const moduleCheck = ref(false)
-const roleMenuList = ref(['table_list', 'org_manage', 'role_manage'])
-const roleOperateList = ref([])
+const roleMenuList = ref<string[]>(['table_list', 'org_manage', 'role_manage'])
+const roleOperateList = ref<string[]>([])
 
 // 接收参数
 const props = defineProps<{
@@ -66,14 +64,16 @@ const emit = defineEmits<{
 }>()
 
 onMounted(() => {
-  // formData = props.recordData
+  console.log(props.id)
+  setPermission()
 })
 
 
 // 设置已选权限
 const setPermission = () => {
-  permissionList.forEach(page => {
-    if (roleMenuList.value.includes(page.permList)) {
+  permissionList.value.forEach(page => {
+    const permList = page.permList.map(el => el.perm)
+    if (roleMenuList.value.includes(permList[0])) {
       page.isCheck = true
     } else {
       page.isCheck = false
@@ -88,29 +88,30 @@ const setPermission = () => {
       })
     }
   })
+  console.log(permissionList)
 }
 
 // 页面权限
-const = checkPage = (page) => {
+const checkPage = (page: PermissionList) => {
   const isCheck = page.isCheck
-  this.$set(page, 'indeterminate', false)
+  page.indeterminate = false
   page.operateList.forEach(item => {
-    this.$set(item, 'isCheck', isCheck)
+    item.isCheck = isCheck
   })
-  this.moduleCheck = this.permissionList.every(item => item.isCheck)
+  moduleCheck.value = permissionList.value.every(item => item.isCheck)
 }
 // 操作权限
-const checkOperate = (page) => {
+const checkOperate = (page: PermissionList) => {
   const hasSelect = page.operateList.some(item => item.isCheck)
-  if (hasSelect) this.$set(page, 'isCheck', true)
+  if (hasSelect) page.isCheck = true
 }
 
 // 首页模块
 const checkAllPerm = () => {
-  this.permissionList.forEach(item => {
-    this.$set(item, 'isCheck', this.moduleCheck)
-    item.operateList.forEach(item => {
-      this.$set(item, 'isCheck', this.moduleCheck)
+  permissionList.value.forEach(item => {
+    item.isCheck = moduleCheck.value
+    item.operateList.forEach(el => {
+      el.isCheck = moduleCheck.value
     })
   })
 }
@@ -123,7 +124,7 @@ const closeDialog = () => {
 
 // 确认添加
 const confirmSubmit = () => {
-  const checkPageList = this.permissionList.filter(item => item.isCheck)
+  const checkPageList = permissionList.value.filter(item => item.isCheck)
   const menu_perm = checkPageList.map(item => ({ perm: item.permList, title: item.title }))
   const checkOperateList = checkPageList.flatMap(item => item.operateList)
   const operate_perm = checkOperateList.filter(item => item.isCheck).map(item => ({ perm: item.perm, title: item.title }))
@@ -131,7 +132,6 @@ const confirmSubmit = () => {
   // console.log(operate_perm)
 
   const params = {
-    id: this.id,
     menu_perm,
     operate_perm
   }
@@ -139,7 +139,8 @@ const confirmSubmit = () => {
   setTimeout(() => {
     saveLoad.value = false
     instance?.proxy?.$message.success('操作成功')
-    emit('CLOSE_EVENT', params)
+    console.log(params)
+    emit('CLOSE_EVENT')
   }, 2000)
 }
 </script>
@@ -158,7 +159,7 @@ const confirmSubmit = () => {
       position: relative;
       display: flex;
       align-items: center;
-      width: 32%;
+      width: 35%;
       padding: 10px 20px 10px 25px;
 
       &::after {
@@ -174,7 +175,7 @@ const confirmSubmit = () => {
     }
 
     .header-control {
-      width: 68%;
+      width: 65%;
       padding: 10px 20px 10px 25px;
     }
   }
@@ -194,7 +195,7 @@ const confirmSubmit = () => {
 
       .row-module {
         position: relative;
-        width: 30%;
+        width: 35%;
         padding: 10px 20px;
 
         &::after {
@@ -210,7 +211,7 @@ const confirmSubmit = () => {
       }
 
       .row-control {
-        width: 70%;
+        width: 65%;
         padding: 10px 20px;
 
         .control-check {

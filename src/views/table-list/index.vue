@@ -153,7 +153,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="TableList">
 import { ref, reactive } from 'vue'
 import { deepClone } from '@/utils/util'
 import type { TableRowSelection, TableColumnData } from '@arco-design/web-vue'
