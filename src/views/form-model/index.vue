@@ -40,7 +40,7 @@
               <a-button v-if="formList.length > 1" type="text" status="danger" size="small" @click="deleteForm(index)">删除表单</a-button>
             </div>
             <div class="wrap-form">
-              <a-form ref="formRef" :model="form.formData" :label-col-props="{span: 4}" :wrapper-col-props="{span: 18}">
+              <a-form :ref="el => getRefs(el as FormInstance)" :model="form.formData" :label-col-props="{span: 4}" :wrapper-col-props="{span: 18}">
                 <a-form-item field="name" label="姓名" :rules="[{ required: true, message: '请输入姓名' }]" :validate-trigger="['blur']">
                   <a-input v-model="form.formData.name" placeholder="请输入姓名" />
                 </a-form-item>
@@ -52,12 +52,16 @@
                 </a-form-item>
               </a-form>
             </div>
-
           </div>
           <div class="module-add">
             <a-button type="primary" long @click="confirmValidate">表单验证</a-button>
           </div>
         </div>
+
+        <!-- 动态获取 -->
+        <!-- <a-form v-for="item in formList" :ref="el => getRefs(el)">
+          <a-form-item></a-form-item>
+        </a-form> -->
       </a-tab-pane>
     </a-tabs>
   </div>
@@ -101,6 +105,7 @@ const confirmSubmit = () => {
 }
 
 // 多表单验证
+const refList = ref<FormInstance[]>([])
 const formList = ref<FormList[]>([
   {
     formData: {
@@ -109,6 +114,10 @@ const formList = ref<FormList[]>([
     }
   }
 ])
+
+const getRefs = (el: FormInstance) => {
+  if (el) refList.value.push(el)
+}
 
 const addForm = () => {
   formList.value.push({
@@ -123,7 +132,17 @@ const deleteForm = (index: number) => {
 }
 
 const confirmValidate = () => {
-
+  console.log(refList.value)
+  refList.value[1]?.validate(errors => {
+    if (!errors) {
+      instance?.proxy?.$message.success('验证成功')
+    } else {
+      const errInfo = Object.values(errors)
+      errInfo.forEach((item, index) => {
+        if (index == 0) instance?.proxy?.$message.warning(item.message)
+      })
+    }
+  })
 }
 
 </script>
