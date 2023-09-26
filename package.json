@@ -14,6 +14,7 @@
   "dependencies": {
     "@arco-themes/vue-arco-admin-pro": "^0.0.1",
     "@types/echarts": "^4.9.18",
+    "@wangeditor/editor-for-vue": "^5.1.12",
     "axios": "^1.4.0",
     "echarts": "^5.4.3",
     "echarts-extension-amap": "^1.11.0",

@@ -29,7 +29,7 @@
           </div>
         </div>
       </a-tab-pane>
-      <a-tab-pane key="2" title="多表单">
+      <a-tab-pane key="2" title="多表单验证">
         <div class="index-module">
           <div class="module-add">
             <a-button long @click="addForm">添加</a-button>
@@ -40,7 +40,7 @@
               <a-button v-if="formList.length > 1" type="text" status="danger" size="small" @click="deleteForm(index)">删除表单</a-button>
             </div>
             <div class="wrap-form">
-              <a-form :ref="el => getRefs(el as FormInstance)" :model="form.formData" :label-col-props="{span: 4}" :wrapper-col-props="{span: 18}">
+              <a-form :ref="el => getRefs(el as FormInstance, index)" :model="form.formData" :label-col-props="{span: 4}" :wrapper-col-props="{span: 18}">
                 <a-form-item field="name" label="姓名" :rules="[{ required: true, message: '请输入姓名' }]" :validate-trigger="['blur']">
                   <a-input v-model="form.formData.name" placeholder="请输入姓名" />
                 </a-form-item>
@@ -74,7 +74,7 @@ import type { FormList } from './types'
 
 const instance = getCurrentInstance()
 
-const tabKey = ref('2')
+const tabKey = ref('1')
 
 
 // 动态表单验证
@@ -104,6 +104,7 @@ const confirmSubmit = () => {
   })
 }
 
+
 // 多表单验证
 const refList = ref<FormInstance[]>([])
 const formList = ref<FormList[]>([
@@ -115,8 +116,9 @@ const formList = ref<FormList[]>([
   }
 ])
 
-const getRefs = (el: FormInstance) => {
-  if (el) refList.value.push(el)
+// 获取form列表
+const getRefs = (el: FormInstance, index: number) => {
+  refList.value[index] = el
 }
 
 const addForm = () => {
@@ -133,15 +135,17 @@ const deleteForm = (index: number) => {
 
 const confirmValidate = () => {
   console.log(refList.value)
-  refList.value[1]?.validate(errors => {
-    if (!errors) {
-      instance?.proxy?.$message.success('验证成功')
-    } else {
-      const errInfo = Object.values(errors)
-      errInfo.forEach((item, index) => {
-        if (index == 0) instance?.proxy?.$message.warning(item.message)
-      })
-    }
+  refList.value.forEach(item => {
+    item?.validate(errors => {
+      if (!errors) {
+        instance?.proxy?.$message.success('验证成功')
+      } else {
+        const errInfo = Object.values(errors)
+        errInfo.forEach((item, index) => {
+          if (index == 0) instance?.proxy?.$message.warning(item.message)
+        })
+      }
+    })
   })
 }
 
