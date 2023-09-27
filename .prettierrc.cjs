@@ -1,7 +1,7 @@
 // prettier的默认配置文件
 module.exports = {
-  // 一行最多 100 字符
-  printWidth: 100,
+  // 一行最多 180 字符
+  printWidth: 180,
   // 使用 2 个空格缩进
   tabWidth: 2,
   // 不使用缩进符，而使用空格
