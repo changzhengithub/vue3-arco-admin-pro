@@ -41,7 +41,7 @@ import { useRouter } from 'vue-router'
 import { useEmpowerStore } from '@/stores/modules/empower'
 import type { FormInstance } from '@arco-design/web-vue/es/form'
 
-import { captchaApi } from '@/api/empower'
+// import { captchaApi } from '@/api/empower'
 
 const instance = getCurrentInstance()
 const router = useRouter()
@@ -49,7 +49,7 @@ const empowerStore = useEmpowerStore()
 
 const empower = ref<FormInstance>()
 const submitLoad = ref(false)
-const codeLoad = ref(false)
+// const codeLoad = ref(false)
 const formData = reactive({
   name: 'admin',
   password: 'admin',
@@ -68,29 +68,29 @@ onMounted(() => {
 })
 
 // 获取验证码
-const getVerifyCode = () => {
-  codeLoad.value = true
-  captchaApi().then(res => {
-    codeLoad.value = false
-    if (res.code !== 200) {
-      instance?.proxy?.$notification.warning({
-        title: '提示',
-        content: res.msg
-      })
-      return
-    }
-    const { img, key } = res.data
-    formData.verifyImg = img
-    formData.key = key
-    formData.code = ''
-  }).catch(err => {
-    codeLoad.value = false
-    instance?.proxy?.$notification.warning({
-      title: '提示',
-      content: err.message
-    })
-  })
-}
+// const getVerifyCode = () => {
+//   codeLoad.value = true
+//   captchaApi().then(res => {
+//     codeLoad.value = false
+//     if (res.code !== 200) {
+//       instance?.proxy?.$notification.warning({
+//         title: '提示',
+//         content: res.msg
+//       })
+//       return
+//     }
+//     const { img, key } = res.data
+//     formData.verifyImg = img
+//     formData.key = key
+//     formData.code = ''
+//   }).catch(err => {
+//     codeLoad.value = false
+//     instance?.proxy?.$notification.warning({
+//       title: '提示',
+//       content: err.message
+//     })
+//   })
+// }
 
 const submitForm = () => {
   empower.value?.validate(errors => {

@@ -16,7 +16,7 @@ const IconFont = Icon.addFromIconFontCn({ src: 'https://at.alicdn.com/t/c/font_4
 // 导出插件
 export default {
   install(Vue: App) {
-    Vue.component('IconFont', IconFont);
+    Vue.component('IconFont', IconFont)
   }
 }
 

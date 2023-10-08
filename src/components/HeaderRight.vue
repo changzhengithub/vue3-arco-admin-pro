@@ -10,7 +10,7 @@
         </a-badge>
       </a-tooltip>
     </a-space>
- 
+
     <a-dropdown trigger="hover" position="br">
       <div class="right-info">
         <a-avatar :size="36">
@@ -78,9 +78,10 @@ import type { FormInstance } from '@arco-design/web-vue/es/form'
 
 import { useEmpowerStore } from '@/stores/modules/empower'
 
+import { logoutApi, updatePwdApi } from '@/api/empower'
+
 const formRef = ref<FormInstance>()
 
-import { logoutApi, updatePwdApi } from '@/api/empower'
 
 const instance = getCurrentInstance()
 const empowerStore = useEmpowerStore()
@@ -93,13 +94,13 @@ const modifyPwdDialog = reactive({
   visible: false,
   confirmLoad: false
 })
-let pwdFormData = reactive({
+const pwdFormData = reactive({
   old_pwd: '',
   new_pwd: '',
   confirm_pwd: ''
 })
 const formRules = {
-  old_pwd: [{ required: true, message: '请输入旧密码'}],
+  old_pwd: [{ required: true, message: '请输入旧密码' }],
   new_pwd: [{ required: true, message: '请输入新密码' }],
   confirm_pwd: [{ required: true, message: '请输入确认密码' }]
 }
@@ -162,7 +163,7 @@ const confirmModifyPwd = () => {
     } else {
       const errInfo = Object.values(errors)
       errInfo.forEach((item, index) => {
-        if (index == 0) instance?.proxy?.$message.warning(item.message)
+        if (index === 0) instance?.proxy?.$message.warning(item.message)
       })
     }
   })
@@ -177,7 +178,7 @@ const logoutSubmit = () => {
     onOk: () => {
       logoutApi()
         .then(res => {
-          if (res.code != 200) {
+          if (res.code !== 200) {
             instance?.proxy?.$notification.error({
               title: '错误',
               content: res.msg

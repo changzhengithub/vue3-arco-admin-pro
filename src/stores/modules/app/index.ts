@@ -10,7 +10,7 @@ import settings from '@/config/settings'
 
 export const useAppStore = defineStore('app', {
 
-  state: (): AppState => ({...settings}),
+  state: (): AppState => ({ ...settings }),
 
   getters: {},
 

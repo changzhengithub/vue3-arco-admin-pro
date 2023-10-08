@@ -32,8 +32,8 @@ router.beforeEach((to, from, next) => {
 
   // 设置系统标题
   if (to.meta && to.meta.title) {
-    const domTitle = defaultSetting.appName;
-    document.title = to.meta.title + '-' + domTitle;
+    const domTitle = defaultSetting.appName
+    document.title = to.meta.title + '-' + domTitle
   }
 
   // 判断是否在白名单内
@@ -84,7 +84,6 @@ router.beforeEach((to, from, next) => {
       }
     }
   }
-
 })
 
 router.afterEach(() => {

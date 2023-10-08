@@ -75,7 +75,7 @@ export const permissionList = ref<PermissionList[]>([
   {
     title: '列表页',
     permList: [
-      { title: '列表页', perm: 'table_list' },
+      { title: '列表页', perm: 'table_list' }
     ],
     isCheck: false,
     indeterminate: false,

@@ -89,8 +89,8 @@ const route = useRoute()
 const collapsed = ref(false) // 折叠导航栏
 
 interface State {
-  openKeys: string[],
-  menuList: RouteRecordRaw[],
+  openKeys: string[]
+  menuList: RouteRecordRaw[]
   selectedKeys: string[]
 }
 const state = reactive<State>({

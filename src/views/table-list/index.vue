@@ -136,7 +136,7 @@
             <a-tag v-if="record.type == 1" color="blue">类型1</a-tag>
             <a-tag v-if="record.type == 2" color="orange">类型2</a-tag>
           </template>
-  
+
           <!-- 操作 -->
           <template #operate="{ record }">
             <a-link @click="editData(record)">编辑</a-link>
@@ -212,17 +212,17 @@ const tableColumn: TableColumnData[] = [
     filterable: {
       filters: [{
         text: 'London',
-        value: 'London',
+        value: 'London'
       }, {
         text: 'Paris',
-        value: 'Paris',
-      },],
+        value: 'Paris'
+      }],
       filter: (value, row) => row.address.includes(value)
     }
   },
   {
     title: 'Email',
-    dataIndex: 'email',
+    dataIndex: 'email'
   },
   {
     title: '操作',
