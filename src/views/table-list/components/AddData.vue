@@ -1,19 +1,11 @@
 <template>
-  <a-modal
-    :visible="true"
-    title="添加用户"
-    :width="540"
-    title-align="start"
-    @cancel="closeDialog"
-    :mask-closable="false"
-    unmountOnClose
-  >
-    <a-form ref="formRef" :model="formData" :rules="formRules" :label-col-props="{span: 4}" :wrapper-col-props="{span: 18}">
+  <a-modal :visible="true" title="添加用户" :width="540" title-align="start" @cancel="closeDialog" :mask-closable="false" unmountOnClose>
+    <a-form ref="formRef" :model="formData" :rules="formRules" :label-col-props="{ span: 4 }" :wrapper-col-props="{ span: 18 }">
       <a-form-item label="Name" field="name" :validate-trigger="['blur']">
         <a-input v-model="formData.name" :max-length="50" show-word-limit placeholder="请输入" allow-clear />
       </a-form-item>
       <a-form-item label="Salary" field="salary" :validate-trigger="['blur']">
-        <a-input-number v-model="formData.salary" placeholder="请输入" :precision="0" :min="0" :max="1000" allow-clear/>
+        <a-input-number v-model="formData.salary" placeholder="请输入" :precision="0" :min="0" :max="1000" allow-clear />
       </a-form-item>
       <a-form-item label="Type" field="type" :validate-trigger="['change']">
         <a-select v-model="formData.type" placeholder="请选择" allow-clear>
@@ -21,7 +13,7 @@
           <a-option :value="2">类型2</a-option>
         </a-select>
       </a-form-item>
-      <a-form-item label="Email" field="email" :validate-trigger="['blur']" >
+      <a-form-item label="Email" field="email" :validate-trigger="['blur']">
         <a-input v-model="formData.email" :max-length="30" placeholder="请输入" allow-clear />
       </a-form-item>
       <a-form-item label="Address" field="address" :validate-trigger="['blur']">
@@ -39,7 +31,7 @@
  * @description 添加用户
  * @author
  * */
-import {  reactive, ref, getCurrentInstance, onMounted } from 'vue'
+import { reactive, ref, getCurrentInstance, onMounted } from 'vue'
 import regExp from '@/utils/regExp'
 import type { FormInstance } from '@arco-design/web-vue/es/form'
 import type { TableInfo } from '../types'
@@ -50,7 +42,7 @@ const formRef = ref<FormInstance>()
 const saveLoad = ref(false) // 保存中
 
 const formRules = {
-  name: [{ required: true, message: '请输入名称'}],
+  name: [{ required: true, message: '请输入名称' }],
   type: [{ required: true, message: '请选择类型' }],
   email: [
     { required: true, message: '请输入邮箱' },
@@ -68,16 +60,19 @@ let formData = reactive<TableInfo>({
 })
 
 // 接收参数
-const props = withDefaults(defineProps<{
-  id?: string
-  recordData: TableInfo
-}>(), {
-  recordData: () => ({} as TableInfo)
-})
+const props = withDefaults(
+  defineProps<{
+    id?: string
+    recordData: TableInfo
+  }>(),
+  {
+    recordData: () => ({} as TableInfo)
+  }
+)
 
 // 定义事件
 const emit = defineEmits<{
-  'CLOSE_EVENT': [formData?: TableInfo]
+  CLOSE_EVENT: [formData?: TableInfo]
 }>()
 
 console.log(props.recordData)
@@ -104,15 +99,15 @@ const confirmSubmit = () => {
     } else {
       const errInfo = Object.values(errors)
       errInfo.forEach((item, index) => {
-        if (index == 0) instance?.proxy?.$message.warning(item.message)
+        if (index === 0) instance?.proxy?.$message.warning(item.message)
       })
     }
   })
 }
 </script>
 <style lang="less" scoped>
-  .applay-pay {
-    width: 100%;
-    padding:0 50px 0 30px;
-  }
+.applay-pay {
+  width: 100%;
+  padding: 0 50px 0 30px;
+}
 </style>

@@ -28,7 +28,7 @@ const percent = ref(0)
 const beforeUpload = (file: File) => {
   const { name, size } = file
   const fileExtension = name.split('.').pop()
-  const limitType = fileExtension == 'jpg' || fileExtension == 'jpeg' || fileExtension == 'png' || fileExtension == 'gif'
+  const limitType = fileExtension === 'jpg' || fileExtension === 'jpeg' || fileExtension === 'png' || fileExtension === 'gif'
   if (!limitType) {
     instance?.proxy?.$message.error('请上传 JPG、PNG、JPEG 或 GIF 格式图片!')
   }
@@ -40,7 +40,7 @@ const beforeUpload = (file: File) => {
 }
 
 // 获取图片
-const customRequest = (option: RequestOption) => {
+const customRequest = (option: RequestOption): any => {
   const { fileItem } = option
   const { file } = fileItem
   const params = new FormData()
@@ -56,7 +56,7 @@ const customRequest = (option: RequestOption) => {
   })
     .then(res => {
       uploadLoad.value = false
-      if (res.code != 200) {
+      if (res.code !== 200) {
         instance?.proxy?.$notification.warning({
           title: '提示',
           content: res.msg
@@ -74,13 +74,6 @@ const customRequest = (option: RequestOption) => {
         content: err.message
       })
     })
-
-    // 要返回UploadRequest所需的类型
-    return {
-      // abort() {
-      //   controller.abort()
-      // }
-    }
 }
 </script>
 

@@ -40,7 +40,7 @@
             <a-tag v-if="record.role_id == 1" color="blue">管理员</a-tag>
             <a-tag v-if="record.role_id == 2" color="blue">普通用户</a-tag>
           </template>
-  
+
           <!-- 操作 -->
           <template #operate="{ record }">
             <a-link @click="editData(record)">编辑</a-link>
@@ -132,7 +132,7 @@ const editData = (record: TableInfo) => {
   addDataDialog.visible = true
   addDataDialog.record = deepClone(record) as TableInfo
 }
-const delData = (done: Function, record: TableInfo) => {
+const delData = (done: any, record: TableInfo) => {
   console.log(record)
   setTimeout(() => {
     done()

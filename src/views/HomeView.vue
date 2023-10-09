@@ -5,7 +5,7 @@ import TheWelcome from '../components/TheWelcome.vue'
 const msg = ref('xxxxx')
 const id = ref(1)
 
-const getEvent = (params: number) => {
+const getEvent = (params: any) => {
   console.log(params)
 }
 

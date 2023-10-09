@@ -40,7 +40,7 @@
             <a-tag v-if="record.role_id == 1" color="blue">管理员</a-tag>
             <a-tag v-if="record.role_id == 2" color="blue">普通用户</a-tag>
           </template>
-  
+
           <!-- 操作 -->
           <template #operate="{ record }">
             <a-link @click="editData(record)">权限</a-link>

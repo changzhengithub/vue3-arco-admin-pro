@@ -270,7 +270,7 @@ const editData = (record: TableInfo) => {
   addDataDialog.visible = true
   addDataDialog.record = deepClone(record) as TableInfo
 }
-const delData = (done: Function, record: TableInfo) => {
+const delData = (done: any, record: TableInfo) => {
   console.log(record)
   setTimeout(() => {
     done()

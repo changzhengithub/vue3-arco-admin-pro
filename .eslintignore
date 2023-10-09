@@ -2,6 +2,7 @@
 /public/
 /src/assets/
 /src/mock/
+/src/json/
 
 .vscode
 .idea

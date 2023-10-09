@@ -1,10 +1,10 @@
 import { ref } from 'vue'
 
 interface RoleInfo {
-  id: number;
-  name: string;
-  userList: UserInfo[];
-  role_id: number;
+  id: number
+  name: string
+  userList: UserInfo[]
+  role_id: number
 }
 
 const roleList = ref<RoleInfo[]>([

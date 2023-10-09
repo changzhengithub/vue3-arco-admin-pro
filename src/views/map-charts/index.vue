@@ -221,7 +221,7 @@ const drawMapEchart1 = (areaState: AreaState) => {
         center: [20, -20, 0], // 旋转中心
         alpha: 40, // x轴
         beta: -40, // y轴
-        distance: 120, // 地图视角 控制初始大小
+        distance: 120 // 地图视角 控制初始大小
         // panSensitivity: 0, // 禁止平移
         // rotateSensitivity: 0, // 禁止旋转
         // zoomSensitivity: 0 // 禁止缩放
@@ -611,7 +611,7 @@ const drawMapEchart3 = () => {
       },
       itemStyle: {
         areaColor: '#0c274b',
-        borderColor: '#1cccff',
+        borderColor: '#1cccff'
       },
       emphasis: {
         itemStyle: {
@@ -622,7 +622,7 @@ const drawMapEchart3 = () => {
         show: false
       }
     },
-    series: series
+    series
   })
   window.addEventListener('resize', () => {
     mapChart.resize()
@@ -858,7 +858,7 @@ const drawMapEchart4 = () => {
     //     zoomSensitivity: 0 // 禁止缩放
     //   }
     // },
-    series: series
+    series
   })
   window.addEventListener('resize', () => {
     serveMap.resize()

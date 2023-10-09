@@ -282,9 +282,7 @@ const drawLineChart = () => {
       formatter(params: ToolTipFormatterParams[]) {
         return `<div>
           <p class="tooltip-title">${params[0]?.axisValueLabel}</p>
-          <div class="content-panel"><span>总内容量</span><span class="tooltip-value">${(
-            Number(params[0].value) * 10000
-          ).toLocaleString()}</span></div>
+          <div class="content-panel"><span>总内容量</span><span class="tooltip-value">${(Number(params[0].value) * 10000).toLocaleString()}</span></div>
         </div>`
       }
     },
@@ -776,6 +774,7 @@ const drawPieChart = () => {
 
           &:hover {
             color: rgb(var(--arcoblue-5));
+
             .cell-icon {
               background-color: rgb(var(--arcoblue-1));
 
@@ -786,14 +785,17 @@ const drawPieChart = () => {
           }
         }
       }
+
       .card-notice {
         width: 100%;
+
         .notice-item {
           display: flex;
           align-items: center;
           width: 100%;
           height: 24px;
           margin-bottom: 4px;
+
           .item-text {
             flex: 1;
             overflow: hidden;
@@ -807,10 +809,12 @@ const drawPieChart = () => {
           }
         }
       }
+
       .card-doc {
         display: flex;
         flex-wrap: wrap;
         width: 100%;
+
         .doc-item {
           width: 50%;
           margin-bottom: 10px;

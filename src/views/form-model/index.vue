@@ -98,7 +98,7 @@ const confirmSubmit = () => {
     } else {
       const errInfo = Object.values(errors)
       errInfo.forEach((item, index) => {
-        if (index == 0) instance?.proxy?.$message.warning(item.message)
+        if (index === 0) instance?.proxy?.$message.warning(item.message)
       })
     }
   })
@@ -142,7 +142,7 @@ const confirmValidate = () => {
       } else {
         const errInfo = Object.values(errors)
         errInfo.forEach((item, index) => {
-          if (index == 0) instance?.proxy?.$message.warning(item.message)
+          if (index === 0) instance?.proxy?.$message.warning(item.message)
         })
       }
     })

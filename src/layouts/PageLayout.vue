@@ -77,8 +77,8 @@ const router = useRouter()
 const route = useRoute()
 
 interface State {
-  openKeys: string[],
-  menuList: RouteRecordRaw[],
+  openKeys: string[]
+  menuList: RouteRecordRaw[]
   selectedKeys: string[]
 }
 const state = reactive<State>({
@@ -155,7 +155,7 @@ const backHome = () => {
   width: 100%;
   height: 100vh;
   background-color: #fff;
-  
+
   .basic-header {
     display: flex;
     align-items: center;
