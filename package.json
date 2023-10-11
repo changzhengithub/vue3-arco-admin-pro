@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@arco-themes/vue-arco-admin-pro": "^0.0.1",
-    "@types/echarts": "^4.9.18",
     "axios": "^1.4.0",
     "echarts": "^5.4.3",
     "echarts-extension-amap": "^1.11.0",
@@ -28,6 +27,7 @@
   "devDependencies": {
     "@arco-design/web-vue": "^2.49.3",
     "@tsconfig/node18": "^2.0.1",
+    "@types/echarts": "^4.9.19",
     "@types/mockjs": "^1.0.7",
     "@types/node": "^18.16.17",
     "@types/nprogress": "^0.2.0",
