@@ -225,4 +225,4 @@ const backHome = () => {
   // right: -10px;
   // top: -1px;
 }
-</style>@/config/settings
+</style>
