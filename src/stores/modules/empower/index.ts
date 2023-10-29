@@ -54,6 +54,7 @@ export const useEmpowerStore = defineStore('empower', {
             menuList = menu_perm || []
             operateList = operate_perm || []
           }
+          console.log(menuList)
           this.menuPermList = menuList
           this.operatePermList = operateList
           if (menuList.length) {

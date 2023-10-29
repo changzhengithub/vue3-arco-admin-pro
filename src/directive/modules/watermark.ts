@@ -5,14 +5,15 @@
  * @example
  * <div v-watermark></div>
  * */
+import type { DirectiveBinding } from 'vue'
 
 export default {
   // 初始化指令
-  bind(el, binding) {
+  bind(el: HTMLElement, binding: DirectiveBinding) {
     // 水印文字，父元素，画布宽度，画布高度，字体，文字颜色
-    function addWaterMarker(str, parentNode, width, height, font, textColor) {
+    function addWaterMarker(str: string, parentNode: HTMLElement, width: number, height: number, font: string, textColor: string) {
       // 检查父元素是否包含子元素
-      const elementContains = (parent, child) => parent !== child && parent.contains(child)
+      const elementContains = (parent: HTMLElement, child: HTMLCanvasElement | null) => parent !== child && parent.contains(child)
       const flag = elementContains(parentNode, document.querySelector('canvas'))
       // 防止重复创建
       if (!flag) {
@@ -21,7 +22,7 @@ export default {
         can.width = width || 600
         can.height = height || 300
         can.style.display = 'none'
-        const cans = can.getContext('2d')
+        const cans = can.getContext('2d') as CanvasRenderingContext2D
         cans.rotate(-20 * Math.PI / 180)
         cans.font = font || '13px Microsoft Yahei'
         cans.fillStyle = textColor || 'rgba(255, 255, 255, .2)'

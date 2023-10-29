@@ -1,5 +1,5 @@
 /**
- * 页面操作权限指令
+ * 全局权限指令
  * @description 传入当前操作需要的权限，进行判断是否显示
  * @author changz
  * @param {String} - 权限
@@ -9,15 +9,19 @@
 
 // 或者在util中定义一个公共函数，传入权限通过v-if判断是否显示当前操作
 
+import type { DirectiveBinding, VNode } from 'vue'
+
 import { useEmpowerStore } from '@/stores/modules/empower'
-const empowerStore = useEmpowerStore()
 
 export default {
-  inserted(el: any, binding: any, vnode: any) {
+  mounted(el: HTMLElement, binding: DirectiveBinding, vnode: VNode) {
+    // 当前用户拥有的权限列表
+    const empowerStore = useEmpowerStore()
+    const { menuPermList, operatePermList } = empowerStore
+    const permList = menuPermList.concat(operatePermList)
     const permission = binding.value // 获取权限值
-    const permList = empowerStore.menuPermList // 当前用户拥有的操作权限
     if (!permList.includes(permission)) {
-      el.parentElement.removeChild(el) // 不拥有该权限移除dom元素
+      el.parentElement?.removeChild(el) // 不拥有该权限移除dom元素
     }
   }
 }

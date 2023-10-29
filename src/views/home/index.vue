@@ -6,11 +6,11 @@
       <ArcoIcon icon="icon-tag" size="30" :style="{color: 'blue'}"></ArcoIcon>
 
       <icon-font type="icon-CEO-female" :size="30" />
+      <a-input :style="{width:'320px'}" placeholder="Please enter something" allow-clear v-focus />
     </div>
-
     <a-space>
-      <a-button type="primary" @click="switchDarkTheme">深色主题</a-button>
-      <a-button type="outline" @click="switchWhiteTheme">浅色主题</a-button>
+      <a-button v-permission="'home'" type="primary" @click="switchDarkTheme">深色主题</a-button>
+      <a-button v-if="$hasPer('home')" type="outline" @click="switchWhiteTheme">浅色主题</a-button>
     </a-space>
     <HelloWorld :msg="msg"></HelloWorld>
   </div>
@@ -23,10 +23,14 @@
  * @author changz
  * */
 
-import { ref } from 'vue'
+import { ref, getCurrentInstance } from 'vue'
 import { useAppStore } from '@/stores/modules/app'
 import HelloWorld from './components/HelloWorld.vue'
 import ArcoIcon from '@/components/ArcoIcon'
+
+const instance = getCurrentInstance()
+
+console.log(instance?.proxy?.$hasPer('home'))
 
 const store = useAppStore()
 
