@@ -1,18 +1,46 @@
 <template>
   <div class="index">
-    <div class="index-header">
-      <h1>{{ title }}</h1>
-      <h2>主题颜色：{{store.appName}}</h2>
-      <ArcoIcon icon="icon-tag" size="30" :style="{color: 'blue'}"></ArcoIcon>
-
-      <icon-font type="icon-CEO-female" :size="30" />
-      <a-input :style="{width:'320px'}" placeholder="Please enter something" allow-clear v-focus />
-    </div>
-    <a-space>
-      <a-button v-permission="'home'" type="primary" @click="switchDarkTheme">深色主题</a-button>
-      <a-button v-if="$hasPer('home')" type="outline" @click="switchWhiteTheme">浅色主题</a-button>
-    </a-space>
-    <HelloWorld :msg="msg"></HelloWorld>
+    <a-row class="index-grid" :gutter="[24, 12]">
+      <a-col :span="6">
+        <a-card title="主题">
+          <h1>主题：{{store.appName}}</h1>
+          <a-space>
+            <a-button type="primary" @click="switchDarkTheme">深色主题</a-button>
+            <a-button type="outline" @click="switchWhiteTheme">浅色主题</a-button>
+          </a-space>
+        </a-card>
+      </a-col>
+      <a-col :span="6">
+        <a-card title="Icon图标">
+          <h1>{{ title }}</h1>
+          <ArcoIcon icon="icon-tag" size="30" :style="{color: 'blue'}"></ArcoIcon>
+          <icon-font type="icon-CEO-female" :size="30" />
+        </a-card>
+      </a-col>
+      <a-col :span="6">
+        <a-card title="自定义指令">
+          <a-input :style="{width:'320px'}" placeholder="Please enter something" allow-clear v-focus />
+        </a-card>
+      </a-col>
+      <a-col :span="6">
+        <a-card title="权限指令">
+          <a-space>
+            <a-button v-permission="'home'" type="primary">主页权限按钮</a-button>
+            <a-button v-if="$hasPer('home')" type="outline">主页权限按钮</a-button>
+          </a-space>
+        </a-card>
+      </a-col>
+      <a-col :span="6">
+        <a-card title="组件">
+          <HelloWorld :msg="msg"></HelloWorld>
+        </a-card>
+      </a-col>
+      <a-col :span="6">
+        <a-card title="hook使用">
+          <h1>鼠标位置：{{x}}-{{y}}</h1>
+        </a-card>
+      </a-col>
+    </a-row>
   </div>
 </template>
 
@@ -24,7 +52,10 @@
  * */
 
 import { ref, getCurrentInstance } from 'vue'
+
 import { useAppStore } from '@/stores/modules/app'
+import { useMouse } from '@/hooks/mouse'
+
 import HelloWorld from './components/HelloWorld.vue'
 import ArcoIcon from '@/components/ArcoIcon'
 
@@ -39,6 +70,7 @@ const msg = ref<string>('hello world!')
 
 console.log(import.meta.env.VITE_ENV)
 
+// 切换主题
 const switchDarkTheme = () => {
   store.switchTheme('#000')
 }
@@ -46,12 +78,22 @@ const switchWhiteTheme = () => {
   console.log(store)
   store.theme = '#fff'
 }
+
+
+// hook使用
+const { x, y } = useMouse()
+
 </script>
 
 <style lang="less" scoped>
   .index {
-    .flex_center();
     width: 100%;
-    height: 400px;
+    .index-grid {
+      width: 100%;
+
+      :deep(.arco-card-body) {
+        min-height: 200px;
+      }
+    }
   }
 </style>
