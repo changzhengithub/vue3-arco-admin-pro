@@ -1,5 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference types="vite/client" />
+/// <reference types="./src/types/global.d.ts" />
+/// <reference types="./src/types/api.d.ts" />
 
 /**
  * 全局声明文件

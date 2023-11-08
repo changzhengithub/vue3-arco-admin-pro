@@ -1,5 +1,6 @@
 /**
- * @desc echarts类型声明扩展
+ * echarts类型声明扩展
+ * @desc 按需加载，不做全局声明，只在文件中使用引入
  * */
 
 import type { ComposeOption } from 'echarts/core'

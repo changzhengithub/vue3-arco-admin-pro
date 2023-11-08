@@ -51,7 +51,8 @@
  * @author changz
  * */
 
-import { ref, getCurrentInstance } from 'vue'
+import { ref, getCurrentInstance, provide } from 'vue'
+import { PROVIDE_STRING } from '@/provide'
 
 import { useAppStore } from '@/stores/modules/app'
 import { useMouse } from '@/hooks/mouse'
@@ -83,6 +84,10 @@ const switchWhiteTheme = () => {
 // hook使用
 const { x, y } = useMouse()
 
+
+// 依赖注入使用
+provide(PROVIDE_STRING, 'hello world123')
+
 </script>
 
 <style lang="less" scoped>
@@ -96,4 +101,4 @@ const { x, y } = useMouse()
       }
     }
   }
-</style>
+</style>@/provide/provide

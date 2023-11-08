@@ -15,7 +15,7 @@
       <a-col :sm="24" :md="24" :lg="24" :xl="12" :xxl="12">
         <div class="index-card">
           <div class="card-header">
-            <span>百度地图插件</span>
+            <span>地图插件</span>
             <a-link href="link">查看更多</a-link>
           </div>
           <div class="card-wrap">
