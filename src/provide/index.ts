@@ -5,6 +5,7 @@
  * @example 调用示例
  * import { PROVIDE_STRING } from '@/provide'
  * provide(PROVIDE_STRING, 'hello world')
+ * const foo = inject(PROVIDE_STRING)
  * */
 
 import type { InjectionKey } from 'vue'
