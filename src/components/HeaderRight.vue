@@ -71,19 +71,22 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, getCurrentInstance, computed } from 'vue'
+import { reactive, ref, computed } from 'vue'
+
 import storage from 'store'
 import { useRouter } from 'vue-router'
-import type { FormInstance } from '@arco-design/web-vue/es/form'
-
 import { useEmpowerStore } from '@/stores/modules/empower'
+import useGlobalProperties from '@/hooks/globalProperties'
+
+
+import type { FormInstance } from '@arco-design/web-vue/es/form'
 
 import { logoutApi, updatePwdApi } from '@/api/empower'
 
 const formRef = ref<FormInstance>()
 
 
-const instance = getCurrentInstance()
+const { global } = useGlobalProperties()
 const empowerStore = useEmpowerStore()
 const router = useRouter()
 
@@ -129,7 +132,7 @@ const confirmModifyPwd = () => {
     if (!errors) {
       const { old_pwd, new_pwd, confirm_pwd } = pwdFormData
       if (new_pwd !== confirm_pwd) {
-        instance?.proxy?.$message.warning('两次密码必须一样!')
+        global?.$message.warning('两次密码必须一样!')
         return
       }
       const params = {
@@ -141,13 +144,13 @@ const confirmModifyPwd = () => {
         .then(res => {
           if (res.code !== 200) {
             modifyPwdDialog.confirmLoad = false
-            instance?.proxy?.$notification.error({
+            global?.$notification.error({
               title: '错误',
               content: res.msg
             })
             return
           }
-          instance?.proxy?.$message.success('操作成功，请重新登录！')
+          global?.$message.success('操作成功，请重新登录！')
           storage.clearAll()
           setTimeout(() => {
             window.location.href = '/'
@@ -155,7 +158,7 @@ const confirmModifyPwd = () => {
         })
         .catch(err => {
           modifyPwdDialog.confirmLoad = false
-          instance?.proxy?.$notification.error({
+          global?.$notification.error({
             title: '错误',
             content: err.message
           })
@@ -163,7 +166,7 @@ const confirmModifyPwd = () => {
     } else {
       const errInfo = Object.values(errors)
       errInfo.forEach((item, index) => {
-        if (index === 0) instance?.proxy?.$message.warning(item.message)
+        if (index === 0) global?.$message.warning(item.message)
       })
     }
   })
@@ -171,7 +174,7 @@ const confirmModifyPwd = () => {
 
 // 退出登录
 const logoutSubmit = () => {
-  instance?.proxy?.$modal.warning({
+  global?.$modal.warning({
     title: '提示',
     content: '确定要退出登录？',
     closable: true,
@@ -179,7 +182,7 @@ const logoutSubmit = () => {
       logoutApi()
         .then(res => {
           if (res.code !== 200) {
-            instance?.proxy?.$notification.error({
+            global?.$notification.error({
               title: '错误',
               content: res.msg
             })
@@ -189,7 +192,7 @@ const logoutSubmit = () => {
           window.location.reload()
         })
         .catch(err => {
-          instance?.proxy?.$notification.error({
+          global?.$notification.error({
             title: '错误',
             content: err.message
           })

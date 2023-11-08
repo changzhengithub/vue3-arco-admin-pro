@@ -36,14 +36,16 @@
  * @desc 登录
  * @author changz
  * */
-import { ref, reactive, getCurrentInstance, onMounted } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useEmpowerStore } from '@/stores/modules/empower'
+import useGlobalProperties from '@/hooks/globalProperties'
+
 import type { FormInstance } from '@arco-design/web-vue/es/form'
 
 // import { captchaApi } from '@/api/empower'
 
-const instance = getCurrentInstance()
+const { global } = useGlobalProperties()
 const router = useRouter()
 const empowerStore = useEmpowerStore()
 
@@ -73,7 +75,7 @@ onMounted(() => {
 //   captchaApi().then(res => {
 //     codeLoad.value = false
 //     if (res.code !== 200) {
-//       instance?.proxy?.$notification.warning({
+//       global?.$notification.warning({
 //         title: '提示',
 //         content: res.msg
 //       })
@@ -85,7 +87,7 @@ onMounted(() => {
 //     formData.code = ''
 //   }).catch(err => {
 //     codeLoad.value = false
-//     instance?.proxy?.$notification.warning({
+//     global?.$notification.warning({
 //       title: '提示',
 //       content: err.message
 //     })
@@ -108,7 +110,7 @@ const submitForm = () => {
         .then((res) => {
           submitLoad.value = false
           if (res.code !== 200) {
-            instance?.proxy?.$notification.error({
+            global?.$notification.error({
               title: '错误',
               content: res.message
             })
@@ -117,7 +119,7 @@ const submitForm = () => {
           router.push({ path: '/' })
           // 延迟 1 秒显示欢迎信息
           setTimeout(() => {
-            instance?.proxy?.$notification.success({
+            global?.$notification.success({
               title: '欢迎',
               content: '欢迎回来'
             })
@@ -125,13 +127,13 @@ const submitForm = () => {
         })
         .catch(err => {
           submitLoad.value = false
-          instance?.proxy?.$notification.error({
+          global?.$notification.error({
             title: '错误',
             content: err.message
           })
         })
     } else {
-      instance?.proxy?.$message.warning('表单填写不完整！')
+      global?.$message.warning('表单填写不完整！')
     }
   })
 }

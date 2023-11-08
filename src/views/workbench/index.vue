@@ -210,7 +210,6 @@
         </a-grid>
       </a-col>
     </a-row>
-
   </div>
 </template>
 

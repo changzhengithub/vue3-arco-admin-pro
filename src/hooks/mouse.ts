@@ -2,13 +2,13 @@
  * 全局hook
  * 查看当前鼠标位置
  * @example 调用示例
- * import { useMouse } from '@/hooks/mouse'
+ * import useMouse from '@/hooks/mouse'
  * const { x, y } = useMouse()
  * */
 
 import { ref, onMounted, onUnmounted } from 'vue'
 
-export const useMouse = () => {
+export default function useMouse() {
   const x = ref(0)
   const y = ref(0)
 

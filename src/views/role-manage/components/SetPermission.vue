@@ -41,11 +41,12 @@
  * @description 设置角色权限
  * @author
  * */
-import { ref, getCurrentInstance, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
+import useGlobalProperties from '@/hooks/globalProperties'
 
 import { permissionList, type PermissionList } from '@/json/permission.json'
 
-const instance = getCurrentInstance()
+const { global } = useGlobalProperties()
 
 const loading = ref(false) // 加载中
 const saveLoad = ref(false) // 保存中
@@ -138,7 +139,7 @@ const confirmSubmit = () => {
   saveLoad.value = true
   setTimeout(() => {
     saveLoad.value = false
-    instance?.proxy?.$message.success('操作成功')
+    global?.$message.success('操作成功')
     console.log(params)
     emit('CLOSE_EVENT')
   }, 2000)

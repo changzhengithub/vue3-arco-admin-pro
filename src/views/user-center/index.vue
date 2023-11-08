@@ -13,14 +13,16 @@
 </template>
 
 <script setup lang="ts" name="UserCenter">
-import { ref, getCurrentInstance } from 'vue'
+import { ref } from 'vue'
+import useGlobalProperties from '@/hooks/globalProperties'
+
 import FormData from 'form-data'
 import type { RequestOption } from '@arco-design/web-vue/es/upload/interfaces'
 
 import { uploadFileApi } from '@/api/public'
 
 
-const instance = getCurrentInstance()
+const { global } = useGlobalProperties()
 const title = ref<string>('个人信息')
 const uploadLoad = ref(false)
 const percent = ref(0)
@@ -30,11 +32,11 @@ const beforeUpload = (file: File) => {
   const fileExtension = name.split('.').pop()
   const limitType = fileExtension === 'jpg' || fileExtension === 'jpeg' || fileExtension === 'png' || fileExtension === 'gif'
   if (!limitType) {
-    instance?.proxy?.$message.error('请上传 JPG、PNG、JPEG 或 GIF 格式图片!')
+    global?.$message.error('请上传 JPG、PNG、JPEG 或 GIF 格式图片!')
   }
   const limitSize = size / 1024 / 1024 < 8
   if (!limitSize) {
-    instance?.proxy?.$message.error('文件不可大于 8MB!')
+    global?.$message.error('文件不可大于 8MB!')
   }
   return limitType && limitSize
 }
@@ -57,19 +59,19 @@ const customRequest = (option: RequestOption): any => {
     .then(res => {
       uploadLoad.value = false
       if (res.code !== 200) {
-        instance?.proxy?.$notification.warning({
+        global?.$notification.warning({
           title: '提示',
           content: res.msg
         })
         return false
       }
-      instance?.proxy?.$message.success('上传成功')
+      global?.$message.success('上传成功')
       console.log(res)
       percent.value = 0
     })
     .catch(err => {
       uploadLoad.value = false
-      instance?.proxy?.$notification.warning({
+      global?.$notification.warning({
         title: '提示',
         content: err.message
       })

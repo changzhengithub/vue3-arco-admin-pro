@@ -40,6 +40,12 @@
           <h1>鼠标位置：{{x}}-{{y}}</h1>
         </a-card>
       </a-col>
+      <a-col :span="6">
+        <a-card title="中央事件">
+          <EmitChild></EmitChild>
+          <OnChild></OnChild>
+        </a-card>
+      </a-col>
     </a-row>
   </div>
 </template>
@@ -51,18 +57,21 @@
  * @author changz
  * */
 
-import { ref, getCurrentInstance, provide } from 'vue'
+import { ref, provide } from 'vue'
 import { PROVIDE_STRING } from '@/provide'
 
 import { useAppStore } from '@/stores/modules/app'
-import { useMouse } from '@/hooks/mouse'
+import useMouse from '@/hooks/mouse'
+import useGlobalProperties from '@/hooks/globalProperties'
 
-import HelloWorld from './components/HelloWorld.vue'
 import ArcoIcon from '@/components/ArcoIcon'
+import HelloWorld from './components/HelloWorld.vue'
+import EmitChild from './components/EmitChild.vue'
+import OnChild from './components/OnChild.vue'
 
-const instance = getCurrentInstance()
+const { global } = useGlobalProperties()
 
-console.log(instance?.proxy?.$hasPer('home'))
+console.log(global?.$hasPer('home'))
 
 const store = useAppStore()
 

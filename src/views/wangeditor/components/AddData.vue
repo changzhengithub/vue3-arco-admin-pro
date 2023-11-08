@@ -39,12 +39,14 @@
  * @description 添加用户
  * @author
  * */
-import {  reactive, ref, getCurrentInstance, onMounted } from 'vue'
+import {  reactive, ref, onMounted } from 'vue'
 import regExp from '@/utils/regExp'
+import useGlobalProperties from '@/hooks/globalProperties'
+
 import type { FormInstance } from '@arco-design/web-vue/es/form'
 import type { TableInfo } from '../types'
 
-const instance = getCurrentInstance()
+const { global } = useGlobalProperties()
 
 const formRef = ref<FormInstance>()
 const saveLoad = ref(false) // 保存中
@@ -98,13 +100,13 @@ const confirmSubmit = () => {
       saveLoad.value = true
       setTimeout(() => {
         saveLoad.value = false
-        instance?.proxy?.$message.success('操作成功')
+        global?.$message.success('操作成功')
         emit('CLOSE_EVENT', formData)
       }, 2000)
     } else {
       const errInfo = Object.values(errors)
       errInfo.forEach((item, index) => {
-        if (index == 0) instance?.proxy?.$message.warning(item.message)
+        if (index == 0) global?.$message.warning(item.message)
       })
     }
   })

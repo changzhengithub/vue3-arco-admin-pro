@@ -8,6 +8,7 @@ import IconFont from '@/components/Iconfont'
 import ArcoVue from '@arco-design/web-vue'
 import ArcoVueIcon from '@arco-design/web-vue/es/icon'
 import hasPer from '@/utils/permissions'
+import emitter from '@/mitt'
 
 // CSS引入
 import './assets/css/main.css'
@@ -19,9 +20,6 @@ import './mock'
 import './permission'
 
 
-// 配置mitt公共组件传参
-import mitt from 'mitt'
-const emitter = mitt()
 // TS注册
 // 必须要扩展ComponentCustomProperties类型才能获得类型提示
 declare module 'vue' {

@@ -68,11 +68,13 @@
 </template>
 
 <script setup lang="ts" name="FormModel">
-import { ref, reactive, getCurrentInstance } from 'vue'
+import { ref, reactive } from 'vue'
+import useGlobalProperties from '@/hooks/globalProperties'
+
 import type { FormInstance } from '@arco-design/web-vue/es/form'
 import type { FormList } from './types'
 
-const instance = getCurrentInstance()
+const { global } = useGlobalProperties()
 
 const tabKey = ref('1')
 
@@ -94,11 +96,11 @@ const handleDelete = (index: number) => {
 const confirmSubmit = () => {
   formRef.value?.validate(errors => {
     if (!errors) {
-      instance?.proxy?.$message.success('验证成功')
+      global?.$message.success('验证成功')
     } else {
       const errInfo = Object.values(errors)
       errInfo.forEach((item, index) => {
-        if (index === 0) instance?.proxy?.$message.warning(item.message)
+        if (index === 0) global?.$message.warning(item.message)
       })
     }
   })
@@ -138,11 +140,11 @@ const confirmValidate = () => {
   refList.value.forEach(item => {
     item?.validate(errors => {
       if (!errors) {
-        instance?.proxy?.$message.success('验证成功')
+        global?.$message.success('验证成功')
       } else {
         const errInfo = Object.values(errors)
         errInfo.forEach((item, index) => {
-          if (index === 0) instance?.proxy?.$message.warning(item.message)
+          if (index === 0) global?.$message.warning(item.message)
         })
       }
     })
