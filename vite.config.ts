@@ -27,7 +27,8 @@ export default defineConfig({
     vueJsx(),
     // 配置vite在运行的时候自动检测eslint规范
     eslintPlugin({
-      include: ['src/**/*.ts', 'src/**/*.js', 'src/**/*.vue', 'src/*.ts', 'src/*.js', 'src/*.vue']
+      include: ['src/**/*.ts', 'src/**/*.vue', 'src/*.ts', 'src/*.vue'],
+      exclude: ['./node_modules/**']
     }),
     // 自定义组件名称
     VueSetupExtend()

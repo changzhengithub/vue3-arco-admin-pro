@@ -8,8 +8,8 @@
           <div class="logo-title">{{appStore.appName}}</div>
         </div>
         <div class="header-menu">
-          <a-menu mode="horizontal" :selected-keys="state.selectedKeys" :open-keys="state.openKeys" :auto-scroll-into-view="true" :auto-open="true" :accordion="true" @sub-menu-click="subMenuClick" @menuItemClick="onClickMenuItem">
-            <template v-for="(item, index) in state.menuList" :key="index">
+          <a-menu mode="horizontal" :selected-keys="selectedKeys" :open-keys="openMenuKeys" :auto-scroll-into-view="true" :auto-open="true" :accordion="true" @sub-menu-click="subMenuClick" @menuItemClick="onClickMenuItem">
+            <template v-for="(item, index) in menuList" :key="index">
               <a-menu-item :key="item.path" v-if="!item.children">
                 <template #icon>
                   <ArcoIcon :icon="(item?.meta?.icon as string)"></ArcoIcon>
@@ -59,7 +59,7 @@
  * @description 顶部菜单布局
  * */
 
-import { reactive } from 'vue'
+import { ref } from 'vue'
 import { useRouter, useRoute, onBeforeRouteUpdate, type RouteRecordRaw } from 'vue-router'
 import { useAppStore } from '@/stores/modules/app'
 import { usePublicStore } from '@/stores/modules/public'
@@ -76,16 +76,9 @@ const empowerStore = useEmpowerStore()
 const router = useRouter()
 const route = useRoute()
 
-interface State {
-  openKeys: string[]
-  menuList: RouteRecordRaw[]
-  selectedKeys: string[]
-}
-const state = reactive<State>({
-  openKeys: [],
-  menuList: [],
-  selectedKeys: []
-})
+const openMenuKeys = ref<string[]>([])
+const selectedKeys = ref<string[]>([])
+const menuList = ref<RouteRecordRaw[]>([])
 
 // 获取路由列表
 const getMeunList = (routerList: RouteRecordRaw[] = []) => {
@@ -102,15 +95,15 @@ const getMeunList = (routerList: RouteRecordRaw[] = []) => {
 }
 
 const routerList = getMeunList(empowerStore.routerList[0].children)
-state.menuList = routerList
-state.selectedKeys = [route.path]
+menuList.value = routerList
+selectedKeys.value = [route.path]
 
 // 路由跳转获取展开key
 const getOpenKeys = (path: string) => {
-  state.menuList.forEach(item => {
+  menuList.value.forEach(item => {
     if (item.children && item.children.length) {
       const bool = item.children.map(sub => sub.path).includes(path)
-      if (bool) state.openKeys = [item.path]
+      if (bool) openMenuKeys.value = [item.path]
     }
   })
 }
@@ -120,19 +113,19 @@ getOpenKeys(route.path)
 // 监听当前路由更改
 onBeforeRouteUpdate((to, from, next) => {
   getOpenKeys(to.path)
-  state.selectedKeys = [to.path]
+  selectedKeys.value = [to.path]
   next()
 })
 
 
 // 展开子菜单
 const subMenuClick = (key: string, openKeys: string[]) => {
-  state.openKeys = openKeys
+  openMenuKeys.value = openKeys
 }
 
 // 路由跳转
 const onClickMenuItem = (key: string) => {
-  state.selectedKeys = [key]
+  selectedKeys.value = [key]
   if (regExp.urlReg.test(key)) {
     window.open(key)
   } else {

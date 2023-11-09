@@ -4,34 +4,29 @@
       <GlobalHeader></GlobalHeader>
     </div>
     <div class="blank-container">
-      <!-- 是否缓存父组件层级 -->
-      <keep-alive>
-        <router-view :key="$route.fullPath" v-if="$route.meta.keepAlive"></router-view>
-      </keep-alive>
-      <router-view :key="$route.fullPath" v-if="!$route.meta.keepAlive"></router-view>
+      <!-- 路由缓存，只针对当前子路由进行缓存 -->
+      <!-- RouteView 子路由模板名称，防止刷新子路由 -->
+      <RouterView v-slot="{ Component }">
+        <!-- <Transition name="fade" mode="out-in" appear> -->
+          <KeepAlive :include="['RouteView', ...publicStore.cacheList]">
+            <component :is="Component"></component>
+          </KeepAlive>
+        <!-- </Transition> -->
+      </RouterView>
     </div>
   </div>
 </template>
 
-<script>
+<script setup lang="ts" name="BlankLayout">
 /**
  * @description 空白布局
+ * @author changz
  * */
+import { usePublicStore } from '@/stores/modules/public'
 
-import GlobalHeader from '@/components/GlobalHeader'
+import GlobalHeader from '@/components/GlobalHeader.vue'
 
-export default {
-  components: {
-    GlobalHeader
-  },
-
-  data() {
-    return {}
-  },
-
-  created() {},
-  methods: {}
-}
+const publicStore = usePublicStore()
 </script>
 <style lang="less" scoped>
 .blank {
