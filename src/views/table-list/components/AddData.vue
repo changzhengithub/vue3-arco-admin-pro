@@ -40,6 +40,24 @@ import type { TableInfo } from '../types'
 
 const { global } = useGlobalProperties()
 
+// 接收参数
+const props = withDefaults(
+  defineProps<{
+    id?: string
+    recordData: TableInfo
+  }>(),
+  {
+    recordData: () => ({} as TableInfo)
+  }
+)
+
+// 定义事件
+const emit = defineEmits<{
+  CLOSE_EVENT: [formData?: TableInfo]
+}>()
+
+
+
 const formRef = ref<FormInstance>()
 const saveLoad = ref(false) // 保存中
 
@@ -61,21 +79,6 @@ let formData = reactive<TableInfo>({
   address: ''
 })
 
-// 接收参数
-const props = withDefaults(
-  defineProps<{
-    id?: string
-    recordData: TableInfo
-  }>(),
-  {
-    recordData: () => ({} as TableInfo)
-  }
-)
-
-// 定义事件
-const emit = defineEmits<{
-  CLOSE_EVENT: [formData?: TableInfo]
-}>()
 
 console.log(props.recordData)
 

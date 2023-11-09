@@ -28,7 +28,7 @@ const RoleManage = () => import(/* webpackChunkName: 'role-manage' */ '@/views/r
 const OrgManage = () => import(/* webpackChunkName: 'org-manage' */ '@/views/org-manage/index.vue')
 const TableList = () => import(/* webpackChunkName: 'table-list' */ '@/views/table-list/index.vue')
 const FormModel = () => import(/* webpackChunkName: 'from-model' */ '@/views/form-model/index.vue')
-const WangEditor = () => import(/* webpackChunkName: 'wangeditor' */ '@/views/wangeditor/index.vue')
+const Example = () => import(/* webpackChunkName: 'example' */ '@/views/example/index.vue')
 
 const UserCenter = () => import(/* webpackChunkName: 'user-center' */ '@/views/user-center/index.vue')
 const SystemSetting = () => import(/* webpackChunkName: 'system-setting' */ '@/views/system-setting/index.vue')
@@ -81,10 +81,10 @@ export const asyncRouterMap: RouteRecordRaw[] = [
         meta: { title: '表单验证', icon: 'icon-subscribed', hidden: false, keepAlive: true, isAuth: true, permission: 'form_model' }
       },
       {
-        path: '/wangeditor',
-        name: 'WangEditor',
-        component: WangEditor,
-        meta: { title: '富文本', icon: 'icon-code-square', hidden: false, keepAlive: true, isAuth: true, permission: 'form_model' }
+        path: '/example',
+        name: 'Example',
+        component: Example,
+        meta: { title: '示例', icon: 'icon-pen-fill', hidden: false, keepAlive: true, isAuth: true, permission: 'form_model' }
       },
       {
         path: '/role-org',

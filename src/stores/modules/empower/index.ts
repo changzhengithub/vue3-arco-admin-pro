@@ -25,7 +25,6 @@ export const useEmpowerStore = defineStore('empower', {
     userLogin(params: LoginReq) {
       return new Promise<LoginRes>((resolve, reject) => {
         loginApi(params).then(res => {
-          console.log(res)
           const { token, data } = res
           storage.set(ACCESS_TOKEN, token)
           this.userInfo = data
@@ -54,7 +53,6 @@ export const useEmpowerStore = defineStore('empower', {
             menuList = menu_perm || []
             operateList = operate_perm || []
           }
-          console.log(menuList)
           this.menuPermList = menuList
           this.operatePermList = operateList
           if (menuList.length) {
@@ -71,7 +69,6 @@ export const useEmpowerStore = defineStore('empower', {
     filterRoutes() {
       return new Promise((resolve, reject) => {
         const routerList = this.filterAsyncRouter(asyncRouterMap, this.menuPermList)
-        console.log(routerList)
         routerList.push({
           path: '/:catchAll(.*)',
           redirect: '/exception'

@@ -58,11 +58,17 @@
 </template>
 
 <script setup lang="ts" name="OrgManage">
+/**
+ * @desc 组织部门
+ * @author changz
+ * */
+
 import { ref, reactive } from 'vue'
 import { deepClone } from '@/utils/util'
+import orgList from '@/json/org.json'
+
 import type { TableRowSelection, TableColumnData } from '@arco-design/web-vue'
 import type { TableInfo } from './types'
-import orgList from '@/json/org.json'
 
 // import EditUser from './components/EditUser.vue'
 

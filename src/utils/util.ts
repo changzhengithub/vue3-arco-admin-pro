@@ -45,7 +45,7 @@ export function getStrFullLength(str = '') {
  * @param {*} str
  * @param {*} maxLength
  */
-export function cutStrByFullLength(str = '', maxLength: number) {
+export function cutStrByFullLength(str: string, maxLength: number) {
   let showLength = 0
   const strLength = str.split('').reduce((pre, cur) => {
     const charCode = cur.charCodeAt(0)

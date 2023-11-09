@@ -68,6 +68,11 @@
 </template>
 
 <script setup lang="ts" name="FormModel">
+/**
+ * @desc 表单验证
+ * @author changz
+ * */
+
 import { ref, reactive } from 'vue'
 import useGlobalProperties from '@/hooks/globalProperties'
 

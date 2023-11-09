@@ -21,6 +21,7 @@
     "nprogress": "^0.2.0",
     "pinia": "^2.1.3",
     "store": "^2.0.12",
+    "swiper": "^11.0.3",
     "vue": "^3.3.4",
     "vue-router": "^4.2.2"
   },
@@ -32,6 +33,7 @@
     "@types/node": "^18.16.17",
     "@types/nprogress": "^0.2.0",
     "@types/store": "^2.0.2",
+    "@types/swiper": "^6.0.0",
     "@typescript-eslint/eslint-plugin": "^6.7.4",
     "@vitejs/plugin-vue": "^4.2.3",
     "@vitejs/plugin-vue-jsx": "^3.0.1",

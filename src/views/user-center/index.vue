@@ -13,6 +13,11 @@
 </template>
 
 <script setup lang="ts" name="UserCenter">
+/**
+ * @desc 用户中心
+ * @author changz
+ * */
+
 import { ref } from 'vue'
 import useGlobalProperties from '@/hooks/globalProperties'
 

@@ -55,6 +55,11 @@
 </template>
 
 <script setup lang="ts" name="RoleManage">
+/**
+ * @desc 角色权限
+ * @author changz
+ * */
+
 import { ref, reactive } from 'vue'
 import { deepClone } from '@/utils/util'
 import roleList from '@/json/role.json'

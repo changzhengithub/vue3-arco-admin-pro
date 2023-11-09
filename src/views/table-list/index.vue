@@ -154,8 +154,14 @@
 </template>
 
 <script setup lang="ts" name="TableList">
+/**
+ * @desc 列表页
+ * @author changz
+ * */
+
 import { ref, reactive } from 'vue'
 import { deepClone } from '@/utils/util'
+
 import type { TableRowSelection, TableColumnData } from '@arco-design/web-vue'
 import type { FilterData, TableInfo } from './types'
 

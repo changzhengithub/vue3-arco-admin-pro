@@ -56,8 +56,6 @@
  * */
 
 import { onMounted } from 'vue'
-// import { useAppStore } from '@/stores/modules/app'
-// import ArcoIcon from '@/components/ArcoIcon'
 import echarts from '@/utils/echarts'
 import anhuiJson from '@/json/anhui.json'
 import mapJson from '@/json/map.json'
@@ -66,7 +64,6 @@ import countryJson from '@/json/country.json'
 
 import type { ToolTipFormatterParams, GeoJSONSourceInput, ECOption } from '@/types/echarts'
 
-// const store = useAppStore()
 interface AreaState {
   [key: string]: any
 }

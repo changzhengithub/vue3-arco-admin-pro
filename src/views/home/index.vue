@@ -3,7 +3,7 @@
     <a-row class="index-grid" :gutter="[24, 12]">
       <a-col :span="6">
         <a-card title="主题">
-          <h1>主题：{{store.appName}}</h1>
+          <h1>主题：{{appStore.appName}}</h1>
           <a-space>
             <a-button type="primary" @click="switchDarkTheme">深色主题</a-button>
             <a-button type="outline" @click="switchWhiteTheme">浅色主题</a-button>
@@ -70,23 +70,20 @@ import EmitChild from './components/EmitChild.vue'
 import OnChild from './components/OnChild.vue'
 
 const { global } = useGlobalProperties()
-
-console.log(global?.$hasPer('home'))
-
-const store = useAppStore()
+const appStore = useAppStore()
 
 const title = ref<string>('首页')
 const msg = ref<string>('hello world!')
 
+console.log(global?.$hasPer('home'))
 console.log(import.meta.env.VITE_ENV)
 
 // 切换主题
 const switchDarkTheme = () => {
-  store.switchTheme('#000')
+  appStore.switchTheme('#000')
 }
 const switchWhiteTheme = () => {
-  console.log(store)
-  store.theme = '#fff'
+  appStore.theme = '#fff'
 }
 
 
@@ -98,7 +95,6 @@ const { x, y } = useMouse()
 provide(PROVIDE_STRING, 'hello world123')
 
 </script>
-
 <style lang="less" scoped>
   .index {
     width: 100%;
@@ -110,4 +106,4 @@ provide(PROVIDE_STRING, 'hello world123')
       }
     }
   }
-</style>@/provide/provide
+</style>
