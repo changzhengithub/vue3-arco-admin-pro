@@ -44,7 +44,11 @@
         <a-card title="中央事件">
           <EmitChild></EmitChild>
           <OnChild></OnChild>
-          <Ellipsis :length="10" tooltip>中央事件中央事件中央事件中央事件中央事件</Ellipsis>
+        </a-card>
+      </a-col>
+      <a-col :span="6">
+        <a-card title="文本省略">
+          <Ellipsis :length="30" tooltip position="top" background-color="red">提示：This is a two-line tooltip content.This is a two-line tooltip content.</Ellipsis>
         </a-card>
       </a-col>
     </a-row>

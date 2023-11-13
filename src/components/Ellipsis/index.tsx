@@ -4,9 +4,11 @@
  * @author changz
  * @param {Boolean} [tooltip] - 是否显示文本气泡
  * @param {Number} [length] - 多少个字符后显示省略号，英文为1汉子为2个字符
+ * @param {String} [position] - 弹出位置 'top' | 'tl' | 'tr' | 'bottom' | 'bl' | 'br' | 'left' | 'lt' | 'lb' | 'right' | 'rt' | 'rb'
+ * @param {String} [backgroundColor] - 弹出框的背景颜色
  * @example 调用示例
  * import Ellipsis from '@/components/Ellipsis/index'
- * <Ellipsis :length="10" tooltip>中央事件中央事件中央事件中央事件中央事件</Ellipsis>
+ * <Ellipsis :length="10" tooltip position="top" background-color="red">文本自动省略号</Ellipsis>
  * */
 
 import { defineComponent, useSlots, type VNode } from 'vue'
@@ -20,6 +22,12 @@ export default defineComponent({
     length: {
       type: Number,
       required: true
+    },
+    position: {
+      type: String
+    },
+    backgroundColor: {
+      type: String
     }
   },
   setup(props: any) {
@@ -30,7 +38,7 @@ export default defineComponent({
     }
     const getTooltip = (fullStr: string, fullLength: number) => {
       return (
-        <a-tooltip v-slots={{ content: () => fullStr }}>
+        <a-tooltip position={props.position} background-color={props.backgroundColor} v-slots={{ content: () => fullStr }}>
           {getStrDom(fullStr, fullLength)}
         </a-tooltip>
       )
