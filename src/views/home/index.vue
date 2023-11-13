@@ -44,6 +44,7 @@
         <a-card title="中央事件">
           <EmitChild></EmitChild>
           <OnChild></OnChild>
+          <Ellipsis :length="10" tooltip>中央事件中央事件中央事件中央事件中央事件</Ellipsis>
         </a-card>
       </a-col>
     </a-row>
@@ -68,6 +69,7 @@ import ArcoIcon from '@/components/ArcoIcon'
 import HelloWorld from './components/HelloWorld.vue'
 import EmitChild from './components/EmitChild.vue'
 import OnChild from './components/OnChild.vue'
+import Ellipsis from '@/components/Ellipsis/index'
 
 const { global } = useGlobalProperties()
 const appStore = useAppStore()
