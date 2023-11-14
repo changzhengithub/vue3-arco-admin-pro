@@ -1,6 +1,6 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "include": ["env.d.ts", "src/**/*.vue", "src/**/*.ts", "src/**/*.json", "./.eslintrc.cjs", "./vite.config.ts", "src/components/Ellipsis/index.tsx"],
+  "include": ["env.d.ts", "src/**/*.vue", "src/**/*.ts", "src/**/*.json", "./.eslintrc.cjs", "./vite.config.ts"],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
     "composite": true,

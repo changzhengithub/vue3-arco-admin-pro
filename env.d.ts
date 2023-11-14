@@ -2,6 +2,7 @@
 /// <reference types="vite/client" />
 /// <reference types="./src/types/global.d.ts" />
 /// <reference types="./src/types/api.d.ts" />
+/// <reference types="./src/types/wangeditor.d.ts" />
 
 /**
  * 全局声明文件
@@ -12,3 +13,9 @@
 
 // store声明
 // declare module 'store'
+
+declare module '*.vue' {
+  import { DefineComponent } from 'vue';
+  const Component: DefineComponent<{}, {}, any>;
+  export default Component;
+}
