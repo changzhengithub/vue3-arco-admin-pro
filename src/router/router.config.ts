@@ -29,6 +29,7 @@ const OrgManage = () => import(/* webpackChunkName: 'org-manage' */ '@/views/org
 const TableList = () => import(/* webpackChunkName: 'table-list' */ '@/views/table-list/index.vue')
 const FormModel = () => import(/* webpackChunkName: 'from-model' */ '@/views/form-model/index.vue')
 const Example = () => import(/* webpackChunkName: 'example' */ '@/views/example/index.vue')
+const Example2 = () => import(/* webpackChunkName: 'example' */ '@/views/example2/index.vue')
 
 const UserCenter = () => import(/* webpackChunkName: 'user-center' */ '@/views/user-center/index.vue')
 const SystemSetting = () => import(/* webpackChunkName: 'system-setting' */ '@/views/system-setting/index.vue')
@@ -84,6 +85,12 @@ export const asyncRouterMap: RouteRecordRaw[] = [
         path: '/example',
         name: 'Example',
         component: Example,
+        meta: { title: '示例', icon: 'icon-pen-fill', hidden: false, keepAlive: true, isAuth: true, permission: 'form_model' }
+      },
+      {
+        path: '/example2',
+        name: 'Example2',
+        component: Example2,
         meta: { title: '示例', icon: 'icon-pen-fill', hidden: false, keepAlive: true, isAuth: true, permission: 'form_model' }
       },
       {
