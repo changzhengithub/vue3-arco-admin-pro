@@ -1,4 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/triple-slash-reference */
 /// <reference types="vite/client" />
 /// <reference types="./src/types/global.d.ts" />
 /// <reference types="./src/types/api.d.ts" />
@@ -15,7 +16,7 @@
 // declare module 'store'
 
 declare module '*.vue' {
-  import { DefineComponent } from 'vue';
-  const Component: DefineComponent<{}, {}, any>;
-  export default Component;
+  import { type DefineComponent } from 'vue'
+  const Component: DefineComponent<{}, {}, any>
+  export default Component
 }

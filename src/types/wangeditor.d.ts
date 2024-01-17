@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 /**
  * wangEditor编辑器类型声明扩展
  * @desc 为模块“@wangeditor/editor-for-vue”声明文件
@@ -5,7 +6,7 @@
  * */
 
 declare module '@wangeditor/editor-for-vue' {
-  import { DefineComponent } from 'vue'
+  import { type DefineComponent } from 'vue'
   const Editor: DefineComponent<{}, {}, any>
   const Toolbar: DefineComponent<{}, {}, any>
   export { Editor, Toolbar }
