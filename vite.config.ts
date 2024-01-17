@@ -43,7 +43,7 @@ export default defineConfig({
       // 配置less全局使用
       less: {
         modifyVars: {
-          hack: `true; @import (reference) "${path.resolve('src/assets/less/main.less')}";`,
+          hack: `true; @import (reference) "${path.resolve('src/assets/less/main.less')}";`
         },
         javascriptEnabled: true
       }
