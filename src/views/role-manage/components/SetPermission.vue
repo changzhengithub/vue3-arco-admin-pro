@@ -126,7 +126,12 @@ const closeDialog = () => {
 // 确认添加
 const confirmSubmit = () => {
   const checkPageList = permissionList.value.filter(item => item.isCheck)
-  const menu_perm = checkPageList.map(item => ({ perm: item.permList, title: item.title }))
+  // 获取页面权限
+  const chekcPagePermList = checkPageList.flatMap(item => item.permList)
+  // 根据perm去重
+  const uniqueMap = new Map()
+  const menu_perm = chekcPagePermList.filter(item => !uniqueMap.has(item.perm) && uniqueMap.set(item.perm, 1))
+
   const checkOperateList = checkPageList.flatMap(item => item.operateList)
   const operate_perm = checkOperateList.filter(item => item.isCheck).map(item => ({ perm: item.perm, title: item.title }))
   // console.log(menu_perm)
